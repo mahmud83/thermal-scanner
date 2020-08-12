@@ -4,7 +4,7 @@
         <!-- Brand -->
         <div class="sidenav-header align-items-center">
             <a class="navbar-brand" href="javascript:void(0)">
-                <img src="assets/img/brand/blue.png" class="navbar-brand-img" alt="..." />
+                <img src="assets/img/brand/logo.png" class="navbar-brand-img" alt="Aplikasi Absensi" />
             </a>
         </div>
 
@@ -18,36 +18,46 @@
                     <li class="nav-item">
                         <a class="nav-link <?= uri_string(current_url()) == 'dashboard' ? 'active' : '' ?>"
                             href="<?= base_url('dashboard') ?>">
-                            <i class="fas fa-home text-primary"></i>
-                            <span class="nav-link-text">Dashboard</span>
+                            <i class="material-icons text-primary">dashboard</i>
+                            <?= uri_string(current_url()) == 'dashboard' ?
+                                '<b class="nav-link-text">Dashboard</b>' :
+                                '<span class="nav-link-text text-muted">Dashboard</span>' ?>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= uri_string(current_url()) == 'class' ? 'active' : '' ?>"
                             href="<?= base_url('class') ?>">
-                            <i class="ni ni-building text-primary"></i>
-                            <span class="nav-link-text">Manajemen Kelas</span>
+                            <i class="material-icons text-primary">class</i>
+                            <?= uri_string(current_url()) == 'class' ?
+                                '<b class="nav-link-text">Manajemen Kelas</b>' :
+                                '<span class="nav-link-text text-muted">Manajemen Kelas</span>' ?>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= uri_string(current_url()) == 'lecturer' ? 'active' : '' ?>"
                             href="<?= base_url('lecturer') ?>">
-                            <i class="ni ni-single-02 text-primary"></i>
-                            <span class="nav-link-text">Manajemen Dosen</span>
+                            <i class="material-icons text-primary">supervisor_account</i>
+                            <?= uri_string(current_url()) == 'lecturer' ?
+                                '<b class="nav-link-text">Manajemen Dosen</b>' :
+                                '<span class="nav-link-text text-muted">Manajemen Dosen</span>' ?>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= uri_string(current_url()) == 'schedule' ? 'active' : '' ?>"
                             href="<?= base_url('schedule') ?>">
-                            <i class="ni ni-calendar-grid-58 text-primary"></i>
-                            <span class="nav-link-text">Manajemen Jadwal</span>
+                            <i class="material-icons text-primary">event</i>
+                            <?= uri_string(current_url()) == 'schedule' ?
+                                '<b class="nav-link-text">Manajemen Jadwal</b>' :
+                                '<span class="nav-link-text text-muted">Manajemen Jadwal</span>' ?>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <?= uri_string(current_url()) == 'attendance' ? 'active' : '' ?>"
                             href="<?= base_url('attendance') ?>">
-                            <i class="ni ni-badge text-primary"></i>
-                            <span class="nav-link-text">Riwayat Kehadiran</span>
+                            <i class="material-icons text-primary">assignment</i>
+                            <?= uri_string(current_url()) == 'attendance' ?
+                                '<b class="nav-link-text">Riwayat Kehadiran</b>' :
+                                '<span class="nav-link-text text-muted">Riwayat Kehadiran</span>' ?>
                         </a>
                     </li>
                 </ul>
@@ -55,5 +65,6 @@
             </div>
 
         </div>
+        
     </div>
 </nav>

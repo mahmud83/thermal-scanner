@@ -15,7 +15,7 @@
                 <div class="card bg-secondary border-0">
                     <div class="card-header bg-transparent pb-4">
                         <div class="text-center">
-                          <img class="mt-2 auth-card-logo" src="assets/img/icons/common/poltekkes.png" />
+                          <img class="mt-2 auth-card-logo" src="assets/img/brand/logo.png" />
                         </div>
                     </div>
                     <div class="card-body px-lg-5 py-lg-4">
@@ -26,7 +26,7 @@
                             <div class="form-group mb-3 <?= $validation->hasError('email') || $session->getFlashdata('credential_error') ? 'has-danger' : '' ?>">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                        <span class="input-group-text"><i class="material-icons">email</i></span>
                                     </div>
                                     <input name="email" class="form-control <?= $validation->hasError('email') || $session->getFlashdata('credential_error') ? 'is-invalid' : '' ?>" placeholder="Email" type="email" value="<?= $session->getFlashdata('email') ? $session->getFlashdata('email') : '' ?>" required />
                                     <div class="invalid-feedback"><?= $validation->getError('email') ?></div>
@@ -35,7 +35,7 @@
                             <div class="form-group <?= $validation->hasError('password') || $session->getFlashdata('credential_error') ? 'has-danger' : '' ?>">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        <span class="input-group-text"><i class="material-icons">lock</i></span>
                                     </div>
                                     <input name="password" class="form-control <?= $validation->hasError('password') || $session->getFlashdata('credential_error') ? 'is-invalid' : '' ?>" placeholder="Password" type="password" value="<?= $session->getFlashdata('password') ? $session->getFlashdata('password') : '' ?>" required />
                                     <div class="invalid-feedback"><?= $validation->getError('password') ?></div>

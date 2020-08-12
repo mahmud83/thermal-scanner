@@ -26,7 +26,7 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                                            <i class="ni ni-building"></i>
+                                            <i class="material-icons">class</i>
                                         </div>
                                     </div>
                                 </div>
@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                                            <i class="ni ni-single-02"></i>
+                                            <i class="material-icons">supervisor_account</i>
                                         </div>
                                     </div>
                                 </div>
@@ -62,7 +62,7 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                                            <i class="ni ni-calendar-grid-58"></i>
+                                            <i class="material-icons">event</i>
                                         </div>
                                     </div>
                                 </div>
@@ -80,7 +80,7 @@
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                                            <i class="ni ni-badge"></i>
+                                            <i class="material-icons">assignment</i>
                                         </div>
                                     </div>
                                 </div>
@@ -245,7 +245,7 @@ $(document).ready(function() {
             labels: attendanceChartLabel,
             datasets: [{
                 label: 'Total Kehadiran',
-                pointBorderColor: "#5E72E4",
+                borderColor: "#f47f1f",
                 data: attendanceChartData
             }]
         }
@@ -258,7 +258,7 @@ $(document).ready(function() {
             labels: scheduleChartLabel,
             datasets: [{
                 label: 'Total Jadwal',
-                backgroundColor: "#5E72E4",
+                backgroundColor: "#f47f1f",
                 data: scheduleChartData
             }]
         }

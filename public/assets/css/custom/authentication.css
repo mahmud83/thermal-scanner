@@ -1,4 +1,32 @@
 .auth-card-logo {
-    width: 65px;
-    height: 65px;
+    width: 280px;
+}
+
+.bg-primary {
+    background-color: #EE740B !important;
+}
+
+.btn-primary {
+    border-color: #EE740B !important;
+    background-color: #EE740B !important;
+    font-size: .875rem !important;
+    position: relative !important;
+    transition: all .15s ease !important;
+    letter-spacing: .025em !important;
+    text-transform: none !important;
+    will-change: transform !important;
+}
+
+.btn-primary:active {
+    color: #fff !important;
+    border-color: #d36308 !important;
+    background-color: #d36308 !important;
+}
+
+a {
+    color: #f47f1f !important;
+}
+
+a:hover {
+    color: #d36308 !important;
 }

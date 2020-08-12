@@ -79,7 +79,7 @@
                         <div id="add-form-group" class="form-group mb-0">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                                    <span class="input-group-text"><i class="material-icons">class</i></span>
                                 </div>
                                 <input id="add-form-input" name="name" class="form-control" placeholder="Nama Kelas"
                                     type="text" required />
@@ -121,7 +121,7 @@
                         <div id="edit-form-group" class="form-group mb-0">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                                    <span class="input-group-text"><i class="material-icons">class</i></span>
                                 </div>
                                 <input id="edit-form-input" name="name" class="form-control" placeholder="Nama Kelas"
                                     type="text" required />
@@ -198,7 +198,7 @@
                         <div id="import-form-group" class="form-group mt-2 mb-0">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="ni ni-folder-17"></i></span>
+                                    <span class="input-group-text"><i class="material-icons">folder</i></span>
                                 </div>
                                 <input id="import-form-input" name="file" class="form-control" type="file"
                                     accept=".xls,.xlsx,.csv" required />

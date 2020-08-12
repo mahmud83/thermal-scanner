@@ -1,3 +1,73 @@
+.bg-primary {
+    background-color: #f57c00 !important;
+}
+
+.btn-primary {
+    border-color: #f57c00 !important;
+    background-color: #f57c00 !important;
+    transition: all .15s ease !important;
+}
+
+.btn-primary:active {
+    color: #fff !important;
+    border-color: #d36308 !important;
+    background-color: #d36308 !important;
+}
+
+.btn-neutral {
+    color: #f57c00 !important;
+    transition: all .15s ease !important;
+}
+
+.btn-neutral:hover {
+    color: #000 !important;
+    transition: all .15s ease !important;
+}
+
+.text-primary, b.nav-link-text, a {
+    color: #f47f1f !important;
+}
+
+a:hover {
+    color: #d36308 !important;
+}
+
+.navbar-brand-img {
+    max-height: 2.4rem !important;
+}
+
+.nav-link, a.btn {
+    color: #fff !important;
+}
+
+.nav-link:hover {
+    color: lightgrey !important;
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 18px !important;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+}
+
+.page-item.active .page-link {
+    color: #fff !important;
+    border-color: #f57c00 !important;
+    background-color: #f57c00 !important;
+}
+
 .hidden {
     display: none;
 }

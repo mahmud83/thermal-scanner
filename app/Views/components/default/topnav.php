@@ -35,11 +35,11 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="<?= base_url('profile') ?>" class="dropdown-item">
-                            <i class="ni ni-single-02"></i>
+                            <i class="material-icons">account_circle</i>
                             <span>Profile</span>
                         </a>
                         <a href="<?= base_url('signout') ?>" class="dropdown-item">
-                            <i class="ni ni-user-run"></i>
+                            <i class="material-icons">exit_to_app</i>
                             <span>Sign out</span>
                         </a>
                     </div>

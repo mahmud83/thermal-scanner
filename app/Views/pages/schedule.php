@@ -109,7 +109,7 @@
                                 <div class="add-form-group form-group mb-0">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                        <span class="input-group-text"><i class="material-icons">schedule</i></span>
                                         </div>
                                         <input id="add-form-input-date-start" name="date_start"
                                             class="add-form-input form-control" placeholder="Waktu Mulai" type="text"
@@ -121,7 +121,7 @@
                                 <div class="add-form-group form-group mb-0">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                        <span class="input-group-text"><i class="material-icons">schedule</i></span>
                                         </div>
                                         <input id="add-form-input-date-end" name="date_end"
                                             class="add-form-input form-control" placeholder="Waktu Selesai" type="text"
@@ -192,7 +192,7 @@
                                 <div class="edit-form-group form-group mb-0">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                            <span class="input-group-text"><i class="material-icons">schedule</i></span>
                                         </div>
                                         <input id="edit-form-input-date-start" name="date_start"
                                             class="edit-form-input form-control" placeholder="Waktu Mulai" type="text"
@@ -204,7 +204,7 @@
                                 <div class="edit-form-group form-group mb-0">
                                     <div class="input-group">
                                         <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ni ni-calendar-grid-58"></i></span>
+                                            <span class="input-group-text"><i class="material-icons">schedule</i></span>
                                         </div>
                                         <input id="edit-form-input-date-end" name="date_end"
                                             class="edit-form-input form-control" placeholder="Waktu Selesai" type="text"
@@ -284,7 +284,7 @@
                         <div id="import-form-group" class="form-group mt-2 mb-0">
                             <div class="input-group">
                                 <div class="input-group-prepend">
-                                    <span class="input-group-text"><i class="ni ni-folder-17"></i></span>
+                                    <span class="input-group-text"><i class="material-icons">folder</i></span>
                                 </div>
                                 <input id="import-form-input" name="file" class="form-control" type="file"
                                     accept=".xls,.xlsx,.csv" required />
