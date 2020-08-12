@@ -1,0 +1,44 @@
+.hidden {
+    display: none;
+}
+
+.select2-selection__placeholder, .select2-selection__rendered {
+    color: #8898a9 !important;
+    font-family: Open Sans, sans-serif;
+    font-size: 0.9rem;
+}
+
+.select2-selection__placeholder {
+    color: #adb5bd !important;
+}
+
+.datatable-qr-code {
+    width: 35px;
+    height: 35px;
+    transition: 0.1s;
+}
+
+.datatable-qr-code:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+.img-qr-code-modal {
+    width: 200px;
+    height: 200px;
+}
+
+.has-danger .select2-container--default {
+    border: 1px solid red !important;
+    border-radius: 0.25rem !important;
+}
+
+a[disabled] {
+    pointer-events: none;
+    cursor: default;
+    color: #212529;
+    border-color: #fff;
+    background-color: #fff;
+    opacity: .65;
+    box-shadow: none;
+}
