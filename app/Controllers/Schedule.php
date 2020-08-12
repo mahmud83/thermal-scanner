@@ -19,7 +19,7 @@ class Schedule extends BaseController
 	public function index()
 	{
 		if($this->authenticationModel->getSession()) return view('pages/schedule', ['title' => 'Manajemen Jadwal']);
-		else redirect('signin');
+		else return redirect('signin');
 	}
 
 	public function getScheduleList()

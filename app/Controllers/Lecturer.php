@@ -19,7 +19,7 @@ class Lecturer extends BaseController
 	public function index()
 	{
 		if($this->authenticationModel->getSession()) return view('pages/lecturer', ['title' => 'Manajemen Dosen']);
-		else redirect('signin');
+		else return redirect('signin');
 	}
 
 	public function getLecturerList()

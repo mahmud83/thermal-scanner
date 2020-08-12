@@ -19,7 +19,7 @@ class StudentClass extends BaseController
 	public function index()
 	{
 		if($this->authenticationModel->getSession()) return view('pages/student_class', ['title' => 'Manajemen Kelas']);
-		else redirect('signin');
+		else return redirect('signin');
 	}
 
 	public function getClassList()

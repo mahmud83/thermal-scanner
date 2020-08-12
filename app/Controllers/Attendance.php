@@ -17,7 +17,7 @@ class Attendance extends BaseController
 	public function index()
 	{
 		if($this->authenticationModel->getSession()) return view('pages/attendance', ['title' => 'Riwayat Kehadiran']);
-		else redirect('signin');
+		else return redirect('signin');
 	}
 
 	public function getAttendanceList()
