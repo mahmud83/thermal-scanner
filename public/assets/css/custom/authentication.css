@@ -1,32 +1,40 @@
 .auth-card-logo {
-    width: 280px;
+   width: 280px
 }
 
 .bg-primary {
-    background-color: #EE740B !important;
+   background-color: #f57c00!important
 }
 
 .btn-primary {
-    border-color: #EE740B !important;
-    background-color: #EE740B !important;
-    font-size: .875rem !important;
-    position: relative !important;
-    transition: all .15s ease !important;
-    letter-spacing: .025em !important;
-    text-transform: none !important;
-    will-change: transform !important;
+   border-color: #f57c00!important;
+   background-color: #f57c00!important;
+   transition: all .15s ease!important
 }
 
 .btn-primary:active {
-    color: #fff !important;
-    border-color: #d36308 !important;
-    background-color: #d36308 !important;
+   color: #fff!important;
+   border-color: #d36308!important;
+   background-color: #d36308!important
 }
 
 a {
-    color: #f47f1f !important;
+   color: #f47f1f!important
 }
 
 a:hover {
-    color: #d36308 !important;
+   color: #d36308!important
+}
+
+.hidden {
+   display: none;
+}
+
+.visible {
+   display: block;
+}
+
+.form-control:focus, .select2-search__field:focus, .focused .input-group-text,
+.focused .form-control, #datatables_buttons_info {
+   border-color: #f57c00 !important;
 }

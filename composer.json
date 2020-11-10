@@ -8,8 +8,10 @@
 		"php": ">=7.2",
 		"codeigniter4/framework": "^4",
 		"phpoffice/phpspreadsheet": "^1.14",
-		"endroid/qr-code": "^3.9"
-	},
+		"endroid/qr-code": "^3.9",
+      	"ext-json": "*",
+		"ezralazuardy/heimdall": "^0.0.1"
+    },
 	"require-dev": {
 		"fzaninotto/faker": "^1.9@dev",
 		"mikey179/vfsstream": "1.6.*",

@@ -1,52 +1,54 @@
 .bg-primary {
-    background-color: #f57c00 !important;
+    background-color: #f57c00 !important
+}
+
+.btn-primary, .page-item.active .page-link {
+    border-color: #f57c00 !important;
+    background-color: #f57c00 !important
 }
 
 .btn-primary {
-    border-color: #f57c00 !important;
-    background-color: #f57c00 !important;
-    transition: all .15s ease !important;
+    transition: all .15s ease !important
 }
 
 .btn-primary:active {
     color: #fff !important;
     border-color: #d36308 !important;
-    background-color: #d36308 !important;
+    background-color: #d36308 !important
 }
 
-.btn-neutral {
+.btn-neutral, .btn-neutral:hover {
     color: #f57c00 !important;
-    transition: all .15s ease !important;
+    transition: all .15s ease !important
 }
 
 .btn-neutral:hover {
-    color: #000 !important;
-    transition: all .15s ease !important;
+    color: #000 !important
 }
 
-.text-primary, b.nav-link-text, a {
-    color: #f47f1f !important;
-}
-
-a:hover {
-    color: #d36308 !important;
-}
-
-.navbar-brand-img {
-    max-height: 2.4rem !important;
-}
-
-.nav-link, a.btn {
-    color: #fff !important;
+.nav-link, a.btn-primary {
+    color: #fff !important
 }
 
 .nav-link:hover {
-    color: lightgrey !important;
+    color: #d3d3d3 !important
+}
+
+.text-primary, a, a.btn-neutral, b.nav-link-text {
+    color: #f47f1f !important
+}
+
+a:hover {
+    color: #d36308 !important
+}
+
+.navbar-brand-img {
+    max-height: 2.4rem !important
 }
 
 .material-icons {
-    font-family: 'Material Icons';
-    font-weight: normal;
+    font-family: 'Material Icons', serif;
+    font-weight: 400;
     font-style: normal;
     font-size: 18px !important;
     display: inline-block;
@@ -59,48 +61,49 @@ a:hover {
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     -moz-osx-font-smoothing: grayscale;
-    font-feature-settings: 'liga';
+    font-feature-settings: 'liga'
 }
 
 .page-item.active .page-link {
-    color: #fff !important;
-    border-color: #f57c00 !important;
-    background-color: #f57c00 !important;
+    color: #fff !important
 }
 
 .hidden {
-    display: none;
+    display: none
 }
 
 .select2-selection__placeholder, .select2-selection__rendered {
-    color: #8898a9 !important;
     font-family: Open Sans, sans-serif;
-    font-size: 0.9rem;
+    font-size: .9rem
+}
+
+.select2-selection__rendered {
+    color: #8898a9 !important
 }
 
 .select2-selection__placeholder {
-    color: #adb5bd !important;
+    color: #adb5bd !important
 }
 
 .datatable-qr-code {
     width: 35px;
     height: 35px;
-    transition: 0.1s;
+    transition: .1s
 }
 
 .datatable-qr-code:hover {
     cursor: pointer;
-    opacity: 0.7;
+    opacity: .7
 }
 
 .img-qr-code-modal {
     width: 200px;
-    height: 200px;
+    height: 200px
 }
 
 .has-danger .select2-container--default {
     border: 1px solid red !important;
-    border-radius: 0.25rem !important;
+    border-radius: .25rem !important
 }
 
 a[disabled] {
@@ -110,5 +113,10 @@ a[disabled] {
     border-color: #fff;
     background-color: #fff;
     opacity: .65;
-    box-shadow: none;
+    box-shadow: none
+}
+
+.form-control:focus, .select2-search__field:focus, .focused .input-group-text,
+.focused .form-control, #datatables_buttons_info {
+    border-color: #f57c00 !important;
 }

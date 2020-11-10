@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
+use Config\Database;
 
 class StudentClassModel extends Model
 {
@@ -8,18 +9,24 @@ class StudentClassModel extends Model
 
     function __construct()
     {
-        $this->db = \Config\Database::connect();
+        parent::__construct();
+        $this->db = Database::connect();
     }
 
     function getClassList($searchTerm)
     {
         $this->db->transBegin();
-        if(empty($searchTerm))
-            $data = $this->db->table('class')->orderBy('class.created_on', 'ASC')->get()->getResultArray();
+        if (empty($searchTerm))
+            $data = $this->db->table('class')
+                ->select('class.*, study_program.name as study_program_name')
+                ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                ->orderBy('class.created_on', 'ASC')
+                ->get()
+                ->getResultArray();
         else
             $data = $this->db->table('class')->orderBy('class.created_on', 'ASC')
-                    ->like(['lower(trim(class.name))' => strtolower(trim($searchTerm))])->get()->getResultArray();
-        if($this->db->transStatus()) {
+                ->like(['lower(trim(class.name))' => strtolower(trim($searchTerm))])->get()->getResultArray();
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;
         } else {
@@ -28,12 +35,19 @@ class StudentClassModel extends Model
         }
     }
 
-    function addClass($name)
+    function addClass(int $studyProgramId, string $name)
     {
         $this->db->transBegin();
-        $this->db->table('class')->insert(['class.name' => trim($name)]);
-        $insertedRow = $this->db->table('class')->getWhere(['class.id' => $this->db->insertID()])->getRow();
-        if($this->db->transStatus()) {
+        $this->db->table('class')->insert([
+            'class.study_program_id' => $studyProgramId,
+            'class.name' => trim($name)
+        ]);
+        $insertedRow = $this->db->table('class')
+            ->select('class.*, study_program.name as study_program_name')
+            ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+            ->getWhere(['class.id' => $this->db->insertID()])
+            ->getRow();
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $insertedRow;
         } else {
@@ -42,12 +56,19 @@ class StudentClassModel extends Model
         }
     }
 
-    function editClass($id, $name)
+    function editClass(int $id, int $studyProgramId, string $name)
     {
         $this->db->transBegin();
-        $this->db->table('class')->where(['class.id' => $id])->update(['class.name' => trim($name)]);
-        $updatedRow = $this->db->table('class')->getWhere(['class.id' => $id])->getRow();
-        if($this->db->transStatus()) {
+        $this->db->table('class')->where(['class.id' => $id])->update([
+            'class.study_program_id' => $studyProgramId,
+            'class.name' => trim($name)
+        ]);
+        $updatedRow = $this->db->table('class')
+            ->select('class.*, study_program.name as study_program_name')
+            ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+            ->getWhere(['class.id' => $id])
+            ->getRow();
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $updatedRow;
         } else {
@@ -56,12 +77,16 @@ class StudentClassModel extends Model
         }
     }
 
-    function deleteClass($id)
+    function deleteClass(int $id)
     {
         $this->db->transBegin();
-        $deletedRow = $this->db->table('class')->getWhere(['class.id' => $id])->getRow();
+        $deletedRow = $this->db->table('class')
+            ->select('class.*, study_program.name as study_program_name')
+            ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+            ->getWhere(['class.id' => $id])
+            ->getRow();
         $this->db->table('class')->where(['class.id' => $id])->delete();
-        if($this->db->transStatus()) {
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $deletedRow;
         } else {
@@ -70,21 +95,23 @@ class StudentClassModel extends Model
         }
     }
 
-    function importClass($names, $createdOns)
+    function importClass(array $studyPrograms, array $names, array $createdOns)
     {
         $this->db->transBegin();
-        $total = count($this->db->query('select * from class')->getResultArray());
-        $truncable = count($this->db->query('select * from class left join schedule_history on schedule_history.class_id = class.id where schedule_history.class_id is null')->getResultArray());
-        if($total != $truncable) return false;
+        $truncable = $this->db->query('select count(*) as total from class right join schedule on schedule.class_id = class.id')->getRow()->total;
+        if ($truncable > 0) return false;
         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
         $this->db->table('class')->truncate();
         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
         for ($i = 0; $i < count($names); $i++) {
-            $data['class.name'] = trim($names[$i]);
-            if(!empty($createdOns[$i])) $data['class.created_on'] = trim($createdOns[$i]);
-            if(!empty($data['class.name'])) $this->db->table('class')->insert($data);
+            $data = [
+                'class.study_program_id' => $this->db->table('study_program')->getWhere(['lower(trim(study_program.name))' => strtolower(trim($studyPrograms[$i]))])->getRow()->id,
+                'class.name' => trim($names[$i])
+            ];
+            if (!empty($createdOns[$i])) $data['class.created_on'] = trim($createdOns[$i]);
+            if (!empty($data['class.study_program_id']) && !empty($data['class.name'])) $this->db->table('class')->insert($data);
         }
-        if($this->db->transStatus()) {
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return true;
         } else {
@@ -96,13 +123,12 @@ class StudentClassModel extends Model
     function truncateClass()
     {
         $this->db->transBegin();
-        $total = count($this->db->query('select * from class')->getResultArray());
-        $truncable = count($this->db->query('select * from class left join schedule_history on schedule_history.class_id = class.id where schedule_history.class_id is null')->getResultArray());
-        if($total != $truncable) return false;
+        $truncable = $this->db->query('select count(*) as total from class right join schedule on schedule.class_id = class.id')->getRow()->total;
+        if ($truncable > 0) return false;
         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
         $this->db->table('class')->truncate();
         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
-        if($this->db->transStatus()) {
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return true;
         } else {

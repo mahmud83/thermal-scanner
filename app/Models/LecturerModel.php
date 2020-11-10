@@ -1,6 +1,7 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
+use Config\Database;
 
 class LecturerModel extends Model
 {
@@ -8,18 +9,19 @@ class LecturerModel extends Model
 
     function __construct()
     {
-        $this->db = \Config\Database::connect();
+        parent::__construct();
+        $this->db = Database::connect();
     }
 
     function getLecturerList($searchTerm)
     {
         $this->db->transBegin();
-        if(empty($searchTerm))
+        if (empty($searchTerm))
             $data = $this->db->table('lecturer')->orderBy('lecturer.created_on', 'ASC')->get()->getResultArray();
         else
             $data = $this->db->table('lecturer')->orderBy('lecturer.created_on', 'ASC')
-                    ->like('lower(trim(lecturer.name))', strtolower(trim($searchTerm)))->get()->getResultArray();
-        if($this->db->transStatus()) {
+                ->like('lower(trim(lecturer.name))', strtolower(trim($searchTerm)))->get()->getResultArray();
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;
         } else {
@@ -28,12 +30,12 @@ class LecturerModel extends Model
         }
     }
 
-    function addLecturer($name)
+    function addLecturer(int $nip, string $name)
     {
         $this->db->transBegin();
-        $this->db->table('lecturer')->insert(['lecturer.name' => trim($name)]);
+        $this->db->table('lecturer')->insert(['lecturer.nip' => (string)$nip, 'lecturer.name' => trim($name)]);
         $insertedRow = $this->db->table('lecturer')->getWhere(['lecturer.id' => $this->db->insertID()])->getRow();
-        if($this->db->transStatus()) {
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $insertedRow;
         } else {
@@ -42,12 +44,15 @@ class LecturerModel extends Model
         }
     }
 
-    function editLecturer($id, $name)
+    function editLecturer(int $id, int $nip, string $name)
     {
         $this->db->transBegin();
-        $this->db->table('lecturer')->where(['lecturer.id' => $id])->update(['lecturer.name' => trim($name)]);
+        $this->db->table('lecturer')->where(['lecturer.id' => $id])->update([
+            'lecturer.nip' => (string)$nip,
+            'lecturer.name' => trim($name)
+        ]);
         $updatedRow = $this->db->table('lecturer')->getWhere(['lecturer.id' => $id])->getRow();
-        if($this->db->transStatus()) {
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $updatedRow;
         } else {
@@ -56,12 +61,12 @@ class LecturerModel extends Model
         }
     }
 
-    function deleteLecturer($id)
+    function deleteLecturer(int $id)
     {
         $this->db->transBegin();
         $deletedRow = $this->db->table('lecturer')->getWhere(['lecturer.id' => $id])->getRow();
         $this->db->table('lecturer')->where(['lecturer.id' => $id])->delete();
-        if($this->db->transStatus()) {
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $deletedRow;
         } else {
@@ -70,21 +75,24 @@ class LecturerModel extends Model
         }
     }
 
-    function importLecturer($names, $createdOns)
+    function importLecturer(array $nips, array $names, array $createdOns)
     {
         $this->db->transBegin();
         $total = count($this->db->query('select * from lecturer')->getResultArray());
-        $truncable = count($this->db->query('select * from lecturer left join schedule_history on schedule_history.lecturer_id = lecturer.id where schedule_history.lecturer_id is null')->getResultArray());
-        if($total != $truncable) return false;
+        $truncable = count($this->db->query('select * from lecturer left join schedule on schedule.lecturer_id = lecturer.id where schedule.lecturer_id is null')->getResultArray());
+        if ($total != $truncable) return false;
         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
         $this->db->table('lecturer')->truncate();
         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
         for ($i = 0; $i < count($names); $i++) {
-            $data['lecturer.name'] = trim($names[$i]);
-            if(!empty($createdOns[$i])) $data['lecturer.created_on'] = trim($createdOns[$i]);
-            if(!empty($data['lecturer.name'])) $this->db->table('lecturer')->insert($data);
+            $data = [
+                'lecturer.nip' => trim($nips[$i]),
+                'lecturer.name' => trim($names[$i]),
+            ];
+            if (!empty($createdOns[$i])) $data['lecturer.created_on'] = trim($createdOns[$i]);
+            if (!empty($data['lecturer.nip']) && !empty($data['lecturer.name'])) $this->db->table('lecturer')->insert($data);
         }
-        if($this->db->transStatus()) {
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return true;
         } else {
@@ -97,12 +105,12 @@ class LecturerModel extends Model
     {
         $this->db->transBegin();
         $total = count($this->db->query('select * from lecturer')->getResultArray());
-        $truncable = count($this->db->query('select * from lecturer left join schedule_history on schedule_history.lecturer_id = lecturer.id where schedule_history.lecturer_id is null')->getResultArray());
-        if($total != $truncable) return false;
+        $truncable = count($this->db->query('select * from lecturer left join schedule on schedule.lecturer_id = lecturer.id where schedule.lecturer_id is null')->getResultArray());
+        if ($total != $truncable) return false;
         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
         $this->db->table('lecturer')->truncate();
         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
-        if($this->db->transStatus()) {
+        if ($this->db->transStatus()) {
             $this->db->transCommit();
             return true;
         } else {

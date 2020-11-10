@@ -43,7 +43,7 @@ class Email extends BaseConfig
 	public $mailPath = '/usr/sbin/sendmail';
 
 	/**
-	 * SMTP Server Address
+	 * SMTP HeimdallServer Address
 	 *
 	 * @var string
 	 */
