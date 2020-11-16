@@ -489,7 +489,7 @@
                             if (column === 0)
                                 return `${data.replace('.', '')}`;
                             if (column === 6 || column === 7 || column === 9)
-                                return `${moment(new Date(data)).format('DD/MM/YYYY HH:mm')}`;
+                                return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                             return data;
                         }
                     }

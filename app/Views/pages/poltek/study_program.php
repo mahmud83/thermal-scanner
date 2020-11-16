@@ -270,7 +270,7 @@
             $('div.dataTables_length select').removeClass('custom-select custom-select-sm');
         }).DataTable({
             processing: true,
-            ajaxSource: `<?= base_url('studyprogram/list') ?>?sid=${sid}`,
+            ajaxSource: `<?= base_url('study-program/list') ?>?sid=${sid}`,
             columns: [
                 {
                     render: function (data, type, row, meta) {
@@ -327,7 +327,7 @@
                                 if (column === 0)
                                     return `${data.replace('.', '')}`;
                                 if (column === 2)
-                                    return `${moment(new Date(data)).format('DD/MM/YYYY HH:mm')}`;
+                                    return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                                 return data;
                             }
                         }
@@ -456,7 +456,7 @@
         $('#add-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogram/add') ?>`,
+            url: `<?= base_url('study-program/add') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -490,7 +490,7 @@
         $('#edit-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogram/edit') ?>`,
+            url: `<?= base_url('study-program/edit') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -524,7 +524,7 @@
         $('#delete-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogram/delete') ?>`,
+            url: `<?= base_url('study-program/delete') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -554,7 +554,7 @@
         $('#truncate-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogram/truncate') ?>`,
+            url: `<?= base_url('study-program/truncate') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -584,7 +584,7 @@
         $('#import-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogram/import') ?>`,
+            url: `<?= base_url('study-program/import') ?>`,
             data: formData,
             contentType: false,
             processData: false

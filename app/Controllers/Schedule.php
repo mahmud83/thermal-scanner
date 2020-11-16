@@ -47,17 +47,19 @@ class Schedule extends BaseController
     public function addSchedule()
     {
         $sid = $this->request->getPost('sid');
-        $classID = $this->request->getPost('class_id');
-        $lecturerID = $this->request->getPost('lecturer_id');
+        $classId = $this->request->getPost('class_id');
+        $lecturerId = $this->request->getPost('lecturer_id');
+        $semesterId = $this->request->getPost('semester_id');
         $name = $this->request->getPost('name');
         $dateStart = $this->request->getPost('date_start');
         $dateEnd = $this->request->getPost('date_end');
         if (password_verify(session_id(), $sid)) {
-            if (empty($classID) || empty($lecturerID) || empty($name) || empty($dateStart) || empty($dateEnd)) return $this->response->setStatusCode(403);
+            if (empty($classId) || empty($lecturerId) || empty($semesterId) || empty($name) || empty($dateStart) ||
+                empty($dateEnd)) return $this->response->setStatusCode(403);
             try {
                 $dateStart = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateStart)->getTimestamp());
                 $dateEnd = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateEnd)->getTimestamp());
-                $insertedRow = $this->scheduleModel->addSchedule($classID, $lecturerID, $name, $dateStart, $dateEnd);
+                $insertedRow = $this->scheduleModel->addSchedule($classId, $semesterId, $lecturerId, $name, $dateStart, $dateEnd);
                 if ($insertedRow === null) return $this->response->setStatusCode(500);
                 else return $this->response->setStatusCode(200)->setJSON($insertedRow);
             } catch (Exception $e) {
@@ -71,17 +73,19 @@ class Schedule extends BaseController
     {
         $sid = $this->request->getPost('sid');
         $id = $this->request->getPost('id');
-        $classID = $this->request->getPost('class_id');
-        $lecturerID = $this->request->getPost('lecturer_id');
+        $classId = $this->request->getPost('class_id');
+        $lecturerId = $this->request->getPost('lecturer_id');
+        $semesterId = $this->request->getPost('semester_id');
         $name = $this->request->getPost('name');
         $dateStart = $this->request->getPost('date_start');
         $dateEnd = $this->request->getPost('date_end');
         if (password_verify(session_id(), $sid)) {
-            if (empty($id) || empty($classID) || empty($lecturerID) || empty($name) || empty($dateStart) || empty($dateEnd)) return $this->response->setStatusCode(403);
+            if (empty($id) || empty($classId) || empty($lecturerId) || empty($semesterId) || empty($name) ||
+                empty($dateStart) || empty($dateEnd)) return $this->response->setStatusCode(403);
             try {
                 $dateStart = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateStart)->getTimestamp());
                 $dateEnd = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateEnd)->getTimestamp());
-                $updatedRow = $this->scheduleModel->editSchedule($id, $classID, $lecturerID, $name, $dateStart, $dateEnd);
+                $updatedRow = $this->scheduleModel->editSchedule($id, $classId, $semesterId, $lecturerId, $name, $dateStart, $dateEnd);
                 if ($updatedRow === null) return $this->response->setStatusCode(500);
                 else return $this->response->setStatusCode(200)->setJSON($updatedRow);
             } catch (Exception $e) {
@@ -123,14 +127,15 @@ class Schedule extends BaseController
                 $checkTemplate3 = strtolower(trim($sheet->getCell('C2')->getValue())) == 'nama jadwal';
                 $checkTemplate4 = strtolower(trim($sheet->getCell('D2')->getValue())) == 'kelas';
                 $checkTemplate5 = strtolower(trim($sheet->getCell('E2')->getValue())) == 'prodi';
-                $checkTemplate6 = strtolower(trim($sheet->getCell('F2')->getValue())) == 'dosen';
-                $checkTemplate7 = strtolower(trim($sheet->getCell('G2')->getValue())) == 'waktu mulai';
-                $checkTemplate8 = strtolower(trim($sheet->getCell('H2')->getValue())) == 'waktu selesai';
-                $checkTemplate9 = strtolower(trim($sheet->getCell('I2')->getValue())) == 'kode absensi';
-                $checkTemplate10 = strtolower(trim($sheet->getCell('J2')->getValue())) == 'tanggal ditambahkan';
+                $checkTemplate6 = strtolower(trim($sheet->getCell('F2')->getValue())) == 'semester';
+                $checkTemplate7 = strtolower(trim($sheet->getCell('G2')->getValue())) == 'dosen';
+                $checkTemplate8 = strtolower(trim($sheet->getCell('H2')->getValue())) == 'waktu mulai';
+                $checkTemplate9 = strtolower(trim($sheet->getCell('I2')->getValue())) == 'waktu selesai';
+                $checkTemplate10 = strtolower(trim($sheet->getCell('J2')->getValue())) == 'kode absensi';
+                $checkTemplate11 = strtolower(trim($sheet->getCell('K2')->getValue())) == 'tanggal ditambahkan';
                 if ($checkTemplate1 && $checkTemplate2 && $checkTemplate3 && $checkTemplate4 &&
                     $checkTemplate5 && $checkTemplate6 && $checkTemplate7 && $checkTemplate8 &&
-                    $checkTemplate9 && $checkTemplate10) $startRow = 3;
+                    $checkTemplate9 && $checkTemplate10 && $checkTemplate11) $startRow = 3;
                 else return $this->response->setStatusCode(403);
                 $highestRow = $sheet->getHighestRow();
                 $highestRow = count(array_filter(array_map('array_filter', $sheet->rangeToArray("B1:B$highestRow")))) + 1;
@@ -138,6 +143,7 @@ class Schedule extends BaseController
                 $names = array();
                 $classNames = array();
                 $studyProgramNames = array();
+                $semesterNames = array();
                 $lecturerNames = array();
                 $dateStarts = array();
                 $dateEnds = array();
@@ -148,22 +154,23 @@ class Schedule extends BaseController
                     $names[] = trim($sheet->getCell("C$i")->getValue());
                     $classNames[] = trim($sheet->getCell("D$i")->getValue());
                     $studyProgramNames[] = trim($sheet->getCell("E$i")->getValue());
-                    $lecturerNames[] = trim($sheet->getCell("F$i")->getValue());
-                    $attendanceCodes[] = trim($sheet->getCell("I$i")->getValue());
-                    $dateStart = trim($sheet->getCell("G$i")->getValue());
+                    $semesterNames[] = trim($sheet->getCell("F$i")->getValue());
+                    $lecturerNames[] = trim($sheet->getCell("G$i")->getValue());
+                    $dateStart = trim($sheet->getCell("H$i")->getValue());
                     if (!empty($dateStart)) $dateStart = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i', $dateStart)->getTimestamp());
                     else $dateStart = null;
                     $dateStarts[] = $dateStart;
-                    $dateEnd = trim($sheet->getCell("H$i")->getValue());
+                    $dateEnd = trim($sheet->getCell("I$i")->getValue());
                     if (!empty($dateEnd)) $dateEnd = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i', $dateEnd)->getTimestamp());
                     else $dateEnd = null;
                     $dateEnds[] = $dateEnd;
-                    $createdOn = trim($sheet->getCell("J$i")->getValue());
+                    $attendanceCodes[] = trim($sheet->getCell("J$i")->getValue());
+                    $createdOn = trim($sheet->getCell("K$i")->getValue());
                     if (!empty($createdOn)) $createdOn = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i', $createdOn)->getTimestamp());
                     else $createdOn = null;
                     $createdOns[] = $createdOn;
                 }
-                $insertedRows = $this->scheduleModel->importSchedule($scheduleCodes, $classNames, $studyProgramNames, $lecturerNames, $names, $dateStarts, $dateEnds, $attendanceCodes, $createdOns);
+                $insertedRows = $this->scheduleModel->importSchedule($scheduleCodes, $classNames, $studyProgramNames, $semesterNames, $lecturerNames, $names, $dateStarts, $dateEnds, $attendanceCodes, $createdOns);
                 if ($insertedRows === null) return $this->response->setStatusCode(500);
                 else return $this->response->setStatusCode(200)->setJSON(['success' => true]);
             } catch (Exception $e) {

@@ -30,15 +30,16 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Data Dosen</h3>
+                    <h3 class="mb-0">Data Periode</h3>
                 </div>
                 <div class="table-responsive py-4">
                     <table class="table table-flush" id="datatable">
                         <thead class="thead-light">
                         <tr>
                             <th>No.</th>
-                            <th>Nama Dosen</th>
-                            <th>NIP</th>
+                            <th>Nama Semester</th>
+                            <th>Tahun Mulai</th>
+                            <th>Tahun Selesai</th>
                             <th>Tanggal Ditambahkan</th>
                             <th></th>
                         </tr>
@@ -61,7 +62,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Dosen Baru</h5>
+                <h5 class="modal-title">Tambah Periode Baru</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -70,21 +71,36 @@
                 <div class="modal-body mt--4">
                     <div class="add-form-group form-group mb-3">
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="material-icons">person</i></span>
-                            </div>
-                            <input id="add-form-input-name" name="name" class="add-form-input form-control"
-                                   placeholder="Nama Dosen" type="text" required/>
+                            <select id="add-form-input-semester" class="add-form-input form-control"
+                                    placeholder="Pilih Semester" data-toggle="select" data-live-search="true" required>
+                                <option></option>
+                            </select>
                         </div>
                     </div>
-                    <div class="add-form-group form-group mb-0">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="material-icons">money</i></span>
+                    <div class="row mb-0">
+                        <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+                            <div class="add-form-group form-group mb-0">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="material-icons">schedule</i></span>
+                                    </div>
+                                    <input id="add-form-input-year-start" name="year_start"
+                                           class="add-form-input form-control" placeholder="Tahun Mulai" type="text"
+                                           autocomplete="off" required/>
+                                </div>
                             </div>
-                            <input id="add-form-input-nip" name="nip" class="add-form-input form-control"
-                                   placeholder="NIP Dosen"
-                                   type="number" required/>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="add-form-group form-group mb-0">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="material-icons">schedule</i></span>
+                                    </div>
+                                    <input id="add-form-input-year-end" name="year_end"
+                                           class="add-form-input form-control" placeholder="Tahun Selesai" type="text"
+                                           autocomplete="off" disabled required/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="add-form-error text-center mt-4 hidden">
@@ -112,7 +128,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Dosen</h5>
+                <h5 class="modal-title">Edit Periode</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -123,20 +139,36 @@
                     <input id="edit-form-id" name="id" type="number" hidden/>
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="material-icons">person</i></span>
-                            </div>
-                            <input id="edit-form-input-name" name="name" class="edit-form-input form-control"
-                                   placeholder="Nama Dosen" type="text" required/>
+                            <select id="edit-form-input-semester" class="edit-form-input form-control"
+                                    placeholder="Pilih Semester" data-toggle="select" data-live-search="true" required>
+                                <option></option>
+                            </select>
                         </div>
                     </div>
-                    <div class="edit-form-group form-group mb-0">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="material-icons">money</i></span>
+                    <div class="row mb-0">
+                        <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+                            <div class="edit-form-group form-group mb-0">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="material-icons">schedule</i></span>
+                                    </div>
+                                    <input id="edit-form-input-year-start" name="year_start"
+                                           class="edit-form-input form-control" placeholder="Tahun Mulai" type="text"
+                                           autocomplete="off" required/>
+                                </div>
                             </div>
-                            <input id="edit-form-input-nip" name="nip" class="edit-form-input form-control"
-                                   placeholder="NIP Dosen" type="number" required/>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="edit-form-group form-group mb-0">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="material-icons">schedule</i></span>
+                                    </div>
+                                    <input id="edit-form-input-year-end" name="year_end"
+                                           class="edit-form-input form-control" placeholder="Tahun Selesai" type="text"
+                                           autocomplete="off" required/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="edit-form-error text-center mt-4 hidden">
@@ -164,7 +196,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Hapus Dosen</h5>
+                <h5 class="modal-title">Hapus Periode</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -173,7 +205,7 @@
                 <div class="modal-body mt--4">
                     <input id="delete-form-row" name="dataTableRow" type="number" hidden/>
                     <input id="delete-form-id" name="id" type="number" hidden/>
-                    <small><b>Anda yakin ingin menghapus dosen ini?<br/>Aksi ini tidak dapat
+                    <small><b>Anda yakin ingin menghapus periode ini?<br/>Aksi ini tidak dapat
                             dibatalkan.</b></small>
                     <div class="delete-form-error text-center mt-4 hidden">
                         <small class="text-danger">
@@ -254,7 +286,7 @@
             </div>
             <form id="truncate-form" role="form">
                 <div class="modal-body mt--4">
-                    <small><b>Anda yakin ingin menghapus semua dosen?<br/>Aksi ini tidak dapat
+                    <small><b>Anda yakin ingin menghapus semua periode?<br/>Aksi ini tidak dapat
                             dibatalkan.</b></small>
                     <div class="truncate-form-error text-center mt-4 hidden">
                         <small class="text-danger">
@@ -288,7 +320,7 @@
             $('div.dataTables_length select').removeClass('custom-select custom-select-sm');
         }).DataTable({
             processing: true,
-            ajaxSource: `<?= base_url('lecturer/list') ?>?sid=${sid}`,
+            ajaxSource: `<?= base_url('period/list') ?>?sid=${sid}`,
             columns: [
                 {
                     render: function (data, type, row, meta) {
@@ -297,12 +329,17 @@
                 },
                 {
                     render: function (data, type, row, _) {
-                        return row['name'];
+                        return row['semester_name'];
                     }
                 },
                 {
                     render: function (data, type, row, _) {
-                        return row['nip'];
+                        return row['period_start'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
+                        return row['period_end'];
                     }
                 },
                 {
@@ -319,8 +356,8 @@
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <button onclick="performEditData(${meta.row})" class="dropdown-item">Edit Dosen</button>
-                                <button onclick="performDeleteData(${meta.row})" class="dropdown-item">Hapus Dosen</button>
+                                <button onclick="performEditData(${meta.row})" class="dropdown-item">Edit Periode</button>
+                                <button onclick="performDeleteData(${meta.row})" class="dropdown-item">Hapus Periode</button>
                             </div>
                         </div>
                     `;
@@ -330,7 +367,7 @@
             columnDefs: [{
                 searchable: false,
                 orderable: false,
-                targets: 3
+                targets: 5
             }],
             order: [
                 [0, 'asc']
@@ -338,37 +375,38 @@
             dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-3'B><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-            buttons: [{
-                extend: 'excel',
-                className: 'hidden',
-                title: 'Data Dosen',
-                exportOptions: {
-                    columns: [0, 1, 2, 3],
-                    format: {
-                        body: function (data, row, column, _) {
-                            if (column === 0)
-                                return `${data.replace('.', '')}`;
-                            if (column === 3)
-                                return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
-                            return data;
+            buttons: [
+                {
+                    extend: 'excel',
+                    className: 'hidden',
+                    title: 'Data Periode',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4],
+                        format: {
+                            body: function (data, row, column, _) {
+                                if (column === 0)
+                                    return `${data.replace('.', '')}`;
+                                if (column === 4)
+                                    return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
+                                return data;
+                            }
                         }
                     }
-                }
-            },
+                },
                 {
                     extend: 'copy',
                     className: 'hidden',
-                    title: 'Data Dosen',
+                    title: 'Data Periode',
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3, 4]
                     }
                 },
                 {
                     extend: 'print',
                     className: 'hidden',
-                    title: 'Data Dosen',
+                    title: 'Data Periode',
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2, 3, 4]
                     }
                 }
             ],
@@ -424,6 +462,10 @@
             $('.add-form-group').removeClass('has-danger');
             $('.add-form-input').removeClass('is-invalid');
             $('.add-form-error').addClass('hidden');
+            $('#add-form-input-semester').removeClass('is-invalid').val(null).trigger('change');
+            $('#add-form-input-year-start').datetimepicker('clear');
+            if ($('#add-form-input-year-end').datetimepicker()) $('#add-form-input-year-end').datetimepicker('destroy');
+            $('#add-form-input-year-end').prop('disabled', true);
         });
 
         $('#edit-modal').on('hidden.bs.modal', function () {
@@ -431,6 +473,9 @@
             $('.edit-form-group').removeClass('has-danger');
             $('.edit-form-input').removeClass('is-invalid');
             $('.edit-form-error').addClass('hidden');
+            $('#edit-form-input-semester').removeClass('is-invalid').val(null).trigger('change');
+            $('#add-form-input-year-start').datetimepicker('clear');
+            $('#add-form-input-year-end').datetimepicker('clear');
         });
 
         $('#delete-modal').on('hidden.bs.modal', function () {
@@ -453,6 +498,160 @@
             $('.truncate-form-input').removeClass('is-invalid');
             $('.truncate-form-error').addClass('hidden');
         });
+
+        $('#add-form-input-semester').select2({
+            placeholder: 'Pilih Semester',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            allowClear: true,
+            ajax: {
+                url: `<?= base_url('semester/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: data['name']
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#edit-form-input-semester').select2({
+            placeholder: 'Pilih Semester',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            allowClear: true,
+            ajax: {
+                url: `<?= base_url('semester/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: data['name']
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#add-form-input-year-start').datetimepicker({
+            format: 'YYYY',
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        }).on('dp.change', function (value) {
+            if ($('#add-form-input-year-end').datetimepicker()) $('#add-form-input-year-end')
+                .datetimepicker('destroy');
+            $('#add-form-input-year-end').prop('disabled', value == null);
+            if (value != null) {
+                const minDate = new Date(value['date']);
+                $('#add-form-input-year-end').datetimepicker({
+                    format: 'YYYY',
+                    minDate: minDate.setFullYear(minDate.getFullYear() + 1),
+                    icons: {
+                        time: "fa fa-clock",
+                        date: "fa fa-calendar-day",
+                        up: "fa fa-chevron-up",
+                        down: "fa fa-chevron-down",
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-screenshot',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-remove'
+                    }
+                });
+            }
+        });
+
+        $('#edit-form-input-year-start').datetimepicker({
+            format: 'YYYY',
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        }).on('dp.change', function (value) {
+            if ($('#edit-form-input-year-end').datetimepicker()) $('#edit-form-input-year-end')
+                .datetimepicker('destroy');
+            $('#edit-form-input-year-end').prop('disabled', value == null);
+            if (value != null) {
+                const minDate = new Date(value['date']);
+                $('#edit-form-input-year-end').datetimepicker({
+                    format: 'YYYY',
+                    minDate: minDate.setFullYear(minDate.getFullYear() + 1),
+                    icons: {
+                        time: "fa fa-clock",
+                        date: "fa fa-calendar-day",
+                        up: "fa fa-chevron-up",
+                        down: "fa fa-chevron-down",
+                        previous: 'fa fa-chevron-left',
+                        next: 'fa fa-chevron-right',
+                        today: 'fa fa-screenshot',
+                        clear: 'fa fa-trash',
+                        close: 'fa fa-remove'
+                    }
+                });
+            }
+        });
+
+        $('#add-form-input-year-start').on('dp.hide', function () {
+            if ($('#add-form-input-year-start').datetimepicker()) $('#add-form-input-year-start')
+                .datetimepicker('destroy');
+            $('#add-form-input-year-start').datetimepicker({
+                format: 'YYYY'
+            });
+        });
+
+        $("#edit-form-input-year-start").on('dp.hide', function () {
+            if ($('#edit-form-input-year-start').datetimepicker()) $('#edit-form-input-year-start')
+                .datetimepicker('destroy');
+            $('#edit-form-input-year-start').datetimepicker({
+                format: 'YYYY'
+            });
+        });
     });
 
     function performEditData(targetRow) {
@@ -460,7 +659,10 @@
         $('#edit-form-row').val(targetRow);
         $('#edit-form-id').val(data['id']);
         $('#edit-form-input-name').val(data['name']);
-        $('#edit-form-input-nip').val(data['nip']);
+        $('#edit-form-input-semester').append($("<option/>").val(data['semester_id']).text(data['semester_name'])).val(data[
+            'semester_id']).trigger('change');
+        $('#edit-form-input-year-start').data("DateTimePicker").date(new Date(data['period_start']));
+        $('#edit-form-input-year-end').data("DateTimePicker").date(new Date(data['period_end']));
         $('#edit-modal').modal('show');
     }
 
@@ -474,12 +676,13 @@
     function addData(form) {
         const formData = new FormData(form);
         formData.append('sid', sid);
+        formData.append('semester_id', $('#add-form-input-semester').select2('data')[0]['id']);
         $('#cancel-add-button').attr('disabled', true);
         $('#add-button').attr('disabled', true);
         $('#add-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/add') ?>`,
+            url: `<?= base_url('period/add') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -490,8 +693,10 @@
             $('#add-modal').modal('hide');
             datatable.row.add({
                 'id': insertedRow['id'],
-                'name': insertedRow['name'],
-                'nip': insertedRow['nip'],
+                'semester_id': insertedRow['semester_id'],
+                'semester_name': insertedRow['semester_name'],
+                'period_start': insertedRow['period_start'],
+                'period_end': insertedRow['period_end'],
                 'created_on': insertedRow['created_on']
             }).invalidate().draw();
         }).fail(function () {
@@ -509,12 +714,13 @@
         const formData = new FormData(form);
         const targetRow = parseInt(formData.get('dataTableRow'));
         formData.append('sid', sid);
+        formData.append('semester_id', $('#edit-form-input-semester').select2('data')[0]['id']);
         $('#cancel-edit-button').attr('disabled', true);
         $('#edit-button').attr('disabled', true);
         $('#edit-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/edit') ?>`,
+            url: `<?= base_url('period/edit') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -525,8 +731,10 @@
             $('#edit-modal').modal('hide');
             datatable.row(targetRow).data({
                 'id': updatedRow['id'],
-                'name': updatedRow['name'],
-                'nip': updatedRow['nip'],
+                'semester_id': updatedRow['semester_id'],
+                'semester_name': updatedRow['semester_name'],
+                'period_start': updatedRow['period_start'],
+                'period_end': updatedRow['period_end'],
                 'created_on': updatedRow['created_on']
             }).invalidate().draw();
         }).fail(function () {
@@ -549,7 +757,7 @@
         $('#delete-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/delete') ?>`,
+            url: `<?= base_url('period/delete') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -579,7 +787,7 @@
         $('#truncate-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/truncate') ?>`,
+            url: `<?= base_url('period/truncate') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -609,7 +817,7 @@
         $('#import-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/import') ?>`,
+            url: `<?= base_url('period/import') ?>`,
             data: formData,
             contentType: false,
             processData: false

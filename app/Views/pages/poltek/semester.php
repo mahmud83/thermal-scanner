@@ -30,15 +30,14 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Data Dosen</h3>
+                    <h3 class="mb-0">Data Semester</h3>
                 </div>
                 <div class="table-responsive py-4">
                     <table class="table table-flush" id="datatable">
                         <thead class="thead-light">
                         <tr>
                             <th>No.</th>
-                            <th>Nama Dosen</th>
-                            <th>NIP</th>
+                            <th>Nama Semester</th>
                             <th>Tanggal Ditambahkan</th>
                             <th></th>
                         </tr>
@@ -61,30 +60,21 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Dosen Baru</h5>
+                <h5 class="modal-title">Tambah Semester Baru</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="add-form" role="form">
                 <div class="modal-body mt--4">
-                    <div class="add-form-group form-group mb-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="material-icons">person</i></span>
-                            </div>
-                            <input id="add-form-input-name" name="name" class="add-form-input form-control"
-                                   placeholder="Nama Dosen" type="text" required/>
-                        </div>
-                    </div>
                     <div class="add-form-group form-group mb-0">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="material-icons">money</i></span>
+                                <span class="input-group-text"><i class="material-icons">view_day</i></span>
                             </div>
-                            <input id="add-form-input-nip" name="nip" class="add-form-input form-control"
-                                   placeholder="NIP Dosen"
-                                   type="number" required/>
+                            <input id="add-form-input-name" name="name" class="add-form-input form-control"
+                                   placeholder="Nama Semester"
+                                   type="text" required/>
                         </div>
                     </div>
                     <div class="add-form-error text-center mt-4 hidden">
@@ -112,7 +102,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Dosen</h5>
+                <h5 class="modal-title">Edit Semester</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -121,22 +111,14 @@
                 <div class="modal-body mt--4">
                     <input id="edit-form-row" name="dataTableRow" type="number" hidden/>
                     <input id="edit-form-id" name="id" type="number" hidden/>
-                    <div class="edit-form-group form-group mb-3">
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="material-icons">person</i></span>
-                            </div>
-                            <input id="edit-form-input-name" name="name" class="edit-form-input form-control"
-                                   placeholder="Nama Dosen" type="text" required/>
-                        </div>
-                    </div>
                     <div class="edit-form-group form-group mb-0">
                         <div class="input-group">
                             <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="material-icons">money</i></span>
+                                <span class="input-group-text"><i class="material-icons">view_day</i></span>
                             </div>
-                            <input id="edit-form-input-nip" name="nip" class="edit-form-input form-control"
-                                   placeholder="NIP Dosen" type="number" required/>
+                            <input id="edit-form-input-name" name="name" class="edit-form-input form-control"
+                                   placeholder="Nama Semester"
+                                   type="text" required/>
                         </div>
                     </div>
                     <div class="edit-form-error text-center mt-4 hidden">
@@ -164,7 +146,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Hapus Dosen</h5>
+                <h5 class="modal-title">Hapus Semester</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -173,7 +155,7 @@
                 <div class="modal-body mt--4">
                     <input id="delete-form-row" name="dataTableRow" type="number" hidden/>
                     <input id="delete-form-id" name="id" type="number" hidden/>
-                    <small><b>Anda yakin ingin menghapus dosen ini?<br/>Aksi ini tidak dapat
+                    <small><b>Anda yakin ingin menghapus semester ini?<br/>Aksi ini tidak dapat
                             dibatalkan.</b></small>
                     <div class="delete-form-error text-center mt-4 hidden">
                         <small class="text-danger">
@@ -254,7 +236,7 @@
             </div>
             <form id="truncate-form" role="form">
                 <div class="modal-body mt--4">
-                    <small><b>Anda yakin ingin menghapus semua dosen?<br/>Aksi ini tidak dapat
+                    <small><b>Anda yakin ingin menghapus semua semester?<br/>Aksi ini tidak dapat
                             dibatalkan.</b></small>
                     <div class="truncate-form-error text-center mt-4 hidden">
                         <small class="text-danger">
@@ -288,7 +270,7 @@
             $('div.dataTables_length select').removeClass('custom-select custom-select-sm');
         }).DataTable({
             processing: true,
-            ajaxSource: `<?= base_url('lecturer/list') ?>?sid=${sid}`,
+            ajaxSource: `<?= base_url('semester/list') ?>?sid=${sid}`,
             columns: [
                 {
                     render: function (data, type, row, meta) {
@@ -298,11 +280,6 @@
                 {
                     render: function (data, type, row, _) {
                         return row['name'];
-                    }
-                },
-                {
-                    render: function (data, type, row, _) {
-                        return row['nip'];
                     }
                 },
                 {
@@ -319,8 +296,8 @@
                                 <i class="fas fa-ellipsis-v"></i>
                             </button>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <button onclick="performEditData(${meta.row})" class="dropdown-item">Edit Dosen</button>
-                                <button onclick="performDeleteData(${meta.row})" class="dropdown-item">Hapus Dosen</button>
+                                <button onclick="performEditData(${meta.row})" class="dropdown-item">Edit Semester</button>
+                                <button onclick="performDeleteData(${meta.row})" class="dropdown-item">Hapus Semester</button>
                             </div>
                         </div>
                     `;
@@ -338,37 +315,39 @@
             dom: "<'row'<'col-sm-12 col-md-3'l><'col-sm-12 col-md-3'B><'col-sm-12 col-md-6'f>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-            buttons: [{
-                extend: 'excel',
-                className: 'hidden',
-                title: 'Data Dosen',
-                exportOptions: {
-                    columns: [0, 1, 2, 3],
-                    format: {
-                        body: function (data, row, column, _) {
-                            if (column === 0)
-                                return `${data.replace('.', '')}`;
-                            if (column === 3)
-                                return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
-                            return data;
+            buttons: [
+                {
+                    extend: 'excel',
+                    className: 'hidden',
+                    title: 'Data Semester',
+                    exportOptions: {
+                        columns: [0, 1, 2],
+                        format: {
+                            body: function (data, row, column, _) {
+                                console.log(data);
+                                if (column === 0)
+                                    return `${data.replace('.', '')}`;
+                                if (column === 2)
+                                    return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
+                                return data;
+                            }
                         }
                     }
-                }
-            },
+                },
                 {
                     extend: 'copy',
                     className: 'hidden',
-                    title: 'Data Dosen',
+                    title: 'Data Semester',
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2]
                     }
                 },
                 {
                     extend: 'print',
                     className: 'hidden',
-                    title: 'Data Dosen',
+                    title: 'Data Semester',
                     exportOptions: {
-                        columns: [0, 1, 2, 3]
+                        columns: [0, 1, 2]
                     }
                 }
             ],
@@ -460,7 +439,6 @@
         $('#edit-form-row').val(targetRow);
         $('#edit-form-id').val(data['id']);
         $('#edit-form-input-name').val(data['name']);
-        $('#edit-form-input-nip').val(data['nip']);
         $('#edit-modal').modal('show');
     }
 
@@ -479,7 +457,7 @@
         $('#add-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/add') ?>`,
+            url: `<?= base_url('semester/add') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -491,7 +469,6 @@
             datatable.row.add({
                 'id': insertedRow['id'],
                 'name': insertedRow['name'],
-                'nip': insertedRow['nip'],
                 'created_on': insertedRow['created_on']
             }).invalidate().draw();
         }).fail(function () {
@@ -514,7 +491,7 @@
         $('#edit-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/edit') ?>`,
+            url: `<?= base_url('semester/edit') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -526,7 +503,6 @@
             datatable.row(targetRow).data({
                 'id': updatedRow['id'],
                 'name': updatedRow['name'],
-                'nip': updatedRow['nip'],
                 'created_on': updatedRow['created_on']
             }).invalidate().draw();
         }).fail(function () {
@@ -549,7 +525,7 @@
         $('#delete-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/delete') ?>`,
+            url: `<?= base_url('semester/delete') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -579,7 +555,7 @@
         $('#truncate-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/truncate') ?>`,
+            url: `<?= base_url('semester/truncate') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -609,7 +585,7 @@
         $('#import-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('lecturer/import') ?>`,
+            url: `<?= base_url('semester/import') ?>`,
             data: formData,
             contentType: false,
             processData: false

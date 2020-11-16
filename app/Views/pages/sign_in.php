@@ -20,14 +20,14 @@
                     </div>
                     <div class="card-body px-lg-5 py-lg-4">
                         <div id="form-signin-menu" class="hidden text-center">
-                            <button class="btn btn-primary my-2" onclick="openSignInPoltek()">Masuk sebagai
-                                Administrator Politeknik
+                            <button class="btn btn-primary my-2" onclick="openSignInPoltek()">
+                                Masuk sebagai Administrator Politeknik
                             </button>
                             <div class="text-center text-muted my-2">
                                 <small>atau</small>
                             </div>
-                            <button class="btn btn-primary my-2" onclick="openSignInProdi()">Masuk sebagai Administrator
-                                Prodi
+                            <button class="btn btn-primary my-2" onclick="openSignInProdi()" disabled>
+                                Masuk sebagai Administrator Prodi
                             </button>
                         </div>
                         <div id="form-signin-poltek" class="hidden">

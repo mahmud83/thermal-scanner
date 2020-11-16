@@ -14,12 +14,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Data Prodi</h5>
-                                        <span class="h2 font-weight-bold mb-0"><?= $studyProgramCount ?></span>
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Data Semester</h5>
+                                        <span class="h2 font-weight-bold mb-0"><?= $semesterCount ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                                            <i class="material-icons">school</i>
+                                            <i class="material-icons">view_day</i>
                                         </div>
                                     </div>
                                 </div>
@@ -32,12 +32,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Data Admin Prodi</h5>
-                                        <span class="h2 font-weight-bold mb-0"><?= $studyProgramAdminCount ?></span>
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Data Prodi</h5>
+                                        <span class="h2 font-weight-bold mb-0"><?= $studyProgramCount ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                                            <i class="material-icons">person</i>
+                                            <i class="material-icons">school</i>
                                         </div>
                                     </div>
                                 </div>
@@ -68,12 +68,48 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Data Admin Prodi</h5>
+                                        <span class="h2 font-weight-bold mb-0"><?= $studyProgramAdminCount ?></span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
+                                            <i class="material-icons">person</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
                                         <h5 class="card-title text-uppercase text-muted mb-0">Data Dosen</h5>
                                         <span class="h2 font-weight-bold mb-0"><?= $lecturerCount ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
                                             <i class="material-icons">supervisor_account</i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card card-stats">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Data Siswa</h5>
+                                        <span class="h2 font-weight-bold mb-0"><?= $studentCount ?></span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
+                                            <i class="material-icons">face</i>
                                         </div>
                                     </div>
                                 </div>
@@ -184,6 +220,8 @@
                             <tr>
                                 <th scope="col">Nama Mahasiswa</th>
                                 <th scope="col">Kelas</th>
+                                <th scope="col">Prodi</th>
+                                <th scope="col">Periode</th>
                                 <th scope="col">Jadwal</th>
                                 <th scope="col">Waktu Hadir</th>
                             </tr>
@@ -194,6 +232,8 @@
                                     <th scope="row"><?= $attendance['name'] ?></th>
                                     <td><?= $attendance['class_name'] ?></td>
                                     <td><?= $attendance['schedule_name'] ?></td>
+                                    <td><?= $attendance['study_program_name'] ?></td>
+                                    <td><?= $attendance['period_name'] ?></td>
                                     <td><?= date('Y-m-d H:i:s', strtotime($attendance['created_on'])) ?></td>
                                 </tr>
                             <?php endforeach ?>
@@ -223,6 +263,8 @@
                             <thead class="thead-light">
                             <tr>
                                 <th scope="col">Kelas</th>
+                                <th scope="col">Prodi</th>
+                                <th scope="col">Periode</th>
                                 <th scope="col">Total Jadwal</th>
                             </tr>
                             </thead>
@@ -230,6 +272,8 @@
                             <?php foreach ($classScheduleList as $class): ?>
                                 <tr>
                                     <th scope="row"><?= $class['class_name'] ?></th>
+                                    <th scope="row"><?= $class['study_program_name'] ?></th>
+                                    <th scope="row"><?= $class['period_name'] ?></th>
                                     <td><?= $class['schedule_count'] ?> jadwal</td>
                                 </tr>
                             <?php endforeach ?>

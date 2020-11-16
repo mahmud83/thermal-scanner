@@ -338,7 +338,7 @@
             $('div.dataTables_length select').removeClass('custom-select custom-select-sm');
         }).DataTable({
             processing: true,
-            ajaxSource: `<?= base_url('studyprogramadmin/list') ?>?sid=${sid}`,
+            ajaxSource: `<?= base_url('study-program-admin/list') ?>?sid=${sid}`,
             columns: [
                 {
                     render: function (data, type, row, meta) {
@@ -404,7 +404,7 @@
                             if (column === 0)
                                 return `${data.replace('.', '')}`;
                             if (column === 4)
-                                return `${moment(new Date(data)).format('DD/MM/YYYY HH:mm')}`;
+                                return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                             return data;
                         }
                     }
@@ -521,7 +521,7 @@
             },
             allowClear: true,
             ajax: {
-                url: `<?= base_url('studyprogram/list') ?>`,
+                url: `<?= base_url('study-program/list') ?>`,
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {
@@ -553,7 +553,7 @@
             },
             allowClear: true,
             ajax: {
-                url: `<?= base_url('studyprogram/list') ?>`,
+                url: `<?= base_url('study-program/list') ?>`,
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {
@@ -626,7 +626,7 @@
         $('#add-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogramadmin/add') ?>`,
+            url: `<?= base_url('study-program-admin/add') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -665,7 +665,7 @@
         $('#edit-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogramadmin/edit') ?>`,
+            url: `<?= base_url('study-program-admin/edit') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -713,7 +713,7 @@
         $('#reset-password-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogramadmin/resetpassword') ?>`,
+            url: `<?= base_url('study-program-admin/resetpassword') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -751,7 +751,7 @@
         $('#delete-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogramadmin/delete') ?>`,
+            url: `<?= base_url('study-program-admin/delete') ?>`,
             data: formData,
             contentType: false,
             processData: false
@@ -781,7 +781,7 @@
         $('#truncate-button .btn-spinner').removeClass('hidden');
         $.ajax({
             type: 'POST',
-            url: `<?= base_url('studyprogramadmin/truncate') ?>`,
+            url: `<?= base_url('study-program-admin/truncate') ?>`,
             data: formData,
             contentType: false,
             processData: false

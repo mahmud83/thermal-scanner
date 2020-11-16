@@ -14,20 +14,30 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link <?= uri_string(current_url()) == 'studyprogram' ? 'active' : '' ?>"
-               href="<?= base_url('studyprogram') ?>">
+            <a class="nav-link <?= uri_string(current_url()) == 'semester' ? 'active' : '' ?>"
+               href="<?= base_url('semester') ?>">
+                <i class="material-icons text-primary">view_day</i>
+                <?= uri_string(current_url()) == 'semester' ?
+                    '<b class="nav-link-text">Manajemen Semester</b>' :
+                    '<span class="nav-link-text text-muted">Manajemen Semester</span>' ?>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link <?= uri_string(current_url()) == 'study-program' ? 'active' : '' ?>"
+               href="<?= base_url('study-program') ?>">
                 <i class="material-icons text-primary">school</i>
-                <?= uri_string(current_url()) == 'studyprogram' ?
+                <?= uri_string(current_url()) == 'study-program' ?
                     '<b class="nav-link-text">Manajemen Prodi</b>' :
                     '<span class="nav-link-text text-muted">Manajemen Prodi</span>' ?>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link <?= uri_string(current_url()) == 'studyprogramadmin' ? 'active' : '' ?>"
-               href="<?= base_url('studyprogramadmin') ?>">
+            <a class="nav-link <?= uri_string(current_url()) == 'study-program-admin' ? 'active' : '' ?>"
+               href="<?= base_url('study-program-admin') ?>">
                 <i class="material-icons text-primary">person</i>
-                <?= uri_string(current_url()) == 'studyprogramadmin' ?
+                <?= uri_string(current_url()) == 'study-program-admin' ?
                     '<b class="nav-link-text">Manajemen Admin Prodi</b>' :
                     '<span class="nav-link-text text-muted">Manajemen Admin Prodi</span>' ?>
             </a>
@@ -54,6 +64,16 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link <?= uri_string(current_url()) == 'student' ? 'active' : '' ?>"
+               href="<?= base_url('student') ?>" disabled="true">
+                <i class="material-icons text-primary">face</i>
+                <?= uri_string(current_url()) == 'student' ?
+                    '<b class="nav-link-text">Manajemen Siswa</b>' :
+                    '<span class="nav-link-text text-muted">Manajemen Siswa</span>' ?>
+            </a>
+        </li>
+
+        <li class="nav-item">
             <a class="nav-link <?= uri_string(current_url()) == 'schedule' ? 'active' : '' ?>"
                href="<?= base_url('schedule') ?>">
                 <i class="material-icons text-primary">event</i>
@@ -64,22 +84,22 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link <?= uri_string(current_url()) == 'attendance' ? 'active' : '' ?>"
-               href="<?= base_url('attendance') ?>">
-                <i class="material-icons text-primary">assignment</i>
-                <?= uri_string(current_url()) == 'attendance' ?
-                    '<b class="nav-link-text">Riwayat Kehadiran Siswa</b>' :
-                    '<span class="nav-link-text text-muted">Riwayat Kehadiran Siswa</span>' ?>
-            </a>
-        </li>
-
-        <li class="nav-item">
             <a class="nav-link <?= uri_string(current_url()) == 'lecturer-attendance' ? 'active' : '' ?>"
-               href="<?= base_url('lecturer-attendance') ?>">
+               href="<?= base_url('lecturer-attendance') ?>" disabled="true">
                 <i class="material-icons text-primary">assignment</i>
                 <?= uri_string(current_url()) == 'lecturer-attendance' ?
                     '<b class="nav-link-text">Riwayat Kehadiran Dosen</b>' :
                     '<span class="nav-link-text text-muted">Riwayat Kehadiran Dosen</span>' ?>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link <?= uri_string(current_url()) == 'student-attendance' ? 'active' : '' ?>"
+               href="<?= base_url('student-attendance') ?>" disabled="true">
+                <i class="material-icons text-primary">assignment</i>
+                <?= uri_string(current_url()) == 'student-attendance' ?
+                    '<b class="nav-link-text">Riwayat Kehadiran Siswa</b>' :
+                    '<span class="nav-link-text text-muted">Riwayat Kehadiran Siswa</span>' ?>
             </a>
         </li>
 

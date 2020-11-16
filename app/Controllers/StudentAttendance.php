@@ -4,7 +4,7 @@ use App\Models\StudentAttendanceModel;
 use App\Models\AuthenticationModel;
 use Exception;
 
-class Attendance extends BaseController
+class StudentAttendance extends BaseController
 {
     protected $authenticationModel, $attendanceModel;
 
@@ -20,9 +20,9 @@ class Attendance extends BaseController
     {
         $session = $this->authenticationModel->getSession();
         if (empty($session->user_name)) return redirect('signout');
-        return view('pages/attendance', [
+        return view('pages/student_attendance', [
             'session' => $session,
-            'title' => 'Riwayat Kehadiran'
+            'title' => 'Riwayat Kehadiran Siswa'
         ]);
     }
 

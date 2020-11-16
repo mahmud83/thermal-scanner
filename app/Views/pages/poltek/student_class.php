@@ -349,7 +349,7 @@
                             if (column === 0)
                                 return `${data.replace('.', '')}`;
                             if (column === 3)
-                                return `${moment(new Date(data)).format('DD/MM/YYYY HH:mm')}`;
+                                return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                             return data;
                         }
                     }
@@ -465,7 +465,7 @@
             },
             allowClear: true,
             ajax: {
-                url: `<?= base_url('studyprogram/list') ?>`,
+                url: `<?= base_url('study-program/list') ?>`,
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {
@@ -497,7 +497,7 @@
             },
             allowClear: true,
             ajax: {
-                url: `<?= base_url('studyprogram/list') ?>`,
+                url: `<?= base_url('study-program/list') ?>`,
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {

@@ -38,21 +38,29 @@ $routes->post('profile', 'Profile::editProfile');
 
 $routes->get('dashboard', 'Dashboard::index');
 
-$routes->get('studyprogram', 'StudyProgram::index');
-$routes->get('studyprogram/list', 'StudyProgram::getStudyProgramList');
-$routes->post('studyprogram/add', 'StudyProgram::addStudyProgram');
-$routes->post('studyprogram/edit', 'StudyProgram::editStudyProgram');
-$routes->post('studyprogram/delete', 'StudyProgram::deleteStudyProgram');
-$routes->post('studyprogram/import', 'StudyProgram::importStudyProgram');
-$routes->post('studyprogram/truncate', 'StudyProgram::truncateStudyProgram');
+$routes->get('semester', 'Semester::index');
+$routes->get('semester/list', 'Semester::getSemesterList');
+$routes->post('semester/add', 'Semester::addSemester');
+$routes->post('semester/edit', 'Semester::editSemester');
+$routes->post('semester/delete', 'Semester::deleteSemester');
+$routes->post('semester/import', 'Semester::importSemester');
+$routes->post('semester/truncate', 'Semester::truncateSemester');
 
-$routes->get('studyprogramadmin', 'StudyProgramAdmin::index');
-$routes->get('studyprogramadmin/list', 'StudyProgramAdmin::getAdminList');
-$routes->post('studyprogramadmin/add', 'StudyProgramAdmin::addAdmin');
-$routes->post('studyprogramadmin/edit', 'StudyProgramAdmin::editAdmin');
-$routes->post('studyprogramadmin/resetpassword', 'StudyProgramAdmin::resetAdminPassword');
-$routes->post('studyprogramadmin/delete', 'StudyProgramAdmin::deleteAdmin');
-$routes->post('studyprogramadmin/truncate', 'StudyProgramAdmin::truncateAdmin');
+$routes->get('study-program', 'StudyProgram::index');
+$routes->get('study-program/list', 'StudyProgram::getStudyProgramList');
+$routes->post('study-program/add', 'StudyProgram::addStudyProgram');
+$routes->post('study-program/edit', 'StudyProgram::editStudyProgram');
+$routes->post('study-program/delete', 'StudyProgram::deleteStudyProgram');
+$routes->post('study-program/import', 'StudyProgram::importStudyProgram');
+$routes->post('study-program/truncate', 'StudyProgram::truncateStudyProgram');
+
+$routes->get('study-program-admin', 'StudyProgramAdmin::index');
+$routes->get('study-program-admin/list', 'StudyProgramAdmin::getAdminList');
+$routes->post('study-program-admin/add', 'StudyProgramAdmin::addAdmin');
+$routes->post('study-program-admin/edit', 'StudyProgramAdmin::editAdmin');
+$routes->post('study-program-admin/resetpassword', 'StudyProgramAdmin::resetAdminPassword');
+$routes->post('study-program-admin/delete', 'StudyProgramAdmin::deleteAdmin');
+$routes->post('study-program-admin/truncate', 'StudyProgramAdmin::truncateAdmin');
 
 $routes->get('class', 'StudentClass::index');
 $routes->get('class/list', 'StudentClass::getClassList');
@@ -79,8 +87,8 @@ $routes->post('schedule/delete', 'Schedule::deleteSchedule');
 $routes->post('schedule/import', 'Schedule::importSchedule');
 $routes->post('schedule/truncate', 'Schedule::truncateSchedule');
 
-$routes->get('attendance', 'Attendance::index');
-$routes->get('attendance/list', 'Attendance::getAttendanceList');
+$routes->get('student-attendance', 'StudentAttendance::index');
+$routes->get('student-attendance/list', 'StudentAttendance::getAttendanceList');
 
 $routes->get('lecturer-attendance', 'LecturerAttendance::index');
 $routes->get('lecturer-attendance/list', 'LecturerAttendance::getAttendanceList');

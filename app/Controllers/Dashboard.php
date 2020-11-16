@@ -25,9 +25,11 @@ class Dashboard extends BaseController
         return view('pages/dashboard', [
             'session' => $session,
             'title' => 'Dashboard',
+            'semesterCount' => $this->dashboardModel->getSemesterCount()->total,
             'studyProgramCount' => $this->dashboardModel->getStudyProgramCount()->total,
             'studyProgramAdminCount' => $this->dashboardModel->getStudyProgramAdminCount()->total,
             'classCount' => $this->dashboardModel->getClassCount()->total,
+            'studentCount' => $this->dashboardModel->getStudentCount()->total,
             'lecturerCount' => $this->dashboardModel->getLecturerCount()->total,
             'scheduleCount' => $this->dashboardModel->getScheduleCount()->total,
             'attendanceCount' => $this->dashboardModel->getAttendanceCount()->total,

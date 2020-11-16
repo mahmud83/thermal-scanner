@@ -13,6 +13,6 @@
     <!-- JS -->
     <?= view('components/default/js') ?>
 
-    <?= $session->user_type == 1 ? view('pages/poltek/lecturer') : ''; ?>
+    <?= $session->user_type == 1 ? view('pages/poltek/student_attendance') : view('pages/prodi/student_attendance'); ?>
 
 </div>

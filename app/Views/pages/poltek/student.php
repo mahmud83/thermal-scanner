@@ -37,8 +37,9 @@
                         <thead class="thead-light">
                         <tr>
                             <th>No.</th>
-                            <th>Nama Dosen</th>
-                            <th>NIP</th>
+                            <th>Nama Mahasiswa</th>
+                            <th>NIM</th>
+                            <th>Semester</th>
                             <th>Tanggal Ditambahkan</th>
                             <th></th>
                         </tr>
@@ -61,7 +62,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Tambah Dosen Baru</h5>
+                <h5 class="modal-title">Tambah Mahasiswa Baru</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -74,7 +75,7 @@
                                 <span class="input-group-text"><i class="material-icons">person</i></span>
                             </div>
                             <input id="add-form-input-name" name="name" class="add-form-input form-control"
-                                   placeholder="Nama Dosen" type="text" required/>
+                                   placeholder="Nama Mahasiswa" type="text" required/>
                         </div>
                     </div>
                     <div class="add-form-group form-group mb-0">
@@ -83,7 +84,7 @@
                                 <span class="input-group-text"><i class="material-icons">money</i></span>
                             </div>
                             <input id="add-form-input-nip" name="nip" class="add-form-input form-control"
-                                   placeholder="NIP Dosen"
+                                   placeholder="NIM Mahasiswa"
                                    type="number" required/>
                         </div>
                     </div>

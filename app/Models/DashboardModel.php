@@ -18,6 +18,22 @@ class DashboardModel extends Model
 
     }
 
+    function getSemesterCount()
+    {
+        $this->db->transBegin();
+        $data = $this->db->table('semester')
+            ->select('count(*) as total')
+            ->get()
+            ->getRow();
+        if ($this->db->transStatus()) {
+            $this->db->transCommit();
+            return $data;
+        } else {
+            $this->db->transRollback();
+            return null;
+        }
+    }
+
     function getStudyProgramCount()
     {
         $this->db->transBegin();
@@ -64,6 +80,22 @@ class DashboardModel extends Model
                 ->select('count(*) as total')
                 ->getWhere(['class.study_program_id' => $userStudyProgramId])
                 ->getRow();
+        if ($this->db->transStatus()) {
+            $this->db->transCommit();
+            return $data;
+        } else {
+            $this->db->transRollback();
+            return null;
+        }
+    }
+
+    function getStudentCount()
+    {
+        $this->db->transBegin();
+        $data = $this->db->table('student')
+            ->select('count(*) as total')
+            ->get()
+            ->getRow();
         if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;
@@ -146,11 +178,13 @@ class DashboardModel extends Model
             $data = $this->db
                 ->table('student_attendance')
                 ->select('
-                    student_attendance.id as id, student_attendance.name as name, student_attendance.nim as nim,
-                    student_attendance.profile_picture as profile_picture, student_attendance.created_on as created_on,
-                    schedule.id as schedule_id, schedule.name as schedule_name, class.id as class_id,
-                    class.name as class_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+                    student_attendance.id as id, student_attendance.profile_picture as profile_picture,
+                    student_attendance.created_on as created_on, student.name as student_name,
+                    student.nim as student_nim, schedule.id as schedule_id, schedule.name as schedule_name,
+                    class.id as class_id, class.name as class_name, lecturer.id as lecturer_id,
+                    lecturer.name as lecturer_name
                 ')
+                ->join('student', 'student.id = student_attendance.student_id', 'left')
                 ->join('schedule', 'schedule.id = student_attendance.schedule_id', 'left')
                 ->join('class', 'class.id = schedule.class_id', 'left')
                 ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
@@ -162,11 +196,13 @@ class DashboardModel extends Model
             $data = $this->db
                 ->table('student_attendance')
                 ->select('
-                    student_attendance.id as id, student_attendance.name as name, student_attendance.nim as nim,
-                    student_attendance.profile_picture as profile_picture, student_attendance.created_on as created_on,
-                    schedule.id as schedule_id, schedule.name as schedule_name, class.id as class_id,
-                    class.name as class_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+                    student_attendance.id as id, student_attendance.profile_picture as profile_picture,
+                    student_attendance.created_on as created_on, student.name as student_name,
+                    student.nim as student_nim, schedule.id as schedule_id, schedule.name as schedule_name,
+                    class.id as class_id, class.name as class_name, lecturer.id as lecturer_id,
+                    lecturer.name as lecturer_name
                 ')
+                ->join('student', 'student.id = student_attendance.student_id', 'left')
                 ->join('schedule', 'schedule.id = student_attendance.schedule_id', 'left')
                 ->join('class', 'class.id = schedule.class_id', 'left')
                 ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
@@ -190,8 +226,13 @@ class DashboardModel extends Model
         if(empty($userStudyProgramId))
             $data = $this->db
                 ->table('schedule')
-                ->select('class.name as class_name, count(schedule.id) as schedule_count')
+                ->select('
+                    class.name as class_name, study_program.name as study_program_name, semester.id as semester_id,
+                    semester.name as semester_name, count(schedule.id) as schedule_count
+                ')
                 ->join('class', 'class.id = schedule.class_id', 'left')
+                ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                ->join('semester', 'semester.id = schedule.semester_id', 'left')
                 ->groupBy('class_name')
                 ->orderBy('schedule_count', 'desc')
                 ->limit(5)
@@ -200,8 +241,13 @@ class DashboardModel extends Model
         else
             $data = $this->db
                 ->table('schedule')
-                ->select('class.name as class_name, count(schedule.id) as schedule_count')
+                ->select('
+                    class.name as class_name, study_program.name as study_program_name, semester.id as semester_id,
+                    semester.name as semester_name, count(schedule.id) as schedule_count
+                ')
                 ->join('class', 'class.id = schedule.class_id', 'left')
+                ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                ->join('semester', 'semester.id = schedule.semester_id', 'left')
                 ->groupBy('class_name')
                 ->orderBy('schedule_count', 'desc')
                 ->limit(5)

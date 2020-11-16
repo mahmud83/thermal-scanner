@@ -24,10 +24,12 @@ class ScheduleModel extends Model
                     schedule.date_start as date_start, schedule.date_end as date_end,
                     schedule.attendance_code as attendance_code, schedule.created_on as created_on,
                     class.id as class_id, class.name as class_name, study_program.id as study_program_id,
-                    study_program.name as study_program_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
-                 ')
+                    study_program.name as study_program_name, semester.id as semester_id,
+                    semester.name as semester_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+                ')
                 ->join('class', 'class.id = schedule.class_id', 'left')
                 ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                ->join('semester', 'semester.id = schedule.semester_id', 'left')
                 ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
                 ->orderBy('schedule.created_on', 'ASC')
                 ->get()
@@ -40,10 +42,12 @@ class ScheduleModel extends Model
                     schedule.date_start as date_start, schedule.date_end as date_end,
                     schedule.attendance_code as attendance_code, schedule.created_on as created_on,
                     class.id as class_id, class.name as class_name, study_program.id as study_program_id,
-                    study_program.name as study_program_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
-                 ')
+                    study_program.name as study_program_name, semester.id as semester_id,
+                    semester.name as semester_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+                ')
                 ->join('class', 'class.id = schedule.class_id', 'left')
                 ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                ->join('semester', 'semester.id = schedule.semester_id', 'left')
                 ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
                 ->orderBy('schedule.created_on', 'ASC')
                 ->like('lower(trim(schedule.name))', strtolower(trim($searchTerm)))
@@ -58,11 +62,12 @@ class ScheduleModel extends Model
         }
     }
 
-    function addSchedule(int $classId, int $lecturerId, string $name, string $dateStart, string $dateEnd)
+    function addSchedule(int $classId, int $semesterId, int $lecturerId, string $name, string $dateStart, string $dateEnd)
     {
         $this->db->transBegin();
         $this->db->table('schedule')->insert([
             'schedule.class_id' => $classId,
+            'schedule.semester_id' => $semesterId,
             'schedule.lecturer_id' => $lecturerId,
             'schedule.schedule_code' => $this->generateScheduleCode($classId, $lecturerId),
             'schedule.name' => trim($name),
@@ -77,10 +82,12 @@ class ScheduleModel extends Model
                 schedule.date_start as date_start, schedule.date_end as date_end,
                 schedule.attendance_code as attendance_code, schedule.created_on as created_on,
                 class.id as class_id, class.name as class_name, study_program.id as study_program_id,
-                study_program.name as study_program_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
-             ')
+                study_program.name as study_program_name, semester.id as semester_id,
+                semester.name as semester_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+            ')
             ->join('class', 'class.id = schedule.class_id', 'left')
             ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+            ->join('semester', 'semester.id = schedule.semester_id', 'left')
             ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
             ->getWhere(['schedule.id' => $this->db->insertId()])
             ->getRow();
@@ -93,11 +100,12 @@ class ScheduleModel extends Model
         }
     }
 
-    function editSchedule(int $id, int $classId, int $lecturerId, string $name, string $dateStart, string $dateEnd)
+    function editSchedule(int $id, int $classId, int $semesterId, int $lecturerId, string $name, string $dateStart, string $dateEnd)
     {
         $this->db->transBegin();
         $this->db->table('schedule')->where(['schedule.id' => $id])->update([
             'schedule.class_id' => $classId,
+            'schedule.semester_id' => $semesterId,
             'schedule.lecturer_id' => $lecturerId,
             'schedule.name' => trim($name),
             'schedule.date_start' => trim($dateStart),
@@ -110,10 +118,12 @@ class ScheduleModel extends Model
                 schedule.date_start as date_start, schedule.date_end as date_end,
                 schedule.attendance_code as attendance_code, schedule.created_on as created_on,
                 class.id as class_id, class.name as class_name, study_program.id as study_program_id,
-                study_program.name as study_program_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
-             ')
+                study_program.name as study_program_name, semester.id as semester_id,
+                semester.name as semester_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+            ')
             ->join('class', 'class.id = schedule.class_id', 'left')
             ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+            ->join('semester', 'semester.id = schedule.semester_id', 'left')
             ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
             ->getWhere(['schedule.id' => $id])
             ->getRow();
@@ -136,10 +146,12 @@ class ScheduleModel extends Model
                 schedule.date_start as date_start, schedule.date_end as date_end,
                 schedule.attendance_code as attendance_code, schedule.created_on as created_on,
                 class.id as class_id, class.name as class_name, study_program.id as study_program_id,
-                study_program.name as study_program_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
-             ')
+                study_program.name as study_program_name, semester.id as semester_id,
+                semester.name as semester_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+            ')
             ->join('class', 'class.id = schedule.class_id', 'left')
             ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+            ->join('semester', 'semester.id = schedule.semester_id', 'left')
             ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
             ->getWhere(['schedule.id' => $id])
             ->getRow();
@@ -154,8 +166,8 @@ class ScheduleModel extends Model
     }
 
     function importSchedule(
-        array $scheduleCodes, array $classNames, array $studyProgramNames, array $lecturerNames, array $names,
-        array $dateStarts, array $dateEnds, array $student_attendanceCodes, array $createdOns
+        array $scheduleCodes, array $classNames, array $studyProgramNames, array $semesterNames, array $lecturerNames,
+        array $names, array $dateStarts, array $dateEnds, array $student_attendanceCodes, array $createdOns
     )
     {
         $this->db->transBegin();
@@ -171,6 +183,7 @@ class ScheduleModel extends Model
                         'lower(trim(study_program.name))' => strtolower(trim($studyProgramNames[$i]))
                     ])->getRow()->id
                 ])->getRow()->id,
+                'schedule.semester_id' => $this->db->table('semester')->getWhere(['lower(trim(semester.name))' => strtolower(trim($semesterNames[$i]))])->getRow()->id,
                 'schedule.lecturer_id' => $this->db->table('lecturer')->getWhere(['lower(trim(lecturer.name))' => strtolower(trim($lecturerNames[$i]))])->getRow()->id,
                 'schedule.name' => trim($names[$i]),
                 'schedule.date_start' => trim($dateStarts[$i]),
@@ -182,9 +195,9 @@ class ScheduleModel extends Model
                 return null;
             }
             if (!empty($createdOns[$i])) $data['schedule.created_on'] = trim($createdOns[$i]);
-            if (!empty($data['schedule.class_id']) && !empty($data['schedule.lecturer_id']) &&
-                !empty($data['schedule.name']) && !empty($data['schedule.date_start']) &&
-                !empty($data['schedule.date_end'])) {
+            if (!empty($data['schedule.class_id']) && empty('schedule.semester_id') &&
+                !empty($data['schedule.lecturer_id']) && !empty($data['schedule.name']) &&
+                !empty($data['schedule.date_start']) && !empty($data['schedule.date_end'])) {
                 $this->db->table('schedule')->insert($data);
                 $insertedRow[] = $this->db
                     ->table('schedule')
@@ -193,10 +206,12 @@ class ScheduleModel extends Model
                         schedule.date_start as date_start, schedule.date_end as date_end,
                         schedule.attendance_code as attendance_code, schedule.created_on as created_on,
                         class.id as class_id, class.name as class_name, study_program.id as study_program_id,
-                        study_program.name as study_program_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
-                     ')
+                        study_program.name as study_program_name, semester.id as semester_id,
+                        semester.name as semester_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+                    ')
                     ->join('class', 'class.id = schedule.class_id', 'left')
                     ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                    ->join('semester', 'semester.id = schedule.semester_id', 'left')
                     ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
                     ->getWhere(['schedule.id' => $this->db->insertId()])
                     ->getRow();
@@ -239,10 +254,12 @@ class ScheduleModel extends Model
                 schedule.date_start as date_start, schedule.date_end as date_end,
                 schedule.attendance_code as attendance_code, schedule.created_on as created_on,
                 class.id as class_id, class.name as class_name, study_program.id as study_program_id,
-                study_program.name as study_program_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
-             ')
+                study_program.name as study_program_name, semester.id as semester_id,
+                semester.name as semester_name, lecturer.id as lecturer_id, lecturer.name as lecturer_name
+            ')
             ->join('class', 'class.id = schedule.class_id', 'left')
             ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+            ->join('semester', 'semester.id = schedule.semester_id', 'left')
             ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
             ->getWhere(['schedule.id' => $id])
             ->getRow();

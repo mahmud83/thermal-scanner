@@ -19,7 +19,7 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Data Kehadiran</h3>
+                    <h3 class="mb-0">Data Kehadiran Siswa</h3>
                 </div>
                 <div class="table-responsive py-4">
                     <table class="table table-flush" id="datatable">
@@ -28,11 +28,10 @@
                             <th>No.</th>
                             <th>Nama Mahasiswa</th>
                             <th>NIM</th>
-                            <th>Foto Profil</th>
                             <th>Kelas</th>
-                            <th>Prodi</th>
-                            <th>Jadwal</th>
-                            <th>Dosen</th>
+                            <th>Nama Jadwal</th>
+                            <th>Kode Jadwal</th>
+                            <th>Foto Profil</th>
                             <th>Waktu Hadir</th>
                         </tr>
                         </thead>
@@ -60,12 +59,13 @@
             $('div.dataTables_length select').removeClass('custom-select custom-select-sm');
         }).DataTable({
             processing: true,
-            ajaxSource: `<?= base_url('attendance/list') ?>?sid=${sid}`,
-            columns: [{
-                render: function (data, type, row, meta) {
-                    return `${meta.row + 1}.`;
-                }
-            },
+            ajaxSource: `<?= base_url('student-attendance/list') ?>?sid=${sid}`,
+            columns: [
+                {
+                    render: function (data, type, row, meta) {
+                        return `${meta.row + 1}.`;
+                    }
+                },
                 {
                     render: function (data, type, row, _) {
                         return row['name'];
@@ -78,17 +78,7 @@
                 },
                 {
                     render: function (data, type, row, _) {
-                        return row['profile_picture'];
-                    }
-                },
-                {
-                    render: function (data, type, row, _) {
                         return row['class_name'];
-                    }
-                },
-                {
-                    render: function (data, type, row, _) {
-                        return row['study_program_name'];
                     }
                 },
                 {
@@ -98,7 +88,12 @@
                 },
                 {
                     render: function (data, type, row, _) {
-                        return row['lecturer_name'];
+                        return row['schedule_code'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
+                        return row['profile_picture'];
                     }
                 },
                 {
@@ -117,7 +112,7 @@
                 {
                     extend: 'excel',
                     className: 'hidden',
-                    title: 'Data Riwayat Absensi',
+                    title: 'Data Riwayat Absensi Siswa',
                     exportOptions: {
                         columns: [0, 1, 2, 3, 4, 5, 6, 7],
                         format: {
@@ -125,7 +120,7 @@
                                 if (column === 0)
                                     return `${data.replace('.', '')}`;
                                 if (column === 7)
-                                    return `${moment(new Date(data)).format('DD/MM/YYYY HH:mm')}`;
+                                    return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                                 return data;
                             }
                         }
@@ -134,7 +129,7 @@
                 {
                     extend: 'copy',
                     className: 'hidden',
-                    title: 'Data Riwayat Absensi',
+                    title: 'Data Riwayat Absensi Siswa',
                     exportOptions: {
                         columns: [0, 1, 2, 3, 4, 5, 6, 7]
                     }
@@ -142,9 +137,9 @@
                 {
                     extend: 'print',
                     className: 'hidden',
-                    title: 'Data Riwayat Absensi',
+                    title: 'Data Riwayat Absensi Siswa',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6 ,7]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
                     }
                 }
             ],

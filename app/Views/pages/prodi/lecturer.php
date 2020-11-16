@@ -175,7 +175,7 @@
                     <input id="delete-form-id" name="id" type="number" hidden/>
                     <small><b>Anda yakin ingin menghapus dosen ini?<br/>Aksi ini tidak dapat
                             dibatalkan.</b></small>
-                    <div id="delete-form-error" class="text-center mt-4 hidden">
+                    <div class="delete-form-error text-center mt-4 hidden">
                         <small class="text-danger">
                             Terjadi kesalahan saat menghapus data, mohon coba lagi...
                         </small>
@@ -349,7 +349,7 @@
                             if (column === 0)
                                 return `${data.replace('.', '')}`;
                             if (column === 3)
-                                return `${moment(new Date(data)).format('DD/MM/YYYY HH:mm')}`;
+                                return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                             return data;
                         }
                     }

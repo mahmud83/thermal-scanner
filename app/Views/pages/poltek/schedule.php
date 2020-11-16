@@ -7,7 +7,7 @@
                     <button type="button" data-toggle="modal" data-target="#add-modal"
                             class="btn btn-sm btn-neutral">Tambah
                     </button>
-                    <button type="button" data-toggle="modal" data-target="#import-modal"
+                    <button type="button" data-toggle="modal" data-target="#import-modal" disabled
                             class="btn btn-sm btn-neutral">Impor
                     </button>
                     <button type="button" onclick="exportExcel()" class="btn btn-sm btn-neutral">Ekspor</button>
@@ -41,6 +41,7 @@
                             <th>Nama Jadwal</th>
                             <th>Kelas</th>
                             <th>Prodi</th>
+                            <th>Semester</th>
                             <th>Dosen</th>
                             <th>Waktu Mulai</th>
                             <th>Waktu Selesai</th>
@@ -85,16 +86,26 @@
                     </div>
                     <div class="add-form-group form-group mb-3">
                         <div class="input-group">
-                            <select id="add-form-input-class" name="class_name" class="add-form-input form-control"
-                                    placeholder="Pilih Kelas" data-toggle="select" data-live-search="true" required>
+                            <select id="add-form-input-class"
+                                    class="add-form-input form-control" placeholder="Pilih Kelas & Prodi" data-toggle="select"
+                                    data-live-search="true" required>
                                 <option></option>
                             </select>
                         </div>
                     </div>
                     <div class="add-form-group form-group mb-3">
                         <div class="input-group">
-                            <select id="add-form-input-lecturer" name="lecturer_name"
+                            <select id="add-form-input-lecturer"
                                     class="add-form-input form-control" placeholder="Pilih Dosen" data-toggle="select"
+                                    data-live-search="true" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="add-form-group form-group mb-3">
+                        <div class="input-group">
+                            <select id="add-form-input-semester"
+                                    class="add-form-input form-control" placeholder="Pilih Semester" data-toggle="select"
                                     data-live-search="true" required>
                                 <option></option>
                             </select>
@@ -168,8 +179,8 @@
                     </div>
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
-                            <select id="edit-form-input-class" name="class_name"
-                                    class="edit-form-input form-control" placeholder="Pilih Kelas" data-toggle="select"
+                            <select id="edit-form-input-class"
+                                    class="edit-form-input form-control" placeholder="Pilih Kelas & Prodi" data-toggle="select"
                                     data-live-search="true" required>
                                 <option></option>
                             </select>
@@ -177,8 +188,17 @@
                     </div>
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
-                            <select id="edit-form-input-lecturer" name="lecturer_name"
+                            <select id="edit-form-input-lecturer"
                                     class="edit-form-input form-control" placeholder="Pilih Dosen" data-toggle="select"
+                                    data-live-search="true" required>
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="edit-form-group form-group mb-3">
+                        <div class="input-group">
+                            <select id="edit-form-input-semester"
+                                    class="edit-form-input form-control" placeholder="Pilih Semester" data-toggle="select"
                                     data-live-search="true" required>
                                 <option></option>
                             </select>
@@ -426,6 +446,11 @@
                 },
                 {
                     render: function (data, type, row, _) {
+                        return row['semester_name'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
                         return row['lecturer_name'];
                     }
                 },
@@ -459,7 +484,6 @@
                             </button>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                 <button onclick="performEditData(${meta.row})" class="dropdown-item">Edit Jadwal</button>
-                                <button onclick="performRenewAttendanceCode(${meta.row})" class="dropdown-item">Perbarui Kode Absensi</button>
                                 <button onclick="performDeleteData(${meta.row})" class="dropdown-item">Hapus Jadwal</button>
                             </div>
                         </div>
@@ -470,7 +494,7 @@
             columnDefs: [{
                 searchable: false,
                 orderable: false,
-                targets: 8
+                targets: 11
             }],
             order: [
                 [0, 'asc']
@@ -483,13 +507,13 @@
                 className: 'hidden',
                 title: 'Data Jadwal',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     format: {
                         body: function (data, row, column, _) {
                             if (column === 0)
                                 return `${data.replace('.', '')}`;
-                            if (column === 6 || column === 7 || column === 9)
-                                return `${moment(new Date(data)).format('DD/MM/YYYY HH:mm')}`;
+                            if (column === 7 || column === 8 || column === 10)
+                                return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                             return data;
                         }
                     }
@@ -500,7 +524,7 @@
                     className: 'hidden',
                     title: 'Data Jadwal',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 7, 8, 9]
+                        columns: [0, 1, 2, 3, 4, 5, 7, 8, 9, 10]
                     }
                 },
                 {
@@ -509,7 +533,7 @@
                     title: 'Data Jadwal',
                     exportOptions: {
                         stripHtml: false,
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     }
                 }
             ],
@@ -573,8 +597,7 @@
             $('#add-form-input-class').val(null).trigger('change');
             $('#add-form-input-lecturer').val(null).trigger('change');
             $('#add-form-input-date-start').datetimepicker('clear');
-            if ($('#add-form-input-date-end').datetimepicker()) $('#add-form-input-date-end')
-                .datetimepicker('destroy');
+            if ($('#add-form-input-date-end').datetimepicker()) $('#add-form-input-date-end').datetimepicker('destroy');
             $('#add-form-input-date-end').prop('disabled', true);
         });
 
@@ -657,6 +680,38 @@
             allowClear: true,
             ajax: {
                 url: `<?= base_url('lecturer/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: data['name']
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#add-form-input-semester').select2({
+            placeholder: 'Pilih Semester',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            allowClear: true,
+            ajax: {
+                url: `<?= base_url('semester/list') ?>`,
                 dataType: 'json',
                 delay: 250,
                 data: function (params) {
@@ -778,6 +833,38 @@
             }
         });
 
+        $('#edit-form-input-semester').select2({
+            placeholder: 'Pilih Semester',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            allowClear: true,
+            ajax: {
+                url: `<?= base_url('semester/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: data['name']
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
         $('#edit-form-input-date-start').datetimepicker({
             icons: {
                 time: "fa fa-clock",
@@ -837,6 +924,8 @@
             'class_id']).trigger('change');
         $('#edit-form-input-lecturer').append($("<option/>").val(data['lecturer_id']).text(data['lecturer_name'])).val(data[
             'lecturer_id']).trigger('change');
+        $('#edit-form-input-semester').append($("<option/>").val(data['semester_id']).text(data['semester_name'])).val(data[
+            'semester_id']).trigger('change');
         $('#edit-form-input-date-start').data("DateTimePicker").date(new Date(data['date_start']));
         $('#edit-form-input-date-end').data("DateTimePicker").date(new Date(data['date_end']));
         $('#edit-modal').modal('show');
@@ -863,6 +952,7 @@
         formData.append('sid', sid);
         formData.append('class_id', $('#add-form-input-class').select2('data')[0]['id']);
         formData.append('lecturer_id', $('#add-form-input-lecturer').select2('data')[0]['id']);
+        formData.append('semester_id', $('#add-form-input-semester').select2('data')[0]['id']);
         $('#cancel-add-button').attr('disabled', true);
         $('#add-button').attr('disabled', true);
         $('#add-button .btn-spinner').removeClass('hidden');
@@ -885,6 +975,8 @@
                 'class_name': insertedRow['class_name'],
                 'study_program_id': insertedRow['study_program_id'],
                 'study_program_name': insertedRow['study_program_name'],
+                'semester_id': insertedRow['semester_id'],
+                'semester_name': insertedRow['semester_name'],
                 'lecturer_id': insertedRow['lecturer_id'],
                 'lecturer_name': insertedRow['lecturer_name'],
                 'date_start': insertedRow['date_start'],
@@ -909,6 +1001,7 @@
         formData.append('sid', sid);
         formData.append('class_id', $('#edit-form-input-class').select2('data')[0]['id']);
         formData.append('lecturer_id', $('#edit-form-input-lecturer').select2('data')[0]['id']);
+        formData.append('semester_id', $('#edit-form-input-semester').select2('data')[0]['id']);
         $('#cancel-edit-button').attr('disabled', true);
         $('#edit-button').attr('disabled', true);
         $('#edit-button .btn-spinner').removeClass('hidden');
