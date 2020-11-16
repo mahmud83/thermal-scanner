@@ -78,13 +78,27 @@ $routes->post('lecturer/delete', 'Lecturer::deleteLecturer');
 $routes->post('lecturer/import', 'Lecturer::importLecturer');
 $routes->post('lecturer/truncate', 'Lecturer::truncateLecturer');
 
+$routes->get('student', 'Student::index');
+$routes->get('student/list', 'Student::getStudentList');
+$routes->post('student/filtered-list', 'Student::::getFilteredStudentList');
+$routes->post('student/add', 'Student::addStudent');
+$routes->post('student/add-batch', 'Student::addBatchStudent');
+$routes->post('student/edit', 'Student::editStudent');
+$routes->post('student/delete', 'Student::deleteStudent');
+$routes->post('student/import', 'Student::importStudent');
+// $routes->post('student/filtered-import', 'Student::filteredImportStudent');
+$routes->post('student/truncate', 'Student::truncateStudent');
+
 $routes->get('schedule', 'Schedule::index');
 $routes->get('schedule/list', 'Schedule::getScheduleList');
+$routes->post('schedule/filtered-list', 'Schedule::getFilteredScheduleList');
 $routes->post('schedule/add', 'Schedule::addSchedule');
+$routes->post('schedule/add-batch', 'Schedule::addBatchSchedule');
 $routes->post('schedule/edit', 'Schedule::editSchedule');
 $routes->post('schedule/code/renew', 'Schedule::renewScheduleCode');
 $routes->post('schedule/delete', 'Schedule::deleteSchedule');
 $routes->post('schedule/import', 'Schedule::importSchedule');
+// $routes->post('schedule/filtered-import', 'Schedule::filteredImportSchedule');
 $routes->post('schedule/truncate', 'Schedule::truncateSchedule');
 
 $routes->get('student-attendance', 'StudentAttendance::index');

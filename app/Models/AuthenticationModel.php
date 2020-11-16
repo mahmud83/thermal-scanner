@@ -33,8 +33,8 @@ class AuthenticationModel extends Model
             'user_type' => $userType,
             'created_on' => $createdOn
         ];
-        if(!empty($studyProgram['id'])) $data['user_study_program_id'] = $studyProgram['id'];
-        if(!empty($studyProgram['name'])) $data['user_study_program_name'] = $studyProgram['name'];
+        if (!empty($studyProgram['id'])) $data['user_study_program_id'] = $studyProgram['id'];
+        if (!empty($studyProgram['name'])) $data['user_study_program_name'] = $studyProgram['name'];
         $this->session->set($data);
     }
 
@@ -53,5 +53,4 @@ class AuthenticationModel extends Model
             ])
             ->getRow();
     }
-
 }

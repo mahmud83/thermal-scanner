@@ -29,8 +29,11 @@
                             <th>Nama Mahasiswa</th>
                             <th>NIM</th>
                             <th>Kelas</th>
+                            <th>Prodi</th>
                             <th>Nama Jadwal</th>
                             <th>Kode Jadwal</th>
+                            <th>Nama Dosen</th>
+                            <th>NIP Dosen</th>
                             <th>Foto Profil</th>
                             <th>Waktu Hadir</th>
                         </tr>
@@ -83,12 +86,27 @@
                 },
                 {
                     render: function (data, type, row, _) {
+                        return row['study_program_name'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
                         return row['schedule_name'];
                     }
                 },
                 {
                     render: function (data, type, row, _) {
                         return row['schedule_code'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
+                        return row['lecturer_name'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
+                        return row['lecturer_nip'];
                     }
                 },
                 {
@@ -114,12 +132,12 @@
                     className: 'hidden',
                     title: 'Data Riwayat Absensi Siswa',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7],
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                         format: {
                             body: function (data, row, column, _) {
                                 if (column === 0)
                                     return `${data.replace('.', '')}`;
-                                if (column === 7)
+                                if (column === 10)
                                     return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                                 return data;
                             }
@@ -131,7 +149,7 @@
                     className: 'hidden',
                     title: 'Data Riwayat Absensi Siswa',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     }
                 },
                 {
@@ -139,7 +157,7 @@
                     className: 'hidden',
                     title: 'Data Riwayat Absensi Siswa',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                     }
                 }
             ],

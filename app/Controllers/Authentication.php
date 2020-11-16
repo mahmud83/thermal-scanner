@@ -62,5 +62,4 @@ class Authentication extends BaseController
         $this->model->destroySession();
         return redirect('signin');
     }
-
 }

@@ -15,7 +15,7 @@ class StudyProgram extends BaseController
     {
         helper('url');
         $this->authenticationModel = new AuthenticationModel();
-        $this->studyProgramModel = new StudyProgramModel();
+        $this->studyProgramModel = new StudyProgramModel($this->authenticationModel);
     }
 
     // GET

@@ -5,22 +5,30 @@ use Config\Database;
 
 class StudyProgramModel extends Model
 {
-    protected $db;
 
-    function __construct()
+    protected $db, $authenticationModel;
+
+    function __construct(AuthenticationModel $authenticationModel)
     {
         parent::__construct();
         $this->db = Database::connect();
+        $this->authenticationModel = $authenticationModel;
     }
 
     function getStudyProgramList($searchTerm)
     {
         $this->db->transBegin();
+        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
         if (empty($searchTerm))
-            $data = $this->db->table('study_program')->orderBy('study_program.created_on', 'ASC')->get()->getResultArray();
+            $builder = $this->db->table('study_program')
+                ->orderBy('study_program.created_on', 'ASC');
         else
-            $data = $this->db->table('study_program')->orderBy('study_program.created_on', 'ASC')
-                ->like('lower(trim(study_program.name))', strtolower(trim($searchTerm)))->get()->getResultArray();
+            $builder = $this->db->table('study_program')
+                ->like('lower(trim(study_program.name))', strtolower(trim($searchTerm)))
+                ->like('date_format(study_program.created_on, "%d/%m/%Y %h/%i %p")', strtolower(trim($searchTerm)))
+                ->orderBy('study_program.created_on', 'ASC');
+        if (!empty($userStudyProgramId)) $builder->where(['study_program.id' => $userStudyProgramId]);
+        $data = $builder->get()->getResultArray();
         if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;

@@ -5,27 +5,35 @@ use Config\Database;
 
 class StudentClassModel extends Model
 {
-    protected $db;
 
-    function __construct()
+    protected $db, $authenticationModel;
+
+    function __construct(AuthenticationModel $authenticationModel)
     {
         parent::__construct();
         $this->db = Database::connect();
+        $this->authenticationModel = $authenticationModel;
     }
 
     function getClassList($searchTerm)
     {
         $this->db->transBegin();
+        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
         if (empty($searchTerm))
-            $data = $this->db->table('class')
+            $builder = $this->db->table('class')
                 ->select('class.*, study_program.name as study_program_name')
                 ->join('study_program', 'study_program.id = class.study_program_id', 'left')
-                ->orderBy('class.created_on', 'ASC')
-                ->get()
-                ->getResultArray();
+                ->orderBy('class.created_on', 'ASC');
         else
-            $data = $this->db->table('class')->orderBy('class.created_on', 'ASC')
-                ->like(['lower(trim(class.name))' => strtolower(trim($searchTerm))])->get()->getResultArray();
+            $builder = $this->db->table('class')
+                ->select('class.*, study_program.name as study_program_name')
+                ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                ->like(['lower(trim(class.name))' => strtolower(trim($searchTerm))])
+                ->like(['lower(trim(study_program.name))' => strtolower(trim($searchTerm))])
+                ->like('date_format(class.created_on, "%d/%m/%Y %h/%i %p")', strtolower(trim($searchTerm)))
+                ->orderBy('class.created_on', 'ASC');
+        if (!empty($userStudyProgramId)) $builder->where(['study_program.id' => $userStudyProgramId]);
+        $data = $builder->get()->getResultArray();
         if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;
@@ -98,6 +106,7 @@ class StudentClassModel extends Model
     function importClass(array $studyPrograms, array $names, array $createdOns)
     {
         $this->db->transBegin();
+        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
         $truncable = $this->db->query('select count(*) as total from class right join schedule on schedule.class_id = class.id')->getRow()->total;
         if ($truncable > 0) return false;
         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
@@ -109,7 +118,9 @@ class StudentClassModel extends Model
                 'class.name' => trim($names[$i])
             ];
             if (!empty($createdOns[$i])) $data['class.created_on'] = trim($createdOns[$i]);
-            if (!empty($data['class.study_program_id']) && !empty($data['class.name'])) $this->db->table('class')->insert($data);
+            if (!empty($data['class.study_program_id']) && !empty($data['class.name']) &&
+                $data['class.study_program_id'] == $userStudyProgramId)
+                $this->db->table('class')->insert($data);
         }
         if ($this->db->transStatus()) {
             $this->db->transCommit();

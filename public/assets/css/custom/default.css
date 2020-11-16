@@ -117,6 +117,13 @@ a[disabled] {
 }
 
 .form-control:focus, .select2-search__field:focus, .focused .input-group-text,
-.focused .form-control, #datatables_buttons_info {
+.focused .form-control, #datatables_buttons_info,
+.select2-container--default.select2-container--focus .select2-selection--single,
+.select2-container--default.select2-container--focus .select2-selection--multiple {
     border-color: #f57c00 !important;
+}
+
+.select2-selection__choice, .select2-selection__choice__remove {
+    background: #f57c00 !important;
+    color: white !important;
 }

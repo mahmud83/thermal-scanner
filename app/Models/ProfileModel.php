@@ -5,6 +5,7 @@ use Config\Database;
 
 class ProfileModel extends Model
 {
+
     protected $db, $authenticationModel;
 
     function __construct(AuthenticationModel $authenticationModel)

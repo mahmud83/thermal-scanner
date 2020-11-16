@@ -19,14 +19,17 @@
         <div class="col">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="mb-0">Data Kehadiran Anda</h3>
+                    <h3 class="mb-0">Data Kehadiran Dosen</h3>
                 </div>
                 <div class="table-responsive py-4">
                     <table class="table table-flush" id="datatable">
                         <thead class="thead-light">
                         <tr>
                             <th>No.</th>
+                            <th>Nama Dosen</th>
+                            <th>NIP</th>
                             <th>Kelas</th>
+                            <th>Prodi</th>
                             <th>Nama Jadwal</th>
                             <th>Kode Jadwal</th>
                             <th>Foto Profil</th>
@@ -67,7 +70,22 @@
                 },
                 {
                     render: function (data, type, row, _) {
+                        return row['name'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
+                        return row['nip'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
                         return row['class_name'];
+                    }
+                },
+                {
+                    render: function (data, type, row, _) {
+                        return row['study_program_name'];
                     }
                 },
                 {
@@ -106,14 +124,14 @@
                 {
                     extend: 'excel',
                     className: 'hidden',
-                    title: 'Data Riwayat Absensi Anda',
+                    title: 'Data Riwayat Absensi Dosen',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6],
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
                         format: {
                             body: function (data, row, column, _) {
                                 if (column === 0)
                                     return `${data.replace('.', '')}`;
-                                if (column === 6)
+                                if (column === 9)
                                     return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                                 return data;
                             }
@@ -123,17 +141,17 @@
                 {
                     extend: 'copy',
                     className: 'hidden',
-                    title: 'Data Riwayat Absensi Anda',
+                    title: 'Data Riwayat Absensi Dosen',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                     }
                 },
                 {
                     extend: 'print',
                     className: 'hidden',
-                    title: 'Data Riwayat Absensi Anda',
+                    title: 'Data Riwayat Absensi Dosen',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6]
+                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
                     }
                 }
             ],

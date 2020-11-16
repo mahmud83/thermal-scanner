@@ -8,6 +8,7 @@ use Exception;
 
 class DashboardModel extends Model
 {
+
     protected $db, $authenticationModel;
 
     function __construct(AuthenticationModel $authenticationModel)
@@ -15,7 +16,6 @@ class DashboardModel extends Model
         parent::__construct();
         $this->db = Database::connect();
         $this->authenticationModel = $authenticationModel;
-
     }
 
     function getSemesterCount()
@@ -70,7 +70,7 @@ class DashboardModel extends Model
     {
         $this->db->transBegin();
         $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if(empty($userStudyProgramId))
+        if (empty($userStudyProgramId))
             $data = $this->db->table('class')
                 ->select('count(*) as total')
                 ->get()
@@ -92,10 +92,18 @@ class DashboardModel extends Model
     function getStudentCount()
     {
         $this->db->transBegin();
-        $data = $this->db->table('student')
-            ->select('count(*) as total')
-            ->get()
-            ->getRow();
+        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
+        if (empty($userStudyProgramId))
+            $data = $this->db->table('student')
+                ->select('count(*) as total')
+                ->get()
+                ->getRow();
+        else
+            $data = $this->db->table('student')
+                ->select('count(*) as total')
+                ->join('class', 'class.id = student.class_id', 'left')
+                ->getWhere(['class.study_program_id' => $userStudyProgramId])
+                ->getRow();
         if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;
@@ -125,7 +133,7 @@ class DashboardModel extends Model
     {
         $this->db->transBegin();
         $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if(empty($userStudyProgramId))
+        if (empty($userStudyProgramId))
             $data = $this->db->table('schedule')
                 ->select('count(*) as total')
                 ->get()
@@ -149,7 +157,7 @@ class DashboardModel extends Model
     {
         $this->db->transBegin();
         $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if(empty($userStudyProgramId))
+        if (empty($userStudyProgramId))
             $data = $this->db->table('student_attendance')
                 ->select('count(*) as total')
                 ->get()
@@ -174,7 +182,7 @@ class DashboardModel extends Model
     {
         $this->db->transBegin();
         $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if(empty($userStudyProgramId))
+        if (empty($userStudyProgramId))
             $data = $this->db
                 ->table('student_attendance')
                 ->select('
@@ -223,7 +231,7 @@ class DashboardModel extends Model
     {
         $this->db->transBegin();
         $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if(empty($userStudyProgramId))
+        if (empty($userStudyProgramId))
             $data = $this->db
                 ->table('schedule')
                 ->select('
@@ -269,7 +277,7 @@ class DashboardModel extends Model
             $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
             $pivotDate = new DateTime($pivotDate);
             for ($i = 0; $i < $pastCount; $i++) {
-                if(empty($userStudyProgramId))
+                if (empty($userStudyProgramId))
                     $data[] = $this->db
                         ->table('student_attendance')
                         ->select('count(*) as total')
@@ -312,7 +320,7 @@ class DashboardModel extends Model
             $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
             $pivotDate = new DateTime($pivotDate);
             for ($i = 0; $i < $pastCount; $i++) {
-                if(empty($userStudyProgramId))
+                if (empty($userStudyProgramId))
                     $data[] = $this->db
                         ->table('schedule')
                         ->select('count(*) as total')

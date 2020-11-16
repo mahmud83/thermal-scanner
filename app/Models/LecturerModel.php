@@ -5,6 +5,7 @@ use Config\Database;
 
 class LecturerModel extends Model
 {
+
     protected $db;
 
     function __construct()
@@ -20,7 +21,11 @@ class LecturerModel extends Model
             $data = $this->db->table('lecturer')->orderBy('lecturer.created_on', 'ASC')->get()->getResultArray();
         else
             $data = $this->db->table('lecturer')->orderBy('lecturer.created_on', 'ASC')
-                ->like('lower(trim(lecturer.name))', strtolower(trim($searchTerm)))->get()->getResultArray();
+                ->like('lower(trim(lecturer.name))', strtolower(trim($searchTerm)))
+                ->like('lower(trim(lecturer.nip))', strtolower(trim($searchTerm)))
+                ->like('date_format(lecturer.created_on, "%d/%m/%Y %h/%i %p")', strtolower(trim($searchTerm)))
+                ->get()
+                ->getResultArray();
         if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;
@@ -30,7 +35,7 @@ class LecturerModel extends Model
         }
     }
 
-    function addLecturer(int $nip, string $name)
+    function addLecturer(string $nip, string $name)
     {
         $this->db->transBegin();
         $this->db->table('lecturer')->insert(['lecturer.nip' => (string)$nip, 'lecturer.name' => trim($name)]);
@@ -44,7 +49,7 @@ class LecturerModel extends Model
         }
     }
 
-    function editLecturer(int $id, int $nip, string $name)
+    function editLecturer(int $id, string $nip, string $name)
     {
         $this->db->transBegin();
         $this->db->table('lecturer')->where(['lecturer.id' => $id])->update([

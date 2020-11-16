@@ -32,12 +32,12 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <h5 class="card-title text-uppercase text-muted mb-0">Data Dosen</h5>
-                                        <span class="h2 font-weight-bold mb-0"><?= $lecturerCount ?></span>
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Data Mahasiswa</h5>
+                                        <span class="h2 font-weight-bold mb-0"><?= $studentCount ?></span>
                                     </div>
                                     <div class="col-auto">
                                         <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                                            <i class="material-icons">supervisor_account</i>
+                                            <i class="material-icons">face</i>
                                         </div>
                                     </div>
                                 </div>
@@ -138,7 +138,7 @@
                                 <h3 class="mb-0">Kehadiran Terbaru</h3>
                             </div>
                             <div class="col text-right">
-                                <a href="<?= base_url('attendance') ?>" class="btn btn-sm btn-primary">Selengkapnya</a>
+                                <a href="<?= base_url('attendance') ?>" class="btn btn-sm btn-primary" disabled>Selengkapnya</a>
                             </div>
                         </div>
                     </div>
@@ -148,6 +148,8 @@
                             <tr>
                                 <th scope="col">Nama Mahasiswa</th>
                                 <th scope="col">Kelas</th>
+                                <th scope="col">Prodi</th>
+                                <th scope="col">Semester</th>
                                 <th scope="col">Jadwal</th>
                                 <th scope="col">Waktu Hadir</th>
                             </tr>
@@ -158,6 +160,8 @@
                                     <th scope="row"><?= $attendance['name'] ?></th>
                                     <td><?= $attendance['class_name'] ?></td>
                                     <td><?= $attendance['schedule_name'] ?></td>
+                                    <td><?= $attendance['study_program_name'] ?></td>
+                                    <td><?= $attendance['semester_name'] ?></td>
                                     <td><?= date('Y-m-d H:i:s', strtotime($attendance['created_on'])) ?></td>
                                 </tr>
                             <?php endforeach ?>
@@ -178,7 +182,7 @@
                                 <h3 class="mb-0">Jadwal Kelas</h3>
                             </div>
                             <div class="col text-right">
-                                <small>5 jadwal terbanyak</small>
+                                <small>5 jadwal tertinggi</small>
                             </div>
                         </div>
                     </div>
@@ -187,14 +191,18 @@
                             <thead class="thead-light">
                             <tr>
                                 <th scope="col">Kelas</th>
+                                <th scope="col">Prodi</th>
+                                <th scope="col">Semester</th>
                                 <th scope="col">Total Jadwal</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php foreach ($classScheduleList as $class): ?>
                                 <tr>
-                                    <th scope="row"><?= $class['class_name'] ?></th>
-                                    <td><?= $class['schedule_count'] ?> jadwal</td>
+                                    <td scope="row"><?= $class['class_name'] ?></td>
+                                    <td scope="row"><?= $class['study_program_name'] ?></td>
+                                    <td scope="row"><?= $class['semester_name'] ?></td>
+                                    <td><?= $class['schedule_count'] ?> Jadwal</td>
                                 </tr>
                             <?php endforeach ?>
                             </tbody>

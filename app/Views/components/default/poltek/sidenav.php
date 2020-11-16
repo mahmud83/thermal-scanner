@@ -65,11 +65,11 @@
 
         <li class="nav-item">
             <a class="nav-link <?= uri_string(current_url()) == 'student' ? 'active' : '' ?>"
-               href="<?= base_url('student') ?>" disabled="true">
+               href="<?= base_url('student') ?>">
                 <i class="material-icons text-primary">face</i>
                 <?= uri_string(current_url()) == 'student' ?
-                    '<b class="nav-link-text">Manajemen Siswa</b>' :
-                    '<span class="nav-link-text text-muted">Manajemen Siswa</span>' ?>
+                    '<b class="nav-link-text">Manajemen Mahasiswa</b>' :
+                    '<span class="nav-link-text text-muted">Manajemen Mahasiswa</span>' ?>
             </a>
         </li>
 
@@ -85,7 +85,7 @@
 
         <li class="nav-item">
             <a class="nav-link <?= uri_string(current_url()) == 'lecturer-attendance' ? 'active' : '' ?>"
-               href="<?= base_url('lecturer-attendance') ?>" disabled="true">
+               href="<?= base_url('lecturer-attendance') ?>" disabled>
                 <i class="material-icons text-primary">assignment</i>
                 <?= uri_string(current_url()) == 'lecturer-attendance' ?
                     '<b class="nav-link-text">Riwayat Kehadiran Dosen</b>' :
@@ -95,7 +95,7 @@
 
         <li class="nav-item">
             <a class="nav-link <?= uri_string(current_url()) == 'student-attendance' ? 'active' : '' ?>"
-               href="<?= base_url('student-attendance') ?>" disabled="true">
+               href="<?= base_url('student-attendance') ?>" disabled>
                 <i class="material-icons text-primary">assignment</i>
                 <?= uri_string(current_url()) == 'student-attendance' ?
                     '<b class="nav-link-text">Riwayat Kehadiran Siswa</b>' :

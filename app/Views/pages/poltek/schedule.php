@@ -4,13 +4,48 @@
         <div class="header-body">
             <div class="row align-items-center py-4">
                 <div class="col-lg-6 col-md-12">
-                    <button type="button" data-toggle="modal" data-target="#add-modal"
-                            class="btn btn-sm btn-neutral">Tambah
-                    </button>
-                    <button type="button" data-toggle="modal" data-target="#import-modal" disabled
-                            class="btn btn-sm btn-neutral">Impor
-                    </button>
-                    <button type="button" onclick="exportExcel()" class="btn btn-sm btn-neutral">Ekspor</button>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-neutral dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Tambah
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-add-button">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#add-modal">
+                                Data Satuan
+                            </a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#add-batch-modal">
+                                Data Batch
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-neutral dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Impor
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-add-button">
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#import-modal">
+                                Semua Data
+                            </a>
+                            <a class="dropdown-item" href="#" disabled>
+                                Data Spesifik
+                            </a>
+                        </div>
+                    </div>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-neutral dropdown-toggle"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Ekspor
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdown-add-button">
+                            <a class="dropdown-item" href="#" onclick="exportExcel()">
+                                Semua Data
+                            </a>
+                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#export-specific-modal">
+                                Data Spesifik
+                            </a>
+                        </div>
+                    </div>
                     <button type="button" onclick="copyData()" class="btn btn-sm btn-neutral">Salin</button>
                     <button type="button" onclick="printData()" class="btn btn-sm btn-neutral">Cetak</button>
                 </div>
@@ -81,14 +116,15 @@
                                 <span class="input-group-text"><i class="material-icons">today</i></span>
                             </div>
                             <input id="add-form-input-name" name="name" class="add-form-input form-control"
-                                   placeholder="Nama Jadwal" type="text" required/>
+                                   placeholder="Nama Jadwal" type="text" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div class="add-form-group form-group mb-3">
                         <div class="input-group">
                             <select id="add-form-input-class"
-                                    class="add-form-input form-control" placeholder="Pilih Kelas & Prodi" data-toggle="select"
-                                    data-live-search="true" required>
+                                    class="add-form-input form-control" placeholder="Pilih Prodi & Kelas"
+                                    data-toggle="select" data-live-search="true" required>
                                 <option></option>
                             </select>
                         </div>
@@ -105,7 +141,8 @@
                     <div class="add-form-group form-group mb-3">
                         <div class="input-group">
                             <select id="add-form-input-semester"
-                                    class="add-form-input form-control" placeholder="Pilih Semester" data-toggle="select"
+                                    class="add-form-input form-control" placeholder="Pilih Semester"
+                                    data-toggle="select"
                                     data-live-search="true" required>
                                 <option></option>
                             </select>
@@ -157,6 +194,56 @@
     </div>
 </div>
 
+<div class="modal fade" id="add-batch-modal" tabindex="-1" role="dialog" aria-labelledby="add-batch-modal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Tambah Data Batch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="add-batch-form" role="form">
+                <div class="modal-body mt--4">
+                    <div class="mb-3">
+                        <small>
+                            Tambah data batch jadwal baru dengan file CSV atau Excel.<br/>
+                            Pastikan data sudah sesuai template yang tersedia.
+                        </small>
+                    </div>
+                    <div class="add-batch-form-group form-group mt-2 mb-0">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="material-icons">folder</i></span>
+                            </div>
+                            <input id="add-batch-form-input-file" name="file" class="add-batch-form-input form-control"
+                                   type="file" accept=".xls,.xlsx,.csv" required/>
+                        </div>
+                    </div>
+                    <div class="add-batch-form-error text-center mt-4 hidden">
+                        <small class="text-danger">
+                            Terjadi kesalahan saat menambah data batch data, mohon coba lagi...
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer mt--4">
+                    <button id="cancel-add-batch-button" type="button" class="btn btn-sm btn-neutral"
+                            data-dismiss="modal">Batal
+                    </button>
+                    <button id="template-add-batch-button" type="button" onclick="exportExcel()"
+                            class="btn btn-sm btn-neutral" data-dismiss="modal">Unduh Template
+                    </button>
+                    <button id="add-batch-button" type="submit" class="btn btn-sm btn-primary">
+                        <span class="btn-spinner mr-1 hidden"><i class="fa fa-spinner fa-spin"></i></i></span>
+                        <span class="btn-text">Tambah Batch</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div class="modal fade" id="edit-modal" tabindex="-1" role="dialog" aria-labelledby="edit-modal"
      aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -174,13 +261,15 @@
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
                             <input id="edit-form-input-name" name="name" class="edit-form-input form-control"
-                                   placeholder="Nama Jadwal" type="text" required/>
+                                   placeholder="Nama Jadwal" type="text" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
                             <select id="edit-form-input-class"
-                                    class="edit-form-input form-control" placeholder="Pilih Kelas & Prodi" data-toggle="select"
+                                    class="edit-form-input form-control" placeholder="Pilih Prodi & Kelas"
+                                    data-toggle="select"
                                     data-live-search="true" required>
                                 <option></option>
                             </select>
@@ -198,7 +287,8 @@
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
                             <select id="edit-form-input-semester"
-                                    class="edit-form-input form-control" placeholder="Pilih Semester" data-toggle="select"
+                                    class="edit-form-input form-control" placeholder="Pilih Semester"
+                                    data-toggle="select"
                                     data-live-search="true" required>
                                 <option></option>
                             </select>
@@ -239,6 +329,10 @@
                 <div class="modal-footer mt--4">
                     <button id="cancel-edit-button" type="button" class="btn btn-sm btn-neutral"
                             data-dismiss="modal">Batal
+                    </button>
+                    <button type="button" class="btn btn-sm btn-neutral" data-dismiss="modal"
+                            onclick="performRenewAttendanceCode($('#edit-form-row').val())">
+                        Perbarui Kode Absensi
                     </button>
                     <button id="edit-button" type="submit" class="btn btn-sm btn-primary">
                         <span class="btn-spinner mr-1 hidden"><i class="fa fa-spinner fa-spin"></i></i></span>
@@ -291,24 +385,31 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Impor Data</h5>
+                <h5 class="modal-title">Impor Data</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <form id="import-form" role="form">
                 <div class="modal-body mt--4">
-                    <small>Impor data dengan file CSV atau Excel.<br/>Pastikan data sudah sesuai template yang
-                        tersedia.</small>
-                    <div class="import-form-group form-group mt-2 mb-0">
+                    <div class="mb-3">
+                        <small>
+                            Impor data jadwal dengan file CSV atau Excel.<br/>
+                            Pastikan data sudah sesuai template yang tersedia.
+                        </small>
+                    </div>
+                    <div class="import-form-group form-group mt-2 mb-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="material-icons">folder</i></span>
                             </div>
                             <input id="import-form-input-file" name="file" class="import-form-input form-control"
-                                   type="file"
-                                   accept=".xls,.xlsx,.csv" required/>
+                                   type="file" accept=".xls,.xlsx,.csv" required/>
                         </div>
+                    </div>
+                    <div class="mb-0">
+                        <small><b>Proses impor data akan mengganti semua data lama dengan data baru yang akan
+                                diimpor!</b></small>
                     </div>
                     <div class="import-form-error text-center mt-4 hidden">
                         <small class="text-danger">
@@ -381,11 +482,50 @@
                 <div class="modal-body mt--4">
                     <input id="attendance-code-form-row" name="dataTableRow" type="number" hidden/>
                     <input id="attendance-code-form-id" name="id" type="number" hidden/>
-                    <div class="text-center"><small><b id="attencande-code-schedule-name"></b></small></div>
-                    <div class="text-center mt-3">
+                    <div class="text-center">
                         <h1 id="attendance-code-text"></h1>
                     </div>
-                    <div class="attendance-code-form-error text-center mt-3 hidden">
+                    <div class="text-center mt-2">
+                        <div class="table-responsive">
+                            <table class="table table-flush" id="datatable">
+                                <tbody>
+                                <tr class="text-left">
+                                    <td><b>Kode Jadwal</b></td>
+                                    <td id="attencande-code-schedule-code"></td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td><b>Nama Jadwal</b></td>
+                                    <td id="attencande-code-schedule-name"></td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td><b>Kelas</b></td>
+                                    <td id="attencande-code-schedule-class"></td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td><b>Prodi</b></td>
+                                    <td id="attencande-code-schedule-study-program"></td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td><b>Semester</b></td>
+                                    <td id="attencande-code-schedule-semester"></td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td><b>Dosen</b></td>
+                                    <td id="attencande-code-schedule-lecturer"></td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td><b>Waktu Mulai</b></td>
+                                    <td id="attencande-code-schedule-date-start"></td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td><b>Waktu Selesai</b></td>
+                                    <td id="attencande-code-schedule-date-end"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="attendance-code-form-error text-center hidden">
                         <small class="text-danger">
                             Terjadi kesalahan saat memperbarui kode absensi, mohon coba lagi...
                         </small>
@@ -398,6 +538,110 @@
                     <button id="renew-attendance-code-button" type="submit" class="btn btn-sm btn-primary">
                         <span class="btn-spinner mr-1 hidden"><i class="fa fa-spinner fa-spin"></i></i></span>
                         <span class="btn-text">Perbarui</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="export-specific-modal" tabindex="-1" role="dialog" aria-labelledby="export-specific-modal"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Ekspor Data Spesifik</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="export-specific-form" role="form">
+                <div class="modal-body mt--4">
+                    <div class="mb-3">
+                        <small>
+                            Saring data jadwal spesifik yang ingin anda ekspor.
+                            Kosongkan kolom untuk mengabaikan penyaringan data pada kolom tersebut.
+                        </small>
+                    </div>
+                    <div class="mb-3">
+                        <small><b>Prodi & Kelas</b></small>
+                        <div class="export-specific-form-group form-group mt-2">
+                            <div class="input-group">
+                                <select id="export-specific-form-input-class"
+                                        class="export-specific-form-input form-control"
+                                        placeholder="Pilih Prodi & Kelas"
+                                        data-toggle="select" data-live-search="true" multiple="multiple">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <small><b>Semester</b></small>
+                        <div class="export-specific-form-group form-group mt-2">
+                            <div class="input-group">
+                                <select id="export-specific-form-input-semester"
+                                        class="export-specific-form-input form-control" placeholder="Pilih Semester"
+                                        data-toggle="select" data-live-search="true" multiple="multiple">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <small><b>Dosen</b></small>
+                        <div class="export-specific-form-group form-group mt-2">
+                            <div class="input-group">
+                                <select id="export-specific-form-input-lecturer"
+                                        class="export-specific-form-input form-control" placeholder="Pilih Dosen"
+                                        data-toggle="select" data-live-search="true" multiple="multiple">
+                                    <option></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-0">
+                        <small><b>Waktu Mulai</b></small>
+                        <div class="row mt-2">
+                            <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+                                <div class="export-specific-form-group form-group mb-0">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="material-icons">schedule</i></span>
+                                        </div>
+                                        <input id="export-specific-form-input-date-start" name="date_start"
+                                               class="add-form-input form-control" placeholder="Rentang Awal"
+                                               type="text" autocomplete="off"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="export-specific-form-group form-group mb-0">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="material-icons">schedule</i></span>
+                                        </div>
+                                        <input id="export-specific-form-input-date-end" name="date_end"
+                                               class="add-form-input form-control" placeholder="Rentang Akhir"
+                                               type="text" autocomplete="off" disabled/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="export-specific-form-error text-center mt-4 hidden">
+                        <small class="text-danger">
+                            Terjadi kesalahan saat mengekspor data spesifik, mohon coba lagi...
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer mt--4">
+                    <button id="cancel-export-specific-button" type="button" class="btn btn-sm btn-neutral"
+                            data-dismiss="modal">Batal
+                    </button>
+                    <button id="export-specific-button" type="submit" class="btn btn-sm btn-primary">
+                        <span class="btn-spinner mr-1 hidden"><i class="fa fa-spinner fa-spin"></i></i></span>
+                        <span class="btn-text">Ekspor</span>
                     </button>
                 </div>
             </form>
@@ -507,12 +751,12 @@
                 className: 'hidden',
                 title: 'Data Jadwal',
                 exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                    columns: [0, 2, 3, 4, 5, 6, 7, 8, 10],
                     format: {
                         body: function (data, row, column, _) {
                             if (column === 0)
                                 return `${data.replace('.', '')}`;
-                            if (column === 7 || column === 8 || column === 10)
+                            if (column === 6 || column === 7 || column === 8)
                                 return `${moment(data, 'DD/MM/YYYY hh:mm A').format('DD/MM/YYYY HH:mm')}`;
                             return data;
                         }
@@ -524,7 +768,7 @@
                     className: 'hidden',
                     title: 'Data Jadwal',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 7, 8, 9, 10]
+                        columns: [0, 2, 3, 4, 5, 6, 7, 8, 10]
                     }
                 },
                 {
@@ -532,8 +776,7 @@
                     className: 'hidden',
                     title: 'Data Jadwal',
                     exportOptions: {
-                        stripHtml: false,
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                        columns: [0, 2, 3, 4, 5, 6, 7, 8, 10]
                     }
                 }
             ],
@@ -564,6 +807,11 @@
             return false;
         });
 
+        $('#add-batch-form').on('submit', function () {
+            addBatchData(this);
+            return false;
+        });
+
         $('#edit-form').on('submit', function () {
             editData(this);
             return false;
@@ -589,6 +837,11 @@
             return false;
         });
 
+        $('#export-specific-form').on('submit', function () {
+            exportSpecificExcel(this);
+            return false;
+        });
+
         $('#add-modal').on('hidden.bs.modal', function () {
             $("#add-form").trigger('reset');
             $('.add-form-group').removeClass('has-danger');
@@ -597,8 +850,15 @@
             $('#add-form-input-class').val(null).trigger('change');
             $('#add-form-input-lecturer').val(null).trigger('change');
             $('#add-form-input-date-start').datetimepicker('clear');
-            if ($('#add-form-input-date-end').datetimepicker()) $('#add-form-input-date-end').datetimepicker('destroy');
+            $('#add-form-input-date-end').datetimepicker('clear');
             $('#add-form-input-date-end').prop('disabled', true);
+        });
+
+        $('#add-batch-modal').on('hidden.bs.modal', function () {
+            $("#add-batch-form").trigger('reset');
+            $('.add-batch-form-group').removeClass('has-danger');
+            $('.add-batch-form-input').removeClass('is-invalid');
+            $('.add-batch-form-error').addClass('hidden');
         });
 
         $('#edit-modal').on('hidden.bs.modal', function () {
@@ -638,8 +898,18 @@
             $('.attendance-code-form-error').addClass('hidden');
         });
 
+        $('#export-specific-modal').on('hidden.bs.modal', function () {
+            $('#export-specific-form').trigger('reset');
+            $('.export-specific-form-error').addClass('hidden');
+            $('#export-specific-form-input-class').val(null).trigger('change');
+            $('#export-specific-form-input-semester').val(null).trigger('change');
+            $('#export-specific-form-input-lecturer').val(null).trigger('change');
+            $('#export-specific-form-input-date-start').datetimepicker('clear');
+            $('#export-specific-form-input-date-end').datetimepicker('clear');
+        });
+
         $('#add-form-input-class').select2({
-            placeholder: 'Pilih Kelas',
+            placeholder: 'Pilih Prodi & Kelas',
             language: {
                 searching: function () {
                     return 'Memuat data...';
@@ -734,43 +1004,18 @@
             }
         });
 
-        $('#add-form-input-date-start').datetimepicker({
-            icons: {
-                time: "fa fa-clock",
-                date: "fa fa-calendar-day",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-            }
-        }).on('dp.change', function (value) {
-            if ($('#add-form-input-date-end').datetimepicker()) $('#add-form-input-date-end')
-                .datetimepicker('destroy');
+        $('#add-form-input-date-start').datetimepicker().on('dp.change', function (value) {
             $('#add-form-input-date-end').prop('disabled', value == null);
             if (value != null) {
-                const minDate = new Date(value['date']);
-                $('#add-form-input-date-end').datetimepicker({
-                    minDate: minDate.setMinutes(minDate.getMinutes() + 1),
-                    icons: {
-                        time: "fa fa-clock",
-                        date: "fa fa-calendar-day",
-                        up: "fa fa-chevron-up",
-                        down: "fa fa-chevron-down",
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-screenshot',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-remove'
-                    }
-                });
+                const minDate = moment(value['date']);
+                $('#add-form-input-date-end').data('DateTimePicker').minDate(minDate.add(1, 'minutes'));
             }
         });
 
+        $('#add-form-input-date-end').datetimepicker();
+
         $('#edit-form-input-class').select2({
-            placeholder: 'Pilih Kelas',
+            placeholder: 'Pilih Prodi & Kelas',
             language: {
                 searching: function () {
                     return 'Memuat data...';
@@ -865,54 +1110,124 @@
             }
         });
 
-        $('#edit-form-input-date-start').datetimepicker({
-            icons: {
-                time: "fa fa-clock",
-                date: "fa fa-calendar-day",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
-            }
-        }).on('dp.change', function (value) {
-            if ($('#edit-form-input-date-end').datetimepicker()) $('#edit-form-input-date-end')
-                .datetimepicker('destroy');
+        $('#edit-form-input-date-start').datetimepicker().on('dp.change', function (value) {
             $('#edit-form-input-date-end').prop('disabled', value == null);
             if (value != null) {
-                const minDate = new Date(value['date']);
-                $('#edit-form-input-date-end').datetimepicker({
-                    minDate: minDate.setMinutes(minDate.getMinutes() + 1),
-                    icons: {
-                        time: "fa fa-clock",
-                        date: "fa fa-calendar-day",
-                        up: "fa fa-chevron-up",
-                        down: "fa fa-chevron-down",
-                        previous: 'fa fa-chevron-left',
-                        next: 'fa fa-chevron-right',
-                        today: 'fa fa-screenshot',
-                        clear: 'fa fa-trash',
-                        close: 'fa fa-remove'
-                    }
-                });
+                const minDate = moment(value['date']);
+                $('#add-form-input-date-end').data('DateTimePicker').minDate(minDate.add(1, 'minutes'));
             }
         });
 
-        $('#edit-form-input-date-end').datetimepicker({
-            icons: {
-                time: "fa fa-clock",
-                date: "fa fa-calendar-day",
-                up: "fa fa-chevron-up",
-                down: "fa fa-chevron-down",
-                previous: 'fa fa-chevron-left',
-                next: 'fa fa-chevron-right',
-                today: 'fa fa-screenshot',
-                clear: 'fa fa-trash',
-                close: 'fa fa-remove'
+        $('#edit-form-input-date-end').datetimepicker();
+
+        $('#export-specific-form-input-class').select2({
+            placeholder: 'Pilih Prodi & Kelas',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            multiple: true,
+            allowClear: true,
+            ajax: {
+                url: `<?= base_url('class/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: `${data['study_program_name']} - ${data['name']}`
+                            };
+                        })
+                    };
+                },
+                cache: true
             }
         });
+
+        $('#export-specific-form-input-semester').select2({
+            placeholder: 'Pilih Semester',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            multiple: true,
+            allowClear: true,
+            ajax: {
+                url: `<?= base_url('semester/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: data['name']
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#export-specific-form-input-lecturer').select2({
+            placeholder: 'Pilih Dosen',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            multiple: true,
+            allowClear: true,
+            ajax: {
+                url: `<?= base_url('lecturer/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: data['name']
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#export-specific-form-input-date-start').datetimepicker().on('dp.change', function (value) {
+            $('#export-specific-form-input-date-end').prop('disabled', value == null);
+            if (value != null) {
+                const minDate = moment(value['date']);
+                $('#export-specific-form-input-date-end').data('DateTimePicker').minDate(minDate.add(1, 'minutes'));
+            }
+        });
+
+        $('#export-specific-form-input-date-end').datetimepicker();
     });
 
     function performEditData(targetRow) {
@@ -920,12 +1235,9 @@
         $('#edit-form-row').val(targetRow);
         $('#edit-form-id').val(data['id']);
         $('#edit-form-input-name').val(data['name']);
-        $('#edit-form-input-class').append($("<option/>").val(data['class_id']).text(`${data['study_program_name']} - ${data['class_name']}`)).val(data[
-            'class_id']).trigger('change');
-        $('#edit-form-input-lecturer').append($("<option/>").val(data['lecturer_id']).text(data['lecturer_name'])).val(data[
-            'lecturer_id']).trigger('change');
-        $('#edit-form-input-semester').append($("<option/>").val(data['semester_id']).text(data['semester_name'])).val(data[
-            'semester_id']).trigger('change');
+        $('#edit-form-input-class').append($("<option/>").val(data['class_id']).text(`${data['study_program_name']} - ${data['class_name']}`)).val(data['class_id']).trigger('change');
+        $('#edit-form-input-lecturer').append($("<option/>").val(data['lecturer_id']).text(data['lecturer_name'])).val(data['lecturer_id']).trigger('change');
+        $('#edit-form-input-semester').append($("<option/>").val(data['semester_id']).text(data['semester_name'])).val(data['semester_id']).trigger('change');
         $('#edit-form-input-date-start').data("DateTimePicker").date(new Date(data['date_start']));
         $('#edit-form-input-date-end').data("DateTimePicker").date(new Date(data['date_end']));
         $('#edit-modal').modal('show');
@@ -942,8 +1254,15 @@
         const data = datatable.row(targetRow).data();
         $('#attendance-code-form-row').val(targetRow);
         $('#attendance-code-form-id').val(data['id']);
-        $('#attencande-code-schedule-name').text(data['name']);
         $('#attendance-code-text').text(data['attendance_code']);
+        $('#attencande-code-schedule-code').text(data['schedule_code']);
+        $('#attencande-code-schedule-name').text(data['name']);
+        $('#attencande-code-schedule-class').text(data['class_name']);
+        $('#attencande-code-schedule-study-program').text(data['study_program_name']);
+        $('#attencande-code-schedule-semester').text(data['semester_name']);
+        $('#attencande-code-schedule-lecturer').text(data['lecturer_name']);
+        $('#attencande-code-schedule-date-start').text(moment(data['date_start']).format('DD/MM/YYYY hh:mm A'));
+        $('#attencande-code-schedule-date-end').text(moment(data['date_end']).format('DD/MM/YYYY hh:mm A'));
         $('#attendance-code-modal').modal('show');
     }
 
@@ -951,8 +1270,8 @@
         const formData = new FormData(form);
         formData.append('sid', sid);
         formData.append('class_id', $('#add-form-input-class').select2('data')[0]['id']);
-        formData.append('lecturer_id', $('#add-form-input-lecturer').select2('data')[0]['id']);
         formData.append('semester_id', $('#add-form-input-semester').select2('data')[0]['id']);
+        formData.append('lecturer_id', $('#add-form-input-lecturer').select2('data')[0]['id']);
         $('#cancel-add-button').attr('disabled', true);
         $('#add-button').attr('disabled', true);
         $('#add-button .btn-spinner').removeClass('hidden');
@@ -995,6 +1314,37 @@
         });
     }
 
+    function addBatchData(form) {
+        const formData = new FormData(form);
+        formData.append('sid', sid);
+        $('#cancel-add-batch-button').attr('disabled', true);
+        $('#template-add-batch-button').attr('disabled', true);
+        $('#add-batch-button').attr('disabled', true);
+        $('#add-batch-button .btn-spinner').removeClass('hidden');
+        $.ajax({
+            type: 'POST',
+            url: `<?= base_url('schedule/add-batch') ?>`,
+            data: formData,
+            contentType: false,
+            processData: false
+        }).done(function () {
+            $('.add-batch-form-group').removeClass('has-danger');
+            $('.add-batch-form-input').removeClass('is-invalid');
+            $('.add-batch-form-error').addClass('hidden');
+            $('#add-batch-modal').modal('hide');
+            datatable.ajax.reload();
+        }).fail(function () {
+            $('.add-batch-form-group').addClass('has-danger');
+            $('.add-batch-form-input').addClass('is-invalid');
+            $('.add-batch-form-error').removeClass('hidden');
+        }).always(function () {
+            $('#cancel-add-batch-button').attr('disabled', false);
+            $('#template-add-batch-button').attr('disabled', false);
+            $('#add-batch-button').attr('disabled', false);
+            $('#add-batch-button .btn-spinner').addClass('hidden');
+        });
+    }
+
     function editData(form) {
         const formData = new FormData(form);
         const targetRow = parseInt(formData.get('dataTableRow'));
@@ -1024,6 +1374,8 @@
                 'class_name': updatedRow['class_name'],
                 'study_program_id': updatedRow['study_program_id'],
                 'study_program_name': updatedRow['study_program_name'],
+                'semester_id': updatedRow['semester_id'],
+                'semester_name': updatedRow['semester_name'],
                 'lecturer_id': updatedRow['lecturer_id'],
                 'lecturer_name': updatedRow['lecturer_name'],
                 'date_start': updatedRow['date_start'],
@@ -1137,6 +1489,59 @@
         $(".buttons-excel")[0].click();
     }
 
+    function exportSpecificExcel(form) {
+        const formData = new FormData(form);
+        formData.append('sid', sid);
+        formData.append('class_ids', JSON.stringify($('#export-specific-form-input-class').val()));
+        formData.append('semester_ids', JSON.stringify($('#export-specific-form-input-semester').val()));
+        formData.append('lecturer_ids', JSON.stringify($('#export-specific-form-input-lecturer').val()));
+        $('#cancel-export-specific-button').attr('disabled', true);
+        $('#export-specific-button').attr('disabled', true);
+        $('#export-specific-button .btn-spinner').removeClass('hidden');
+        $.ajax({
+            type: 'POST',
+            url: `<?= base_url('schedule/filtered-list') ?>`,
+            data: formData,
+            contentType: false,
+            processData: false
+        }).done(function (filteredDatas) {
+            $('.export-specific-form-group').removeClass('has-danger');
+            $('.export-specific-form-input').removeClass('is-invalid');
+            $('.export-specific-form-error').addClass('hidden');
+            $('#export-specific-modal').modal('hide');
+            datatable.clear().draw();
+            filteredDatas['data'].forEach(function (filteredData) {
+                datatable.row.add({
+                    'id': filteredData['id'],
+                    'schedule_code': filteredData['schedule_code'],
+                    'name': filteredData['name'],
+                    'class_id': filteredData['class_id'],
+                    'class_name': filteredData['class_name'],
+                    'study_program_id': filteredData['study_program_id'],
+                    'study_program_name': filteredData['study_program_name'],
+                    'semester_id': filteredData['semester_id'],
+                    'semester_name': filteredData['semester_name'],
+                    'lecturer_id': filteredData['lecturer_id'],
+                    'lecturer_name': filteredData['lecturer_name'],
+                    'date_start': filteredData['date_start'],
+                    'date_end': filteredData['date_end'],
+                    'attendance_code': filteredData['attendance_code'],
+                    'created_on': filteredData['created_on']
+                }).invalidate().draw();
+            });
+            exportExcel();
+            datatable.ajax.reload();
+        }).fail(function () {
+            $('.export-specific-form-group').addClass('has-danger');
+            $('.export-specific-form-input').addClass('is-invalid');
+            $('.export-specific-form-error').removeClass('hidden');
+        }).always(function () {
+            $('#cancel-export-specific-button').attr('disabled', false);
+            $('#export-specific-button').attr('disabled', false);
+            $('#export-specific-button .btn-spinner').addClass('hidden');
+        });
+    }
+
     function copyData() {
         $(".buttons-copy")[0].click();
     }
@@ -1160,10 +1565,10 @@
             processData: false
         }).done(function (updatedRow) {
             $('#attendance-code-text').text(updatedRow['attendance_code']);
-            $('#attendance-code-form-error').addClass('hidden');
+            $('.attendance-code-form-error').addClass('hidden');
             datatable.cell(targetRow, 6).data(updatedRow['attendance_code']).draw();
         }).fail(function () {
-            $('#attendance-code-form-error').removeClass('hidden');
+            $('.attendance-code-form-error').removeClass('hidden');
         }).always(function () {
             $('#cancel-attendance-code-button').attr('disabled', false);
             $('#renew-attendance-code-button').attr('disabled', false);

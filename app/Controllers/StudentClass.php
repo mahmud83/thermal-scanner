@@ -15,7 +15,7 @@ class StudentClass extends BaseController
     {
         helper('url');
         $this->authenticationModel = new AuthenticationModel();
-        $this->classModel = new StudentClassModel();
+        $this->classModel = new StudentClassModel($this->authenticationModel);
     }
 
     // GET

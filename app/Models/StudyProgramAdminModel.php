@@ -5,6 +5,7 @@ use Config\Database;
 
 class StudyProgramAdminModel extends Model
 {
+
     protected $db, $profileModel;
 
     function __construct()
@@ -40,6 +41,9 @@ class StudyProgramAdminModel extends Model
                 ->join('study_program', 'study_program.id = study_program_admin.study_program_id', 'left')
                 ->orderBy('study_program_admin.created_on', 'ASC')
                 ->like('lower(trim(user.name))', strtolower(trim($searchTerm)))
+                ->like('lower(trim(user.email))', strtolower(trim($searchTerm)))
+                ->like('lower(trim(study_program.name))', strtolower(trim($searchTerm)))
+                ->like('date_format(study_program_admin.created_on, "%d/%m/%Y %h/%i %p")', strtolower(trim($searchTerm)))
                 ->getWhere(['user.type' => 2])
                 ->getResultArray();
         if ($this->db->transStatus()) {
@@ -88,7 +92,7 @@ class StudyProgramAdminModel extends Model
         }
     }
 
-    function editAdmin(int $id, int $oldStudyProgramId, int $newStudyProgramId, string $email, string $name)
+    function editAdmin(int $id, int $studyProgramId, string $email, string $name)
     {
         $this->db->transBegin();
         $userId = $this->db->table('study_program_admin')->getWhere(['id' => $id])->getRow()->user_id;
@@ -106,16 +110,16 @@ class StudyProgramAdminModel extends Model
             ]);
         $this->db->table('study_program_admin')
             ->where([
-                'study_program_admin.study_program_id' => $oldStudyProgramId
+                'study_program_admin.id' => $id
             ])->update([
-                'study_program_admin.study_program_id' => $newStudyProgramId
+                'study_program_admin.study_program_id' => $studyProgramId
             ]);
         $updatedRow = $this->db->table('study_program_admin')
             ->select('
-                    user.id as user_id, user.email as user_email, user.name as user_name,
-                    study_program.id as study_program_id, study_program.name as study_program_name,
-                    study_program_admin.id as id, study_program_admin.created_on as created_on
-                ')
+                user.id as user_id, user.email as user_email, user.name as user_name,
+                study_program.id as study_program_id, study_program.name as study_program_name,
+                study_program_admin.id as id, study_program_admin.created_on as created_on
+            ')
             ->join('user', 'user.id = study_program_admin.user_id', 'left')
             ->join('study_program', 'study_program.id = study_program_admin.study_program_id', 'left')
             ->getWhere(['study_program_admin.id' => $id])

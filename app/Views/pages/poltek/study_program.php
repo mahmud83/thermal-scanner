@@ -73,8 +73,8 @@
                                 <span class="input-group-text"><i class="material-icons">school</i></span>
                             </div>
                             <input id="add-form-input-name" name="name" class="add-form-input form-control"
-                                   placeholder="Nama Prodi"
-                                   type="text" required/>
+                                   placeholder="Nama Prodi" type="text" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div class="add-form-error text-center mt-4 hidden">
@@ -117,8 +117,8 @@
                                 <span class="input-group-text"><i class="material-icons">school</i></span>
                             </div>
                             <input id="edit-form-input-name" name="name" class="edit-form-input form-control"
-                                   placeholder="Nama Prodi"
-                                   type="text" required/>
+                                   placeholder="Nama Prodi" type="text" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div class="edit-form-error text-center mt-4 hidden">
@@ -189,16 +189,19 @@
             </div>
             <form id="import-form" role="form">
                 <div class="modal-body mt--4">
-                    <small>Impor data dengan file CSV atau Excel.<br/>Pastikan data sudah sesuai template yang
-                        tersedia.</small>
+                    <div class="mb-3">
+                        <small>
+                            Impor data prodi dengan file CSV atau Excel.<br/>
+                            Pastikan data sudah sesuai template yang tersedia.
+                        </small>
+                    </div>
                     <div class="import-form-group form-group mt-2 mb-0">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="material-icons">folder</i></span>
                             </div>
                             <input id="import-form-input-file" name="file" class="import-form-input form-control"
-                                   type="file"
-                                   accept=".xls,.xlsx,.csv" required/>
+                                   type="file" accept=".xls,.xlsx,.csv" required/>
                         </div>
                     </div>
                     <div class="import-form-error text-center mt-4 hidden">

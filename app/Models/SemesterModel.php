@@ -20,7 +20,10 @@ class SemesterModel extends Model
             $data = $this->db->table('semester')->orderBy('semester.created_on', 'ASC')->get()->getResultArray();
         else
             $data = $this->db->table('semester')->orderBy('semester.created_on', 'ASC')
-                ->like('lower(trim(semester.name))', strtolower(trim($searchTerm)))->get()->getResultArray();
+                ->like('lower(trim(semester.name))', strtolower(trim($searchTerm)))
+                ->like('date_format(semester.created_on, "%d/%m/%Y %h/%i %p")', strtolower(trim($searchTerm)))
+                ->get()
+                ->getResultArray();
         if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;

@@ -5,6 +5,7 @@ use Config\Database;
 
 class AttendanceModel extends Model
 {
+
     protected $db;
 
     function __construct()

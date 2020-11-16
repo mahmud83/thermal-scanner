@@ -26,7 +26,7 @@
                             <div class="text-center text-muted my-2">
                                 <small>atau</small>
                             </div>
-                            <button class="btn btn-primary my-2" onclick="openSignInProdi()" disabled>
+                            <button class="btn btn-primary my-2" onclick="openSignInProdi()">
                                 Masuk sebagai Administrator Prodi
                             </button>
                         </div>

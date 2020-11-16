@@ -72,8 +72,8 @@
                                 <span class="input-group-text"><i class="material-icons">person</i></span>
                             </div>
                             <input id="add-form-input-name" name="name" class="add-form-input form-control"
-                                   placeholder="Nama Administrator"
-                                   type="text" required/>
+                                   placeholder="Nama Administrator" type="text" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div class="add-form-group form-group mb-3">
@@ -82,8 +82,8 @@
                                 <span class="input-group-text"><i class="material-icons">mail</i></span>
                             </div>
                             <input id="add-form-input-email" name="email" class="add-form-input form-control"
-                                   placeholder="Email Administrator"
-                                   type="email" required/>
+                                   placeholder="Email Administrator" type="email" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div id="add-form-group-password" class="add-form-group form-group mb-3">
@@ -92,8 +92,8 @@
                                 <span class="input-group-text"><i class="material-icons">lock</i></span>
                             </div>
                             <input id="add-form-input-password" name="password" class="add-form-input form-control"
-                                   placeholder="Password Akun"
-                                   type="password" required/>
+                                   placeholder="Password Akun" type="password" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div id="add-form-group-confirm-password" class="add-form-group form-group mb-3">
@@ -103,7 +103,7 @@
                             </div>
                             <input id="add-form-input-confirm-password" name="confirm_password"
                                    class="add-form-input form-control" placeholder="Konfirmasi Password Akun"
-                                   type="password" required/>
+                                   type="password" autocomplete="off" role="presentation" required/>
                         </div>
                     </div>
                     <div class="add-form-group form-group mb-0">
@@ -149,15 +149,14 @@
                 <div class="modal-body mt--4">
                     <input id="edit-form-row" name="dataTableRow" type="number" hidden/>
                     <input id="edit-form-id" name="id" type="number" hidden/>
-                    <input id="edit-form-input-old-study-program" name="old_study_program" type="hidden" required/>
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="material-icons">person</i></span>
                             </div>
                             <input id="edit-form-input-name" name="name" class="edit-form-input form-control"
-                                   placeholder="Nama Administrator"
-                                   type="text" required/>
+                                   placeholder="Nama Administrator" type="text" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div class="edit-form-group form-group mb-3">
@@ -166,8 +165,8 @@
                                 <span class="input-group-text"><i class="material-icons">mail</i></span>
                             </div>
                             <input id="edit-form-input-email" name="email" class="edit-form-input form-control"
-                                   placeholder="Email Administrator"
-                                   type="email" required/>
+                                   placeholder="Email Administrator" type="email" autocomplete="off" role="presentation"
+                                   required/>
                         </div>
                     </div>
                     <div class="edit-form-group form-group mb-0">
@@ -186,10 +185,12 @@
                 </div>
                 <div class="modal-footer mt--4">
                     <button id="cancel-edit-button" type="button" class="btn btn-sm btn-neutral"
-                            data-dismiss="modal">Batal
+                            data-dismiss="modal">
+                        Batal
                     </button>
-                    <button id="cancel-reset-password" type="button" class="btn btn-sm btn-neutral"
-                            data-dismiss="modal" onclick="performResetPassword($('#edit-form-row').val())">Ubah Password
+                    <button type="button" class="btn btn-sm btn-neutral" data-dismiss="modal"
+                            onclick="performResetPassword($('#edit-form-row').val())">
+                        Ubah Password
                     </button>
                     <button id="edit-button" type="submit" class="btn btn-sm btn-primary">
                         <span class="btn-spinner mr-1 hidden"><i class="fa fa-spinner fa-spin"></i></i></span>
@@ -222,7 +223,7 @@
                             </div>
                             <input id="reset-password-form-input-password" name="password"
                                    class="reset-password-form-input form-control" placeholder="Password Baru"
-                                   type="password" required/>
+                                   type="password" autocomplete="off" role="presentation" required/>
                         </div>
                     </div>
                     <div id="reset-password-form-group-confirm-password"
@@ -233,7 +234,7 @@
                             </div>
                             <input id="reset-password-form-input-confirm-password" name="confirm_password"
                                    class="reset-password-form-input form-control" placeholder="Konfirmasi Password Baru"
-                                   type="password" required/>
+                                   type="password" autocomplete="off" role="presentation" required/>
                         </div>
                     </div>
                     <div class="reset-password-form-error text-center mt-4 hidden">
@@ -620,7 +621,7 @@
         }
         const formData = new FormData(form);
         formData.append('sid', sid);
-        formData.append('study_program', $('#add-form-input-study-program').select2('data')[0]['id']);
+        formData.append('study_program_id', $('#add-form-input-study-program').select2('data')[0]['id']);
         $('#cancel-add-button').attr('disabled', true);
         $('#add-button').attr('disabled', true);
         $('#add-button .btn-spinner').removeClass('hidden');
@@ -659,7 +660,7 @@
         const formData = new FormData(form);
         const targetRow = parseInt(formData.get('dataTableRow'));
         formData.append('sid', sid);
-        formData.append('study_program', $('#edit-form-input-study-program').select2('data')[0]['id']);
+        formData.append('study_program_id', $('#edit-form-input-study-program').select2('data')[0]['id']);
         $('#cancel-edit-button').attr('disabled', true);
         $('#edit-button').attr('disabled', true);
         $('#edit-button .btn-spinner').removeClass('hidden');

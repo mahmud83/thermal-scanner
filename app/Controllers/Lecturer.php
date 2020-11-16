@@ -45,7 +45,7 @@ class Lecturer extends BaseController
         } else return $this->response->setStatusCode(401);
     }
 
-    // PUT
+    // POST
     public function addLecturer()
     {
         $sid = $this->request->getPost('sid');
@@ -82,7 +82,7 @@ class Lecturer extends BaseController
         } else return $this->response->setStatusCode(401);
     }
 
-    // DELETE
+    // POST
     public function deleteLecturer()
     {
         $sid = $this->request->getPost('sid');
@@ -99,7 +99,7 @@ class Lecturer extends BaseController
         } else return $this->response->setStatusCode(401);
     }
 
-    // PUT
+    // POST
     public function importLecturer()
     {
         $sid = $this->request->getPost('sid');
@@ -138,7 +138,7 @@ class Lecturer extends BaseController
         } else return $this->response->setStatusCode(401);
     }
 
-    // DELETE
+    // POST
     public function truncateLecturer()
     {
         $sid = $this->request->getPost('sid');

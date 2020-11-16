@@ -47,7 +47,7 @@ class StudyProgramAdmin extends BaseController
     public function addAdmin()
     {
         $sid = $this->request->getPost('sid');
-        $studyProgramId = $this->request->getPost('study_program');
+        $studyProgramId = $this->request->getPost('study_program_id');
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
         $confirmPassword = $this->request->getPost('confirm_password');
@@ -71,16 +71,15 @@ class StudyProgramAdmin extends BaseController
     {
         $sid = $this->request->getPost('sid');
         $id = $this->request->getPost('id');
-        $newStudyProgramId = $this->request->getPost('study_program');
-        $oldStudyProgramId = $this->request->getPost('old_study_program');
+        $studyProgramId = $this->request->getPost('study_program_id');
         $email = $this->request->getPost('email');
         $name = $this->request->getPost('name');
         if (password_verify(session_id(), $sid)) {
-            if (empty($id) || empty($oldStudyProgramId) || empty($newStudyProgramId) || empty($email) ||
+            if (empty($id) || empty($studyProgramId) || empty($email) ||
                 empty($name) || !filter_var($email, FILTER_VALIDATE_EMAIL))
                 return $this->response->setStatusCode(403);
             try {
-                $updatedRow = $this->studyProgramAdminModel->editAdmin($id, $oldStudyProgramId, $newStudyProgramId, $email, $name);
+                $updatedRow = $this->studyProgramAdminModel->editAdmin($id, $studyProgramId, $email, $name);
                 if ($updatedRow === null) return $this->response->setStatusCode(500);
                 else return $this->response->setStatusCode(200)->setJSON($updatedRow);
             } catch (Exception $e) {

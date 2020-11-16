@@ -1,7 +1,7 @@
 <?php namespace App\Controllers;
 
-use App\Models\StudentAttendanceModel;
 use App\Models\AuthenticationModel;
+use App\Models\StudentAttendanceModel;
 use Exception;
 
 class StudentAttendance extends BaseController
