@@ -1,7 +1,7 @@
 <?php namespace App\Controllers;
 
 use App\Models\AuthenticationModel;
-use App\Models\studentModel;
+use App\Models\StudentModel;
 use DateTime;
 use Exception;
 use PhpOffice\PhpSpreadsheet\IOFactory;
