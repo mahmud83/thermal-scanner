@@ -1,6 +1,4 @@
-<?php /** @noinspection ALL */
-
-namespace Config;
+<?php namespace Config;
 
 // Create a new instance of our RouteCollection class.
 $routes = Services::routes();
@@ -106,15 +104,6 @@ $routes->get('student-attendance/list', 'StudentAttendance::getAttendanceList');
 
 $routes->get('lecturer-attendance', 'LecturerAttendance::index');
 $routes->get('lecturer-attendance/list', 'LecturerAttendance::getAttendanceList');
-
-/**
- * --------------------------------------------------------------------
- * REST API Route Definitions
- * --------------------------------------------------------------------
- */
-$routes->get('rest/authorize', 'Rest/Authorization::authorize');
-$routes->post('rest/token', 'Rest/Authorization::token');
-$routes->get('rest/users', 'Rest/Users::getUsers');
 
 /**
  * --------------------------------------------------------------------
