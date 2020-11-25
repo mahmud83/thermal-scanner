@@ -34,7 +34,7 @@
                                        class="form-control <?= $validation->hasError('email') ? 'is-invalid' : '' ?>"
                                        placeholder="Email Anda" type="email"
                                        value="<?= $session->user_email ?>"
-                                       autocomplete="off" role="presentation" required/>
+                                       autocomplete="off" role="presentation"/>
                                 <div class="invalid-feedback"><?= $validation->getError('email') ?></div>
                             </div>
                         </div>
@@ -47,7 +47,7 @@
                                     <input id="current-password-input" name="current_password"
                                            class="form-control <?= $validation->hasError('current_password') ? 'is-invalid' : '' ?>"
                                            placeholder="Password Anda saat ini" type="password"
-                                           autocomplete="off" role="presentation" required/>
+                                           autocomplete="off" role="presentation"/>
                                     <div class="invalid-feedback"><?= $validation->getError('current_password') ?></div>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                                     <input id="new-password-input" name="new_password"
                                            class="form-control <?= $validation->hasError('new_password') ? 'is-invalid' : '' ?>"
                                            placeholder="Masukkan Password Baru" type="password"
-                                           autocomplete="off" role="presentation" required/>
+                                           autocomplete="off" role="presentation"/>
                                     <div class="invalid-feedback"><?= $validation->getError('new_password') ?></div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
                                     <input id="confirm-new-password-input" name="confirm_new_password"
                                            class="form-control <?= $validation->hasError('confirm_new_password') ? 'is-invalid' : '' ?>"
                                            placeholder="Konfirmasi Password Baru" type="password"
-                                           autocomplete="off" role="presentation" required/>
+                                           autocomplete="off" role="presentation"/>
                                     <div class="invalid-feedback"><?= $validation->getError('confirm_new_password') ?></div>
                                 </div>
                             </div>

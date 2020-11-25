@@ -18,12 +18,16 @@ class LecturerModel extends Model
     {
         $this->db->transBegin();
         if (empty($searchTerm))
-            $data = $this->db->table('lecturer')->orderBy('lecturer.created_on', 'ASC')->get()->getResultArray();
+            $data = $this->db->table('lecturer')
+                ->orderBy('lecturer.created_on', 'ASC')
+                ->get()
+                ->getResultArray();
         else
-            $data = $this->db->table('lecturer')->orderBy('lecturer.created_on', 'ASC')
+            $data = $this->db->table('lecturer')
                 ->like('lower(trim(lecturer.name))', strtolower(trim($searchTerm)))
                 ->like('lower(trim(lecturer.nip))', strtolower(trim($searchTerm)))
                 ->like('date_format(lecturer.created_on, "%d/%m/%Y %h/%i %p")', strtolower(trim($searchTerm)))
+                ->orderBy('lecturer.created_on', 'ASC')
                 ->get()
                 ->getResultArray();
         if ($this->db->transStatus()) {

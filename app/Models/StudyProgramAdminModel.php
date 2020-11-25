@@ -39,11 +39,11 @@ class StudyProgramAdminModel extends Model
                 ')
                 ->join('user', 'user.id = study_program_admin.user_id', 'left')
                 ->join('study_program', 'study_program.id = study_program_admin.study_program_id', 'left')
-                ->orderBy('study_program_admin.created_on', 'ASC')
                 ->like('lower(trim(user.name))', strtolower(trim($searchTerm)))
                 ->like('lower(trim(user.email))', strtolower(trim($searchTerm)))
                 ->like('lower(trim(study_program.name))', strtolower(trim($searchTerm)))
                 ->like('date_format(study_program_admin.created_on, "%d/%m/%Y %h/%i %p")', strtolower(trim($searchTerm)))
+                ->orderBy('study_program_admin.created_on', 'ASC')
                 ->getWhere(['user.type' => 2])
                 ->getResultArray();
         if ($this->db->transStatus()) {

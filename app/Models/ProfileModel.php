@@ -74,7 +74,6 @@ class ProfileModel extends Model
                 ')
             ->join('user', 'user.id = study_program_admin.user_id', 'left')
             ->join('study_program', 'study_program.id = study_program_admin.study_program_id', 'left')
-            ->orderBy('study_program_admin.created_on', 'ASC')
             ->getWhere(['user.id' => $this->getProfile($email)->id, 'user.type' => 2])
             ->getRow();
         if ($this->db->transStatus()) {

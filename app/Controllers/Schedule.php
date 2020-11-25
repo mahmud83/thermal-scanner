@@ -57,8 +57,11 @@ class Schedule extends BaseController
         if (password_verify(session_id(), $sid)) {
             try {
                 if (!empty($classIds) && !is_array($classIds)) $classIds = [$classIds];
+                $classIds = array_filter($classIds);
                 if (!empty($semesterIds) && !is_array($semesterIds)) $semesterIds = [$semesterIds];
+                $semesterIds = array_filter($semesterIds);
                 if (!empty($lecturerIds) && !is_array($lecturerIds)) $lecturerIds = [$lecturerIds];
+                $lecturerIds = array_filter($lecturerIds);
                 if (empty($dateEnd)) $dateStart = null;
                 if (!empty($dateStart)) $dateStart = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateStart)->getTimestamp());
                 if (!empty($dateEnd)) $dateEnd = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateEnd)->getTimestamp());
@@ -76,18 +79,20 @@ class Schedule extends BaseController
     {
         $sid = $this->request->getPost('sid');
         $classId = $this->request->getPost('class_id');
-        $lecturerId = $this->request->getPost('lecturer_id');
         $semesterId = $this->request->getPost('semester_id');
+        $lecturerIds = json_decode($this->request->getPost('lecturer_ids'));
         $name = $this->request->getPost('name');
         $dateStart = $this->request->getPost('date_start');
         $dateEnd = $this->request->getPost('date_end');
         if (password_verify(session_id(), $sid)) {
-            if (empty($classId) || empty($lecturerId) || empty($semesterId) || empty($name) || empty($dateStart) ||
+            if (empty($classId) || empty($lecturerIds) || empty($semesterId) || empty($name) || empty($dateStart) ||
                 empty($dateEnd)) return $this->response->setStatusCode(403);
             try {
+                if (!is_array($lecturerIds)) $lecturerIds = [$lecturerIds];
+                $lecturerIds = array_filter($lecturerIds);
                 $dateStart = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateStart)->getTimestamp());
                 $dateEnd = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateEnd)->getTimestamp());
-                $insertedRow = $this->scheduleModel->addSchedule($classId, $semesterId, $lecturerId, $name, $dateStart, $dateEnd);
+                $insertedRow = $this->scheduleModel->addSchedule($classId, $semesterId, $lecturerIds, $name, $dateStart, $dateEnd);
                 if ($insertedRow === null) return $this->response->setStatusCode(500);
                 else return $this->response->setStatusCode(200)->setJSON($insertedRow);
             } catch (Exception $e) {
@@ -164,18 +169,20 @@ class Schedule extends BaseController
         $sid = $this->request->getPost('sid');
         $id = $this->request->getPost('id');
         $classId = $this->request->getPost('class_id');
-        $lecturerId = $this->request->getPost('lecturer_id');
         $semesterId = $this->request->getPost('semester_id');
+        $lecturerIds = json_decode($this->request->getPost('lecturer_ids'));
         $name = $this->request->getPost('name');
         $dateStart = $this->request->getPost('date_start');
         $dateEnd = $this->request->getPost('date_end');
         if (password_verify(session_id(), $sid)) {
-            if (empty($id) || empty($classId) || empty($lecturerId) || empty($semesterId) || empty($name) ||
+            if (empty($id) || empty($classId) || empty($lecturerIds) || empty($semesterId) || empty($name) ||
                 empty($dateStart) || empty($dateEnd)) return $this->response->setStatusCode(403);
             try {
+                if (!is_array($lecturerIds)) $lecturerIds = [$lecturerIds];
+                $lecturerIds = array_filter($lecturerIds);
                 $dateStart = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateStart)->getTimestamp());
                 $dateEnd = date('Y-m-d H:i:s', DateTime::createFromFormat('d/m/Y H:i A', $dateEnd)->getTimestamp());
-                $updatedRow = $this->scheduleModel->editSchedule($id, $classId, $semesterId, $lecturerId, $name, $dateStart, $dateEnd);
+                $updatedRow = $this->scheduleModel->editSchedule($id, $classId, $semesterId, $lecturerIds, $name, $dateStart, $dateEnd);
                 if ($updatedRow === null) return $this->response->setStatusCode(500);
                 else return $this->response->setStatusCode(200)->setJSON($updatedRow);
             } catch (Exception $e) {

@@ -188,14 +188,31 @@ class DashboardModel extends Model
                 ->select('
                     student_attendance.id as id, student_attendance.profile_picture as profile_picture,
                     student_attendance.created_on as created_on, student.name as student_name,
-                    student.nim as student_nim, schedule.id as schedule_id, schedule.name as schedule_name,
-                    class.id as class_id, class.name as class_name, lecturer.id as lecturer_id,
-                    lecturer.name as lecturer_name
+                    student.nim as student_nim, schedule.id as id, schedule.schedule_code as schedule_code,
+                    schedule.name as name, schedule.date_start as date_start, schedule.date_end as date_end,
+                    schedule.attendance_code as attendance_code, schedule.created_on as created_on,
+                    class.id as class_id, class.name as class_name, study_program.id as study_program_id,
+                    study_program.name as study_program_name, semester.id as semester_id,
+                    semester.name as semester_name,
+                    (
+                        select group_concat(distinct lecturer_schedule.lecturer_id separator ", ")
+                        from lecturer_schedule
+                        where lecturer_schedule.schedule_id = schedule.id
+                        group by lecturer_schedule.schedule_id
+                    ) as lecturer_ids,
+                    (
+                        select group_concat(distinct lecturer.name separator ", ")
+                        from lecturer_schedule
+                        left join lecturer on lecturer.id = lecturer_schedule.lecturer_id
+                        where lecturer_schedule.schedule_id = schedule.id
+                        group by lecturer_schedule.schedule_id
+                    ) as lecturer_names
                 ')
                 ->join('student', 'student.id = student_attendance.student_id', 'left')
                 ->join('schedule', 'schedule.id = student_attendance.schedule_id', 'left')
                 ->join('class', 'class.id = schedule.class_id', 'left')
-                ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
+                ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                ->join('semester', 'semester.id = schedule.semester_id', 'left')
                 ->orderBy('student_attendance.created_on', 'DESC')
                 ->limit(5)
                 ->get()
@@ -206,14 +223,31 @@ class DashboardModel extends Model
                 ->select('
                     student_attendance.id as id, student_attendance.profile_picture as profile_picture,
                     student_attendance.created_on as created_on, student.name as student_name,
-                    student.nim as student_nim, schedule.id as schedule_id, schedule.name as schedule_name,
-                    class.id as class_id, class.name as class_name, lecturer.id as lecturer_id,
-                    lecturer.name as lecturer_name
+                    student.nim as student_nim, schedule.id as id, schedule.schedule_code as schedule_code,
+                    schedule.name as name, schedule.date_start as date_start, schedule.date_end as date_end,
+                    schedule.attendance_code as attendance_code, schedule.created_on as created_on,
+                    class.id as class_id, class.name as class_name, study_program.id as study_program_id,
+                    study_program.name as study_program_name, semester.id as semester_id,
+                    semester.name as semester_name,
+                    (
+                        select group_concat(distinct lecturer_schedule.lecturer_id separator ", ")
+                        from lecturer_schedule
+                        where lecturer_schedule.schedule_id = schedule.id
+                        group by lecturer_schedule.schedule_id
+                    ) as lecturer_ids,
+                    (
+                        select group_concat(distinct lecturer.name separator ", ")
+                        from lecturer_schedule
+                        left join lecturer on lecturer.id = lecturer_schedule.lecturer_id
+                        where lecturer_schedule.schedule_id = schedule.id
+                        group by lecturer_schedule.schedule_id
+                    ) as lecturer_names
                 ')
                 ->join('student', 'student.id = student_attendance.student_id', 'left')
                 ->join('schedule', 'schedule.id = student_attendance.schedule_id', 'left')
                 ->join('class', 'class.id = schedule.class_id', 'left')
-                ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
+                ->join('study_program', 'study_program.id = class.study_program_id', 'left')
+                ->join('semester', 'semester.id = schedule.semester_id', 'left')
                 ->orderBy('student_attendance.created_on', 'DESC')
                 ->limit(5)
                 ->getWhere(['class.study_program_id' => $userStudyProgramId])
