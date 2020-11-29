@@ -25,7 +25,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="assets/vendor/bootstrap-datetimepicker.js" crossorigin="anonymous"></script>
-<script type="text/javascript" src="assets/js/argon.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="assets/js/argon/argon.min.js" crossorigin="anonymous"></script>
 
 </body>
 

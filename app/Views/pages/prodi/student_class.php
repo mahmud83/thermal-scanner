@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-12 col-md-12">
                     <button type="button" data-toggle="modal" data-target="#add-modal"
                             class="btn btn-sm btn-neutral">Tambah
                     </button>
@@ -14,7 +14,6 @@
                     <button type="button" onclick="copyData()" class="btn btn-sm btn-neutral">Salin</button>
                     <button type="button" onclick="printData()" class="btn btn-sm btn-neutral">Cetak</button>
                 </div>
-                <div class="col-lg-6 col-md-12 mt-4 mt-lg-0 text-right"></div>
             </div>
         </div>
     </div>

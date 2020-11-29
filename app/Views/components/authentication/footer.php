@@ -10,7 +10,7 @@
         crossorigin="anonymous"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/jquery-scroll-lock@3.1.3/jquery-scrollLock.min.js"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="assets/js/argon.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="assets/js/argon/argon.min.js" crossorigin="anonymous"></script>
 
 </body>
 

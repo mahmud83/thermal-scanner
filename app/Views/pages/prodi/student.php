@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="header-body">
             <div class="row align-items-center py-4">
-                <div class="col-lg-6 col-md-12">
+                <div class="col-lg-12 col-md-12">
                     <div class="dropdown">
                         <button type="button" class="btn btn-sm btn-neutral dropdown-toggle"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -49,7 +49,6 @@
                     <button type="button" onclick="copyData()" class="btn btn-sm btn-neutral">Salin</button>
                     <button type="button" onclick="printData()" class="btn btn-sm btn-neutral">Cetak</button>
                 </div>
-                <div class="col-lg-6 col-md-12 mt-4 mt-lg-0 text-right"></div>
             </div>
         </div>
     </div>
@@ -688,8 +687,6 @@
             $('#export-specific-form-input-class').val(null).trigger('change');
             $('#export-specific-form-input-semester').val(null).trigger('change');
             $('#export-specific-form-input-lecturer').val(null).trigger('change');
-            $('#export-specific-form-input-date-start').datetimepicker('clear');
-            $('#export-specific-form-input-date-end').datetimepicker('clear');
         });
 
         $('#add-form-input-class').select2({
