@@ -17,11 +17,15 @@ class SemesterModel extends Model
     {
         $this->db->transBegin();
         if (empty($searchTerm))
-            $data = $this->db->table('semester')->orderBy('semester.created_on', 'ASC')->get()->getResultArray();
+            $data = $this->db->table('semester')
+                ->orderBy('semester.created_on', 'ASC')
+                ->get()
+                ->getResultArray();
         else
-            $data = $this->db->table('semester')->orderBy('semester.created_on', 'ASC')
+            $data = $this->db->table('semester')
                 ->like('lower(trim(semester.name))', strtolower(trim($searchTerm)))
                 ->like('date_format(semester.created_on, "%d/%m/%Y %h/%i %p")', strtolower(trim($searchTerm)))
+                ->orderBy('semester.created_on', 'ASC')
                 ->get()
                 ->getResultArray();
         if ($this->db->transStatus()) {

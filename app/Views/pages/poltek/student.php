@@ -692,8 +692,6 @@
             $('#export-specific-form-input-class').val(null).trigger('change');
             $('#export-specific-form-input-semester').val(null).trigger('change');
             $('#export-specific-form-input-lecturer').val(null).trigger('change');
-            $('#export-specific-form-input-date-start').datetimepicker('clear');
-            $('#export-specific-form-input-date-end').datetimepicker('clear');
         });
 
         $('#add-form-input-class').select2({

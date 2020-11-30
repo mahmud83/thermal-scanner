@@ -131,8 +131,9 @@
                     </div>
                     <div class="add-form-group form-group mb-3">
                         <div class="input-group">
-                            <select id="add-form-input-lecturer"
-                                    class="add-form-input form-control" placeholder="Pilih Dosen" data-toggle="select"
+                            <select id="add-form-input-semester"
+                                    class="add-form-input form-control" placeholder="Pilih Semester"
+                                    data-toggle="select"
                                     data-live-search="true" required>
                                 <option></option>
                             </select>
@@ -140,10 +141,9 @@
                     </div>
                     <div class="add-form-group form-group mb-3">
                         <div class="input-group">
-                            <select id="add-form-input-semester"
-                                    class="add-form-input form-control" placeholder="Pilih Semester"
-                                    data-toggle="select"
-                                    data-live-search="true" required>
+                            <select id="add-form-input-lecturer"
+                                    class="add-form-input form-control" placeholder="Pilih Dosen"
+                                    data-toggle="select" data-live-search="true" multiple="multiple">
                                 <option></option>
                             </select>
                         </div>
@@ -277,8 +277,9 @@
                     </div>
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
-                            <select id="edit-form-input-lecturer"
-                                    class="edit-form-input form-control" placeholder="Pilih Dosen" data-toggle="select"
+                            <select id="edit-form-input-semester"
+                                    class="edit-form-input form-control" placeholder="Pilih Semester"
+                                    data-toggle="select"
                                     data-live-search="true" required>
                                 <option></option>
                             </select>
@@ -286,10 +287,9 @@
                     </div>
                     <div class="edit-form-group form-group mb-3">
                         <div class="input-group">
-                            <select id="edit-form-input-semester"
-                                    class="edit-form-input form-control" placeholder="Pilih Semester"
-                                    data-toggle="select"
-                                    data-live-search="true" required>
+                            <select id="edit-form-input-lecturer"
+                                    class="edit-form-input form-control" placeholder="Pilih Dosen"
+                                    data-toggle="select" data-live-search="true" multiple="multiple">
                                 <option></option>
                             </select>
                         </div>
@@ -695,7 +695,7 @@
                 },
                 {
                     render: function (data, type, row, _) {
-                        return row['lecturer_name'];
+                        return row['lecturer_names'];
                     }
                 },
                 {
@@ -848,6 +848,7 @@
             $('.add-form-input').removeClass('is-invalid');
             $('.add-form-error').addClass('hidden');
             $('#add-form-input-class').val(null).trigger('change');
+            $('#add-form-input-semester').val(null).trigger('change');
             $('#add-form-input-lecturer').val(null).trigger('change');
             $('#add-form-input-date-start').datetimepicker('clear');
             $('#add-form-input-date-end').datetimepicker('clear');
@@ -867,6 +868,7 @@
             $('.edit-form-input').removeClass('is-invalid');
             $('.edit-form-error').addClass('hidden');
             $('#edit-form-input-class').val(null).trigger('change');
+            $('#edit-form-input-semester').val(null).trigger('change');
             $('#edit-form-input-lecturer').val(null).trigger('change');
             $('#edit-form-input-date-start').datetimepicker('clear');
             $('#edit-form-input-date-end').datetimepicker('clear');
@@ -940,38 +942,6 @@
             }
         });
 
-        $('#add-form-input-lecturer').select2({
-            placeholder: 'Pilih Dosen',
-            language: {
-                searching: function () {
-                    return 'Memuat data...';
-                }
-            },
-            allowClear: true,
-            ajax: {
-                url: `<?= base_url('lecturer/list') ?>`,
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        sid: sid,
-                        search: params.term
-                    };
-                },
-                processResults: function (datas) {
-                    return {
-                        results: datas['data'].map(function (data) {
-                            return {
-                                id: data['id'],
-                                text: data['name']
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
-
         $('#add-form-input-semester').select2({
             placeholder: 'Pilih Semester',
             language: {
@@ -1004,7 +974,51 @@
             }
         });
 
-        $('#add-form-input-date-start').datetimepicker().on('dp.change', function (value) {
+        $('#add-form-input-lecturer').select2({
+            placeholder: 'Pilih Dosen',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            multiple: true,
+            ajax: {
+                url: `<?= base_url('lecturer/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: data['name']
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#add-form-input-date-start').datetimepicker({
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        }).on('dp.change', function (value) {
             $('#add-form-input-date-end').prop('disabled', value == null);
             if (value != null) {
                 const minDate = moment(value['date']);
@@ -1012,7 +1026,19 @@
             }
         });
 
-        $('#add-form-input-date-end').datetimepicker();
+        $('#add-form-input-date-end').datetimepicker({
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
 
         $('#edit-form-input-class').select2({
             placeholder: 'Pilih Prodi & Kelas',
@@ -1038,38 +1064,6 @@
                             return {
                                 id: data['id'],
                                 text: `${data['study_program_name']} - ${data['name']}`
-                            };
-                        })
-                    };
-                },
-                cache: true
-            }
-        });
-
-        $('#edit-form-input-lecturer').select2({
-            placeholder: 'Pilih Dosen',
-            language: {
-                searching: function () {
-                    return 'Memuat data...';
-                }
-            },
-            allowClear: true,
-            ajax: {
-                url: `<?= base_url('lecturer/list') ?>`,
-                dataType: 'json',
-                delay: 250,
-                data: function (params) {
-                    return {
-                        sid: sid,
-                        search: params.term
-                    };
-                },
-                processResults: function (datas) {
-                    return {
-                        results: datas['data'].map(function (data) {
-                            return {
-                                id: data['id'],
-                                text: data['name']
                             };
                         })
                     };
@@ -1110,7 +1104,51 @@
             }
         });
 
-        $('#edit-form-input-date-start').datetimepicker().on('dp.change', function (value) {
+        $('#edit-form-input-lecturer').select2({
+            placeholder: 'Pilih Dosen',
+            language: {
+                searching: function () {
+                    return 'Memuat data...';
+                }
+            },
+            multiple: true,
+            ajax: {
+                url: `<?= base_url('lecturer/list') ?>`,
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return {
+                        sid: sid,
+                        search: params.term
+                    };
+                },
+                processResults: function (datas) {
+                    return {
+                        results: datas['data'].map(function (data) {
+                            return {
+                                id: data['id'],
+                                text: data['name']
+                            };
+                        })
+                    };
+                },
+                cache: true
+            }
+        });
+
+        $('#edit-form-input-date-start').datetimepicker({
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        }).on('dp.change', function (value) {
             $('#edit-form-input-date-end').prop('disabled', value == null);
             if (value != null) {
                 const minDate = moment(value['date']);
@@ -1118,7 +1156,19 @@
             }
         });
 
-        $('#edit-form-input-date-end').datetimepicker();
+        $('#edit-form-input-date-end').datetimepicker({
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
 
         $('#export-specific-form-input-class').select2({
             placeholder: 'Pilih Prodi & Kelas',
@@ -1128,7 +1178,6 @@
                 }
             },
             multiple: true,
-            allowClear: true,
             ajax: {
                 url: `<?= base_url('class/list') ?>`,
                 dataType: 'json',
@@ -1161,7 +1210,6 @@
                 }
             },
             multiple: true,
-            allowClear: true,
             ajax: {
                 url: `<?= base_url('semester/list') ?>`,
                 dataType: 'json',
@@ -1194,7 +1242,6 @@
                 }
             },
             multiple: true,
-            allowClear: true,
             ajax: {
                 url: `<?= base_url('lecturer/list') ?>`,
                 dataType: 'json',
@@ -1219,7 +1266,19 @@
             }
         });
 
-        $('#export-specific-form-input-date-start').datetimepicker().on('dp.change', function (value) {
+        $('#export-specific-form-input-date-start').datetimepicker({
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        }).on('dp.change', function (value) {
             $('#export-specific-form-input-date-end').prop('disabled', value == null);
             if (value != null) {
                 const minDate = moment(value['date']);
@@ -1227,7 +1286,19 @@
             }
         });
 
-        $('#export-specific-form-input-date-end').datetimepicker();
+        $('#export-specific-form-input-date-end').datetimepicker({
+            icons: {
+                time: "fa fa-clock",
+                date: "fa fa-calendar-day",
+                up: "fa fa-chevron-up",
+                down: "fa fa-chevron-down",
+                previous: 'fa fa-chevron-left',
+                next: 'fa fa-chevron-right',
+                today: 'fa fa-screenshot',
+                clear: 'fa fa-trash',
+                close: 'fa fa-remove'
+            }
+        });
     });
 
     function performEditData(targetRow) {
@@ -1236,7 +1307,13 @@
         $('#edit-form-id').val(data['id']);
         $('#edit-form-input-name').val(data['name']);
         $('#edit-form-input-class').append($("<option/>").val(data['class_id']).text(`${data['study_program_name']} - ${data['class_name']}`)).val(data['class_id']).trigger('change');
-        $('#edit-form-input-lecturer').append($("<option/>").val(data['lecturer_id']).text(data['lecturer_name'])).val(data['lecturer_id']).trigger('change');
+        const lecturersId = data['lecturer_ids'].split(', ').map(function (i) {
+            return parseInt(i);
+        });
+        const lecturersName = data['lecturer_names'].split(', ');
+        for (let i = 0; i < lecturersId.length; i++) {
+            $('#edit-form-input-lecturer').append($("<option/>").val(lecturersId[i]).text(lecturersName[i])).val(lecturersId[i]).trigger('change');
+        }
         $('#edit-form-input-semester').append($("<option/>").val(data['semester_id']).text(data['semester_name'])).val(data['semester_id']).trigger('change');
         $('#edit-form-input-date-start').data("DateTimePicker").date(new Date(data['date_start']));
         $('#edit-form-input-date-end').data("DateTimePicker").date(new Date(data['date_end']));
@@ -1260,7 +1337,7 @@
         $('#attencande-code-schedule-class').text(data['class_name']);
         $('#attencande-code-schedule-study-program').text(data['study_program_name']);
         $('#attencande-code-schedule-semester').text(data['semester_name']);
-        $('#attencande-code-schedule-lecturer').text(data['lecturer_name']);
+        $('#attencande-code-schedule-lecturer').text(data['lecturer_names']);
         $('#attencande-code-schedule-date-start').text(moment(data['date_start']).format('DD/MM/YYYY hh:mm A'));
         $('#attencande-code-schedule-date-end').text(moment(data['date_end']).format('DD/MM/YYYY hh:mm A'));
         $('#attendance-code-modal').modal('show');
@@ -1271,7 +1348,7 @@
         formData.append('sid', sid);
         formData.append('class_id', $('#add-form-input-class').select2('data')[0]['id']);
         formData.append('semester_id', $('#add-form-input-semester').select2('data')[0]['id']);
-        formData.append('lecturer_id', $('#add-form-input-lecturer').select2('data')[0]['id']);
+        formData.append('lecturer_ids', JSON.stringify($('#add-form-input-lecturer').val()));
         $('#cancel-add-button').attr('disabled', true);
         $('#add-button').attr('disabled', true);
         $('#add-button .btn-spinner').removeClass('hidden');
@@ -1296,8 +1373,8 @@
                 'study_program_name': insertedRow['study_program_name'],
                 'semester_id': insertedRow['semester_id'],
                 'semester_name': insertedRow['semester_name'],
-                'lecturer_id': insertedRow['lecturer_id'],
-                'lecturer_name': insertedRow['lecturer_name'],
+                'lecturer_ids': insertedRow['lecturer_ids'],
+                'lecturer_names': insertedRow['lecturer_names'],
                 'date_start': insertedRow['date_start'],
                 'date_end': insertedRow['date_end'],
                 'attendance_code': insertedRow['attendance_code'],
@@ -1350,8 +1427,8 @@
         const targetRow = parseInt(formData.get('dataTableRow'));
         formData.append('sid', sid);
         formData.append('class_id', $('#edit-form-input-class').select2('data')[0]['id']);
-        formData.append('lecturer_id', $('#edit-form-input-lecturer').select2('data')[0]['id']);
         formData.append('semester_id', $('#edit-form-input-semester').select2('data')[0]['id']);
+        formData.append('lecturer_ids', JSON.stringify($('#edit-form-input-lecturer').val()));
         $('#cancel-edit-button').attr('disabled', true);
         $('#edit-button').attr('disabled', true);
         $('#edit-button .btn-spinner').removeClass('hidden');
@@ -1376,8 +1453,8 @@
                 'study_program_name': updatedRow['study_program_name'],
                 'semester_id': updatedRow['semester_id'],
                 'semester_name': updatedRow['semester_name'],
-                'lecturer_id': updatedRow['lecturer_id'],
-                'lecturer_name': updatedRow['lecturer_name'],
+                'lecturer_ids': updatedRow['lecturer_ids'],
+                'lecturer_names': updatedRow['lecturer_names'],
                 'date_start': updatedRow['date_start'],
                 'date_end': updatedRow['date_end'],
                 'attendance_code': updatedRow['attendance_code'],
@@ -1521,8 +1598,8 @@
                     'study_program_name': filteredData['study_program_name'],
                     'semester_id': filteredData['semester_id'],
                     'semester_name': filteredData['semester_name'],
-                    'lecturer_id': filteredData['lecturer_id'],
-                    'lecturer_name': filteredData['lecturer_name'],
+                    'lecturer_ids': filteredData['lecturer_ids'],
+                    'lecturer_names': filteredData['lecturer_names'],
                     'date_start': filteredData['date_start'],
                     'date_end': filteredData['date_end'],
                     'attendance_code': filteredData['attendance_code'],
