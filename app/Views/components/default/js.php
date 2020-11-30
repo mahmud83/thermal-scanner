@@ -8,7 +8,7 @@
 <script type="text/javascript" src="assets/vendor/select2/select2.min.js"></script>
 <script type="text/javascript" src="assets/vendor/bootstrap/bootstrap.min.js"></script>
 <script type="text/javascript" src="assets/vendor/bootstrap/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="assets/js/argon.min.js"></script>
+<script type="text/javascript" src="assets/js/argon/argon.min.js"></script>
 
 </body>
 
