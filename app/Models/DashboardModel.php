@@ -8,20 +8,18 @@ use Exception;
 
 class DashboardModel extends Model
 {
+    protected $db;
 
-    protected $db, $authenticationModel;
-
-    function __construct(AuthenticationModel $authenticationModel)
+    function __construct()
     {
         parent::__construct();
         $this->db = Database::connect();
-        $this->authenticationModel = $authenticationModel;
     }
 
-    function getSemesterCount()
+    function getDetectionCount()
     {
         $this->db->transBegin();
-        $data = $this->db->table('semester')
+        $data = $this->db->table('detection_history')
             ->select('count(*) as total')
             ->get()
             ->getRow();
@@ -34,11 +32,12 @@ class DashboardModel extends Model
         }
     }
 
-    function getStudyProgramCount()
+    function getNormalTempCount()
     {
         $this->db->transBegin();
-        $data = $this->db->table('study_program')
+        $data = $this->db->table('detection_history')
             ->select('count(*) as total')
+            ->where('temperature <= 38')
             ->get()
             ->getRow();
         if ($this->db->transStatus()) {
@@ -50,11 +49,12 @@ class DashboardModel extends Model
         }
     }
 
-    function getStudyProgramAdminCount()
+    function getHighTempCount()
     {
         $this->db->transBegin();
-        $data = $this->db->table('study_program_admin')
+        $data = $this->db->table('detection_history')
             ->select('count(*) as total')
+            ->where('temperature > 38')
             ->get()
             ->getRow();
         if ($this->db->transStatus()) {
@@ -66,60 +66,15 @@ class DashboardModel extends Model
         }
     }
 
-    function getClassCount()
+    function getNewestDetectionList()
     {
         $this->db->transBegin();
-        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if (empty($userStudyProgramId))
-            $data = $this->db->table('class')
-                ->select('count(*) as total')
-                ->get()
-                ->getRow();
-        else
-            $data = $this->db->table('class')
-                ->select('count(*) as total')
-                ->getWhere(['class.study_program_id' => $userStudyProgramId])
-                ->getRow();
-        if ($this->db->transStatus()) {
-            $this->db->transCommit();
-            return $data;
-        } else {
-            $this->db->transRollback();
-            return null;
-        }
-    }
-
-    function getStudentCount()
-    {
-        $this->db->transBegin();
-        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if (empty($userStudyProgramId))
-            $data = $this->db->table('student')
-                ->select('count(*) as total')
-                ->get()
-                ->getRow();
-        else
-            $data = $this->db->table('student')
-                ->select('count(*) as total')
-                ->join('class', 'class.id = student.class_id', 'left')
-                ->getWhere(['class.study_program_id' => $userStudyProgramId])
-                ->getRow();
-        if ($this->db->transStatus()) {
-            $this->db->transCommit();
-            return $data;
-        } else {
-            $this->db->transRollback();
-            return null;
-        }
-    }
-
-    function getLecturerCount()
-    {
-        $this->db->transBegin();
-        $data = $this->db->table('lecturer')
-            ->select('count(*) as total')
+        $data = $this->db
+            ->table('detection_history')
+            ->orderBy('detection_history.created_on', 'DESC')
+            ->limit(5)
             ->get()
-            ->getRow();
+            ->getResultArray();
         if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;
@@ -129,21 +84,17 @@ class DashboardModel extends Model
         }
     }
 
-    function getScheduleCount()
+    function getHighTempAvgList()
     {
         $this->db->transBegin();
-        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if (empty($userStudyProgramId))
-            $data = $this->db->table('schedule')
-                ->select('count(*) as total')
-                ->get()
-                ->getRow();
-        else
-            $data = $this->db->table('schedule')
-                ->select('count(*) as total')
-                ->join('class', 'class.id = schedule.class_id', 'left')
-                ->getWhere(['class.study_program_id' => $userStudyProgramId])
-                ->getRow();
+        $data = $this->db
+            ->table('detection_history')
+            ->select('class.name as class_name, count(schedule_history.id) as schedule_count')
+            ->groupBy('class_name')
+            ->orderBy('schedule_count', 'desc')
+            ->limit(5)
+            ->get()
+            ->getResultArray();
         if ($this->db->transStatus()) {
             $this->db->transCommit();
             return $data;
@@ -153,151 +104,20 @@ class DashboardModel extends Model
         }
     }
 
-    function getAttendanceCount()
-    {
-        $this->db->transBegin();
-        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if (empty($userStudyProgramId))
-            $data = $this->db->table('student_attendance')
-                ->select('count(*) as total')
-                ->get()
-                ->getRow();
-        else
-            $data = $this->db->table('student_attendance')
-                ->select('count(*) as total')
-                ->join('schedule', 'schedule.id = student_attendance.schedule_id', 'left')
-                ->join('class', 'class.id = schedule.class_id', 'left')
-                ->getWhere(['class.study_program_id' => $userStudyProgramId])
-                ->getRow();
-        if ($this->db->transStatus()) {
-            $this->db->transCommit();
-            return $data;
-        } else {
-            $this->db->transRollback();
-            return null;
-        }
-    }
-
-    function getNewestAttendanceList()
-    {
-        $this->db->transBegin();
-        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if (empty($userStudyProgramId))
-            $data = $this->db
-                ->table('student_attendance')
-                ->select('
-                    student_attendance.id as id, student_attendance.profile_picture as profile_picture,
-                    student_attendance.created_on as created_on, student.name as student_name,
-                    student.nim as student_nim, schedule.id as schedule_id, schedule.name as schedule_name,
-                    class.id as class_id, class.name as class_name, lecturer.id as lecturer_id,
-                    lecturer.name as lecturer_name
-                ')
-                ->join('student', 'student.id = student_attendance.student_id', 'left')
-                ->join('schedule', 'schedule.id = student_attendance.schedule_id', 'left')
-                ->join('class', 'class.id = schedule.class_id', 'left')
-                ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
-                ->orderBy('student_attendance.created_on', 'DESC')
-                ->limit(5)
-                ->get()
-                ->getResultArray();
-        else
-            $data = $this->db
-                ->table('student_attendance')
-                ->select('
-                    student_attendance.id as id, student_attendance.profile_picture as profile_picture,
-                    student_attendance.created_on as created_on, student.name as student_name,
-                    student.nim as student_nim, schedule.id as schedule_id, schedule.name as schedule_name,
-                    class.id as class_id, class.name as class_name, lecturer.id as lecturer_id,
-                    lecturer.name as lecturer_name
-                ')
-                ->join('student', 'student.id = student_attendance.student_id', 'left')
-                ->join('schedule', 'schedule.id = student_attendance.schedule_id', 'left')
-                ->join('class', 'class.id = schedule.class_id', 'left')
-                ->join('lecturer', 'lecturer.id = schedule.lecturer_id', 'left')
-                ->orderBy('student_attendance.created_on', 'DESC')
-                ->limit(5)
-                ->getWhere(['class.study_program_id' => $userStudyProgramId])
-                ->getResultArray();
-        if ($this->db->transStatus()) {
-            $this->db->transCommit();
-            return $data;
-        } else {
-            $this->db->transRollback();
-            return null;
-        }
-    }
-
-    function getClassScheduleList()
-    {
-        $this->db->transBegin();
-        $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
-        if (empty($userStudyProgramId))
-            $data = $this->db
-                ->table('schedule')
-                ->select('
-                    class.name as class_name, study_program.name as study_program_name, semester.id as semester_id,
-                    semester.name as semester_name, count(schedule.id) as schedule_count
-                ')
-                ->join('class', 'class.id = schedule.class_id', 'left')
-                ->join('study_program', 'study_program.id = class.study_program_id', 'left')
-                ->join('semester', 'semester.id = schedule.semester_id', 'left')
-                ->groupBy('class_name')
-                ->orderBy('schedule_count', 'desc')
-                ->limit(5)
-                ->get()
-                ->getResultArray();
-        else
-            $data = $this->db
-                ->table('schedule')
-                ->select('
-                    class.name as class_name, study_program.name as study_program_name, semester.id as semester_id,
-                    semester.name as semester_name, count(schedule.id) as schedule_count
-                ')
-                ->join('class', 'class.id = schedule.class_id', 'left')
-                ->join('study_program', 'study_program.id = class.study_program_id', 'left')
-                ->join('semester', 'semester.id = schedule.semester_id', 'left')
-                ->groupBy('class_name')
-                ->orderBy('schedule_count', 'desc')
-                ->limit(5)
-                ->getWhere(['class.study_program_id' => $userStudyProgramId])
-                ->getResultArray();
-        if ($this->db->transStatus()) {
-            $this->db->transCommit();
-            return $data;
-        } else {
-            $this->db->transRollback();
-            return null;
-        }
-    }
-
-    function getAttendanceGraphicData(string $pivotDate, int $pastCount)
+    function getAttendanceGraphicData($pivotDate, $pastCount)
     {
         try {
             $this->db->transBegin();
-            $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
             $pivotDate = new DateTime($pivotDate);
             for ($i = 0; $i < $pastCount; $i++) {
-                if (empty($userStudyProgramId))
-                    $data[] = $this->db
-                        ->table('student_attendance')
-                        ->select('count(*) as total')
-                        ->getWhere([
-                            'date_format(student_attendance.created_on, "%Y/%m/%d")' => $pivotDate->format('Y/m/d')
-                        ])
-                        ->getRow()
-                        ->total;
-                else
-                    $data[] = $this->db
-                        ->table('student_attendance')
-                        ->select('count(*) as total')
-                        ->join('schedule', 'schedule.id = student_attendance.schedule_id', 'left')
-                        ->join('class', 'class.id = schedule.class_id', 'left')
-                        ->getWhere([
-                            'class.study_program_id' => $userStudyProgramId,
-                            'date_format(student_attendance.created_on, "%Y/%m/%d")' => $pivotDate->format('Y/m/d')
-                        ])
-                        ->getRow()
-                        ->total;
+                $data[] = $this->db
+                    ->table('attendance_history')
+                    ->select('count(*) as total')
+                    ->getWhere([
+                        'date_format(attendance_history.created_on, "%Y/%m/%d")' => $pivotDate->format('Y/m/d')
+                    ])
+                    ->getRow()
+                    ->total;
                 $pivotDate->sub(new DateInterval('P1D'));
             }
             $data = array_reverse($data);
@@ -313,33 +133,20 @@ class DashboardModel extends Model
         }
     }
 
-    function getScheduleGraphicData(string $pivotDate, int $pastCount)
+    function getScheduleGraphicData($pivotDate, $pastCount)
     {
         try {
             $this->db->transBegin();
-            $userStudyProgramId = $this->authenticationModel->getSession()->user_study_program_id;
             $pivotDate = new DateTime($pivotDate);
             for ($i = 0; $i < $pastCount; $i++) {
-                if (empty($userStudyProgramId))
-                    $data[] = $this->db
-                        ->table('schedule')
-                        ->select('count(*) as total')
-                        ->getWhere([
-                            'date_format(schedule.created_on, "%Y/%m")' => $pivotDate->format('Y/m')
-                        ])
-                        ->getRow()
-                        ->total;
-                else
-                    $data[] = $this->db
-                        ->table('schedule')
-                        ->select('count(*) as total')
-                        ->join('class', 'class.id = schedule.class_id', 'left')
-                        ->getWhere([
-                            'class.study_program_id' => $userStudyProgramId,
-                            'date_format(schedule.created_on, "%Y/%m")' => $pivotDate->format('Y/m')
-                        ])
-                        ->getRow()
-                        ->total;
+                $data[] = $this->db
+                    ->table('schedule_history')
+                    ->select('count(*) as total')
+                    ->getWhere([
+                        'date_format(schedule_history.created_on, "%Y/%m")' => $pivotDate->format('Y/m')
+                    ])
+                    ->getRow()
+                    ->total;
                 $pivotDate->sub(new DateInterval('P1M'));
             }
             $data = array_reverse($data);
@@ -355,7 +162,7 @@ class DashboardModel extends Model
         }
     }
 
-    function getPastDayList(string $pivotDate, int $pastCount)
+    function getPastDayList($pivotDate, $pastCount)
     {
         try {
             $pivotDate = new DateTime($pivotDate);
@@ -369,7 +176,7 @@ class DashboardModel extends Model
         }
     }
 
-    function getPastMonthList(string $pivotDate, int $pastCount)
+    function getPastMonthList($pivotDate, $pastCount)
     {
         try {
             $pivotDate = new DateTime($pivotDate);

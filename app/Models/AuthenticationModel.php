@@ -7,35 +7,23 @@ use Config\Services;
 class AuthenticationModel extends Model
 {
 
-    protected $db, $session, $profileModel;
+    protected $db, $session;
 
     function __construct()
     {
         parent::__construct();
         $this->db = Database::connect();
         $this->session = Services::session();
-        $this->profileModel = new ProfileModel($this);
     }
 
     public function getSession()
     {
-        $session = $this->session;
-        $user = $this->profileModel->getProfile($session->user_email);
-        return !empty($user) && $user->created_on == $session->created_on ? $this->session : null;
+        return $this->session;
     }
 
-    public function createSession(string $name, string $email, string $userType, string $createdOn)
+    public function createSession($name, $email, $userType)
     {
-        $studyProgram = $this->profileModel->getStudyProgramProfile($email);
-        $data = [
-            'user_name' => $name,
-            'user_email' => $email,
-            'user_type' => $userType,
-            'created_on' => $createdOn
-        ];
-        if (!empty($studyProgram['id'])) $data['user_study_program_id'] = $studyProgram['id'];
-        if (!empty($studyProgram['name'])) $data['user_study_program_name'] = $studyProgram['name'];
-        $this->session->set($data);
+        $this->session->set(['user_name' => $name, 'user_email' => $email, 'user_type' => $userType]);
     }
 
     public function destroySession()
@@ -43,14 +31,66 @@ class AuthenticationModel extends Model
         $this->session->destroy();
     }
 
-    public function signIn(string $email, int $userType)
+    public function signIn($email, $preferredUserType)
     {
-        return $this->db->table('user')
-            ->select('user.email, user.password, user.type, user.name, user.created_on')
+        $this->db->transBegin();
+        $data = $this->db->table('user')
+            ->select(['user.type', 'user.email', 'user.password', 'user.name'])
             ->getWhere([
-                'user.type' => $userType,
+                'user.type' => $preferredUserType,
                 'lower(trim(user.email))' => strtolower(trim($email))
             ])
             ->getRow();
+        if ($this->db->transStatus()) {
+            $this->db->transCommit();
+            return $data;
+        } else {
+            $this->db->transRollback();
+            return null;
+        }
     }
+
+    public function resetAck()
+    {
+        $this->db->transBegin();
+        $this->db->table('system_ack_log')->truncate();
+        if ($this->db->transStatus()) {
+            $this->db->transCommit();
+            return true;
+        } else {
+            $this->db->transRollback();
+            return false;
+        }
+    }
+
+    public function getAck()
+    {
+        $this->db->transBegin();
+        $data = $this->db->table('system_ack_log')
+            ->orderBy('created_on', 'DESC')
+            ->limit(1)
+            ->get()
+            ->getRow();
+        if ($this->db->transStatus()) {
+            $this->db->transCommit();
+            return $data;
+        } else {
+            $this->db->transRollback();
+            return null;
+        }
+    }
+
+    public function sendAck(string $ip)
+    {
+        $this->db->transBegin();
+        $this->db->table('system_ack_log')->insert(['ip' => $ip]);
+        if ($this->db->transStatus()) {
+            $this->db->transCommit();
+            return true;
+        } else {
+            $this->db->transRollback();
+            return false;
+        }
+    }
+
 }

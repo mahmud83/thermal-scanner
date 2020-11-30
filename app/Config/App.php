@@ -21,7 +21,7 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = 'https://absensi.poltekkesjakarta3.online';
+	public $baseURL = 'http://localhost:5000';
 
 	/*
 	|--------------------------------------------------------------------------

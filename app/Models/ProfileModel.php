@@ -62,30 +62,4 @@ class ProfileModel extends Model
             return false;
         }
     }
-
-    function getStudyProgramProfile(string $email)
-    {
-        $this->db->transBegin();
-        $data = $this->db->table('study_program_admin')
-            ->select('
-                    user.id as user_id, user.email as user_email, user.name as user_name,
-                    study_program.id as study_program_id, study_program.name as study_program_name,
-                    study_program_admin.id as id, study_program_admin.created_on as created_on
-                ')
-            ->join('user', 'user.id = study_program_admin.user_id', 'left')
-            ->join('study_program', 'study_program.id = study_program_admin.study_program_id', 'left')
-            ->orderBy('study_program_admin.created_on', 'ASC')
-            ->getWhere(['user.id' => $this->getProfile($email)->id, 'user.type' => 2])
-            ->getRow();
-        if ($this->db->transStatus()) {
-            $this->db->transCommit();
-            return empty($data->study_program_id) ? null : [
-                'id' => $data->study_program_id,
-                'name' => $data->study_program_name
-            ];
-        } else {
-            $this->db->transRollback();
-            return null;
-        }
-    }
 }

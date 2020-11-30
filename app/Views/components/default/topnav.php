@@ -32,21 +32,18 @@
                                 <img alt="Image placeholder" src="assets/img/theme/person-placeholder.png"/>
                             </span>
                             <div class="media-body ml-2 d-none d-lg-block">
-                                <span class="mb-0 text-sm font-weight-bold">
-                                    <?= $session->user_name ?>
-                                    <?= $session->user_type == 2 ? " - $session->user_study_program_name" : '' ?>
-                                </span>
+                                <span class="mb-0 text-sm font-weight-bold"><?= $session->user_name ?></span>
                             </div>
                         </div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a href="<?= base_url('profile') ?>" class="dropdown-item">
                             <i class="material-icons">account_circle</i>
-                            <span>Edit Profil</span>
+                            <span>Profile</span>
                         </a>
                         <a href="<?= base_url('signout') ?>" class="dropdown-item">
                             <i class="material-icons">exit_to_app</i>
-                            <span>Keluar</span>
+                            <span>Sign out</span>
                         </a>
                     </div>
                 </li>

@@ -1,47 +1,47 @@
 .auth-card-logo {
-   width: 280px
+    width: 280px
 }
 
 .bg-primary {
-   background-color: #f57c00!important
+    background-color: #536dfe !important
 }
 
 .btn-primary {
-   border-color: #f57c00!important;
-   background-color: #f57c00!important;
-   transition: all .15s ease!important
+    border-color: #536dfe !important;
+    background-color: #536dfe !important;
+    transition: all .15s ease !important
 }
 
 .btn-primary:active {
-   color: #fff!important;
-   border-color: #d36308!important;
-   background-color: #d36308!important
+    color: #fff !important;
+    border-color: #536dfe !important;
+    background-color: #536dfe !important
 }
 
-a {
-   color: #f47f1f!important
+a, .text-primary {
+    color: #536dfe !important
 }
 
 a:hover {
-   color: #d36308!important
+    color: #536dfe !important
 }
 
 .hidden {
-   display: none;
+    display: none;
 }
 
 .visible {
-   display: block;
+    display: block;
 }
 
 .form-control:focus, .select2-search__field:focus, .focused .input-group-text,
 .focused .form-control, #datatables_buttons_info,
 .select2-container--default.select2-container--focus .select2-selection--single,
 .select2-container--default.select2-container--focus .select2-selection--multiple {
-   border-color: #f57c00 !important;
+    border-color: #536dfe !important;
 }
 
 .select2-selection__choice, .select2-selection__choice__remove {
-   background: #f57c00 !important;
-   color: white !important;
+    background: #536dfe !important;
+    color: white !important;
 }

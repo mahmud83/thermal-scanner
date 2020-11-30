@@ -1,10 +1,10 @@
 .bg-primary {
-    background-color: #f57c00 !important
+    background-color: #536dfe !important
 }
 
 .btn-primary, .page-item.active .page-link {
-    border-color: #f57c00 !important;
-    background-color: #f57c00 !important
+    border-color: #536dfe !important;
+    background-color: #536dfe !important
 }
 
 .btn-primary {
@@ -13,12 +13,12 @@
 
 .btn-primary:active {
     color: #fff !important;
-    border-color: #d36308 !important;
-    background-color: #d36308 !important
+    border-color: #455fe0 !important;
+    background-color: #455fe0 !important
 }
 
 .btn-neutral, .btn-neutral:hover {
-    color: #f57c00 !important;
+    color: #536dfe !important;
     transition: all .15s ease !important
 }
 
@@ -35,11 +35,15 @@
 }
 
 .text-primary, a, a.btn-neutral, b.nav-link-text {
-    color: #f47f1f !important
+    color: #536dfe !important
 }
 
 a:hover {
-    color: #d36308 !important
+    color: #455fe0 !important
+}
+
+a.btn:hover {
+    color: #fff !important;
 }
 
 .navbar-brand-img {
@@ -120,10 +124,10 @@ a[disabled] {
 .focused .form-control, #datatables_buttons_info,
 .select2-container--default.select2-container--focus .select2-selection--single,
 .select2-container--default.select2-container--focus .select2-selection--multiple {
-    border-color: #f57c00 !important;
+    border-color: #536dfe !important;
 }
 
 .select2-selection__choice, .select2-selection__choice__remove {
-    background: #f57c00 !important;
+    background: #536dfe !important;
     color: white !important;
 }

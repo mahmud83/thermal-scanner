@@ -7,7 +7,7 @@ use Config\Services;
 class Profile extends BaseController
 {
 
-    protected $validaton, $session, $authenticationModel, $profileModel;
+    protected $validation, $session, $authenticationModel, $profileModel;
 
     function __construct()
     {
